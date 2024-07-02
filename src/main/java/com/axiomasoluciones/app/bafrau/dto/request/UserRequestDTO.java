@@ -18,8 +18,9 @@ public class UserRequestDTO {
     //mail
     private String username;
     private String nombre;
-    private  String apellido;
+    private String apellido;
     private String password;
+    private String dni;
     @NotNull
     private Role role;
 

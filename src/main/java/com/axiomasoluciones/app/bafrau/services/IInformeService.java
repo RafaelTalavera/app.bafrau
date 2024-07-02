@@ -11,7 +11,7 @@ public interface IInformeService {
 
     public List<Informe> findAll();
 
-    public InformeResponseDTO createInforme(InformeRequestDTO informeRequestDTO);
+    InformeResponseDTO createInforme(InformeRequestDTO informeRequestDTO, Long userId);
 
     public Informe findOne(Long id);
 

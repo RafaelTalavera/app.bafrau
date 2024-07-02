@@ -5,7 +5,10 @@ import com.axiomasoluciones.app.bafrau.dto.response.UserResponseDTO;
 import com.axiomasoluciones.app.bafrau.models.dao.UserRepository;
 import com.axiomasoluciones.app.bafrau.models.entities.User;
 import com.axiomasoluciones.app.bafrau.services.IUserService;
+import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.Jwts;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -22,6 +25,9 @@ public class UserServiceImplement implements IUserService {
 
     @Autowired
     private PasswordEncoder passwordEncoder;
+
+    @Value("${security.jwt.secret-key}")
+    private String SECRET_KEY;
 
     @Override
     public List<UserResponseDTO> findAll() {
@@ -44,6 +50,7 @@ public class UserServiceImplement implements IUserService {
                 userRequestDTO.getNombre(),
                 userRequestDTO.getApellido(),
                 encodedPassword,  // Almacenar la contraseña codificada
+                userRequestDTO.getDni(),
                 userRequestDTO.getRole()
         );
         User savedUser = userDAO.save(newUser);
@@ -53,14 +60,15 @@ public class UserServiceImplement implements IUserService {
                 savedUser.getUsername(),
                 savedUser.getNombre(),
                 savedUser.getApellido(),
-                null,  // No devolver la contraseña
+                null,
+                savedUser.getDni(),
                 savedUser.getRole()
         );
     }
 
     @Override
-    public void delete(User user) {
-        userDAO.delete(user);
+    public void deletedById(Long id) {
+        userDAO.deleteById(id);
     }
 
     @Override
@@ -72,6 +80,7 @@ public class UserServiceImplement implements IUserService {
             user.setNombre(editedUserRequestDTO.getNombre());
             user.setApellido(editedUserRequestDTO.getApellido());
             user.setPassword(editedUserRequestDTO.getPassword());
+            user.setDni(editedUserRequestDTO.getDni());
             user.setRole(editedUserRequestDTO.getRole());
             User updatedUser = userDAO.save(user);
             return convertToResponseDTO(updatedUser);
@@ -86,9 +95,32 @@ public class UserServiceImplement implements IUserService {
 
     @Override
     public String extractUserEmailFromToken(String token) {
-        // Implementa tu lógica para extraer el email del token
-        return null;
+        try {
+            // Remover la palabra "Bearer " del inicio del token
+            String jwtToken = token.replace("Bearer ", "");
+            Claims claims = Jwts.parser().setSigningKey(SECRET_KEY).parseClaimsJws(jwtToken).getBody();
+            String role = claims.get("role", String.class);
+            System.out.println("Role extraído del token: " + role); // Imprimir el rol extraído del token
+            return role;
+        } catch (Exception e) {
+            throw new RuntimeException("Error al extraer el correo electrónico del token", e);
+        }
     }
+
+    @Override
+    public Long extractUserIdFromToken(String token) {
+        try {
+            // Remover la palabra "Bearer " del inicio del token
+            String jwtToken = token.replace("Bearer ", "");
+            Claims claims = Jwts.parser().setSigningKey(SECRET_KEY).parseClaimsJws(jwtToken).getBody();
+            Long userId = claims.get("userId", Long.class);
+            System.out.println("User ID extraído del token: " + userId); // Imprimir el userId extraído del token
+            return userId;
+        } catch (Exception e) {
+            throw new RuntimeException("Error al extraer el user ID del token", e);
+        }
+    }
+
 
     // Métodos de conversión entre User y DTOs
     private UserResponseDTO convertToResponseDTO(User user) {
@@ -97,6 +129,7 @@ public class UserServiceImplement implements IUserService {
         dto.setUsername(user.getUsername());
         dto.setApellido(user.getApellido());
         dto.setPassword(user.getPassword());
+        dto.setDni(user.getDni());
         dto.setNombre(user.getNombre());
 
         return dto;
@@ -108,6 +141,7 @@ public class UserServiceImplement implements IUserService {
         user.setPassword(dto.getPassword());
         user.setNombre(dto.getNombre());
         user.setApellido(dto.getApellido());
+        user.setDni(dto.getDni());
         user.setRole(dto.getRole());
         return user;
     }

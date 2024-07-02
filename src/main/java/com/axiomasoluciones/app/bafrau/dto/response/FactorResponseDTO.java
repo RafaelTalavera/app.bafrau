@@ -1,4 +1,4 @@
-package com.axiomasoluciones.app.bafrau.dto.request;
+package com.axiomasoluciones.app.bafrau.dto.response;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -9,7 +9,8 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class MatrizRequestDTO {
-    private String factor;
-    private String accion;
+public class FactorResponseDTO {
+    private Long id;
+    private String clasificacion;
+    private String tipo;
 }

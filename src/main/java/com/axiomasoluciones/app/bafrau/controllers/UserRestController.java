@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/user")
+@RequestMapping("/api/usuarios")
 @CrossOrigin(origins = "http://localhost:4200")
 public class UserRestController {
     @Autowired
@@ -26,57 +26,62 @@ public class UserRestController {
     private PasswordEncoder passwordEncoder;
 
     @PreAuthorize("permitAll")
-    @CrossOrigin(origins = "*", allowedHeaders = "*")
     @PostMapping
     public ResponseEntity<?> createUser(@RequestBody UserRequestDTO data){
         if (service.existsByUsername(data.getUsername())) {
             return new ResponseEntity<>("Ya existe un usuario con este correo electrónico", HttpStatus.CONFLICT);
         }
-
         service.createUser(data);
-
         UserResponseDTO userResponseDTO = new UserResponseDTO(
                 null, // O el ID si es posible obtenerlo
                 data.getUsername(),
                 data.getNombre(),
                 data.getApellido(),
-                null, // No devuelvas la contraseña codificada
+                null,
+                data.getDni(),
                 data.getRole()
         );
 
         return new ResponseEntity<>(userResponseDTO, HttpStatus.CREATED);
     }
 
-  /*  @PutMapping("/{id}")
+   @PutMapping("/{id}")
     public ResponseEntity<UserResponseDTO> updateOrganizador(
             @PathVariable Long id,
             @RequestBody UserRequestDTO userRequestDTO) {
-        UserResponseDTO updatedUser = service.editeUser(id, userRequestDTO);
+        UserResponseDTO updatedUser = service.editedUser(id, userRequestDTO);
         return ResponseEntity.ok(updatedUser);
     }
 
-   */
 
     @GetMapping
     @PreAuthorize("permitAll")
-    public ResponseEntity<List<UserResponseDTO>> getAllOrganizadores(HttpServletRequest request) {
+    public ResponseEntity<List<UserResponseDTO>> getAllUsuarios(HttpServletRequest request) {
         try {
             String token = request.getHeader("Authorization");
-            System.out.println("Token recibido: " + token);
+
+            if (token == null) {
+                return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+            }
 
             String role = service.extractUserEmailFromToken(token);
-            System.out.println("Rol extraído del token: " + role);
 
             if (!role.equals("ADMINISTRATOR")) {
-                System.out.println("El usuario no tiene permisos de administrador.");
                 return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
             }
 
-            List<UserResponseDTO> organizadores = service.findAll();
-            return ResponseEntity.ok(organizadores);
+            List<UserResponseDTO> usuarios = service.findAll();
+            return ResponseEntity.ok(usuarios);
         } catch (Exception e) {
-            System.out.println("Error al procesar la solicitud: " + e.getMessage());
+            e.printStackTrace(); // Imprimir el stack trace en caso de excepción
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
         }
     }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deleteById(@PathVariable Long id) {
+        service.deletedById(id);
+        return ResponseEntity.noContent().build();
+    }
 }
+

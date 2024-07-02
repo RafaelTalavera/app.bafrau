@@ -10,13 +10,19 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(name = "matrices")
+@Table(name = "factores")
 @Entity
-public class Matriz {
+public class Factor {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private String factor;
-    private String accion;
+
+    private String clasificacion;
+    private String tipo;
+
+    public Factor(String clasificacion, String tipo){
+        this.clasificacion = clasificacion;
+        this.tipo = tipo;
+    }
 }

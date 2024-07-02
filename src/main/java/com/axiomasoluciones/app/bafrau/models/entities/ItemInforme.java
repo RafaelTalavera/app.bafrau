@@ -22,8 +22,12 @@ public class ItemInforme {
     private int importance;
 
     @ManyToOne(fetch=FetchType.LAZY)
-    @JoinColumn(name="matriz_id")
-    private Matriz matriz;
+    @JoinColumn(name = "accion_id")
+    private Accion accion;
+
+    @ManyToOne(fetch=FetchType.LAZY)
+    @JoinColumn(name = "factor_id")
+    private Factor factor;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "informe_id")

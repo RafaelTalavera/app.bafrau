@@ -29,6 +29,7 @@ public class User implements UserDetails {
     private String nombre;
     private String apellido;
     private String password;
+    private String dni;
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Informe> impactAssessments;
@@ -36,15 +37,14 @@ public class User implements UserDetails {
     @Enumerated(EnumType.STRING)
     private Role role;
 
-    public User(String username, String nombre, String apellido, String password, Role role) {
+    public User(String username, String nombre, String apellido, String password, String dni, Role role) {
         this.username = username;
         this.nombre = nombre;
         this.apellido = apellido;
         this.password = password;
+        this.dni = dni;
         this.role = role;
     }
-
-
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
