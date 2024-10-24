@@ -9,7 +9,5 @@ public class BafrauApplication {
 
 	public static void main(String[] args) {
 		SpringApplication.run(BafrauApplication.class, args);
-
 	}
-
 }
