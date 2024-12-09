@@ -4,7 +4,6 @@ import com.axiomasoluciones.app.bafrau.application.dto.capitulo.CapituloDTO;
 
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.List;
 
 public class InformeDTO {
@@ -46,6 +45,12 @@ public class InformeDTO {
     public Long getId() {
         return id;
     }
+
+    public InformeDTO(Long id, String razonSocial) {
+        this.id = id;
+        this.razonSocial = razonSocial;
+    }
+
 
     public void setId(Long id) {
         this.id = id;

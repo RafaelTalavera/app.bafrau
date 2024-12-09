@@ -13,6 +13,8 @@ public class Capitulo {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    private String identificacion;
+
     private String titulo;
     private String descripcion;
     private Integer orden;
@@ -27,8 +29,9 @@ public class Capitulo {
     public Capitulo() {
     }
 
-    public Capitulo(Long id, String titulo, String descripcion, Integer orden, Informe informe, List<Seccion> secciones) {
+    public Capitulo(Long id, String identificacion, String titulo, String descripcion, Integer orden, Informe informe, List<Seccion> secciones) {
         this.id = id;
+        this.identificacion = identificacion;
         this.titulo = titulo;
         this.descripcion = descripcion;
         this.orden = orden;
@@ -82,5 +85,13 @@ public class Capitulo {
 
     public void setSecciones(List<Seccion> secciones) {
         this.secciones = secciones;
+    }
+
+    public String getIdentificacion() {
+        return identificacion;
+    }
+
+    public void setIdentificacion(String identificacion) {
+        this.identificacion = identificacion;
     }
 }

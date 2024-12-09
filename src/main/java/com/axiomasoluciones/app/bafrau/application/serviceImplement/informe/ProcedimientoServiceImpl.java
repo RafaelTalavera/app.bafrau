@@ -4,7 +4,6 @@ import com.axiomasoluciones.app.bafrau.application.dto.informe.ProcedimientoDTO;
 import com.axiomasoluciones.app.bafrau.application.mappers.informe.ProcedimientoMapper;
 import com.axiomasoluciones.app.bafrau.domain.entities.informe.Procedimiento;
 import com.axiomasoluciones.app.bafrau.domain.entities.informe.Informe;
-;
 import com.axiomasoluciones.app.bafrau.domain.repository.informe.InformeRepository;
 import com.axiomasoluciones.app.bafrau.domain.repository.informe.ProcedimientoRepository;
 import com.axiomasoluciones.app.bafrau.domain.services.informe.ProcedimientoService;

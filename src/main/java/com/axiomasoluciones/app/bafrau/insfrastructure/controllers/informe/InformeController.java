@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
 import java.util.Optional;
@@ -83,9 +84,12 @@ public class InformeController {
     }
 
 
-    // Actualizar un informe existente
     @PutMapping("/{id}")
     public ResponseEntity<InformeDTO> updateInforme(@PathVariable Long id, @RequestBody InformeDTO informeDTO) {
+        // Log para verificar los datos de entrada
+        System.out.println("Actualizando informe con ID: " + id);
+        System.out.println("Datos recibidos: " + informeDTO);
+
         try {
             InformeDTO updatedInforme = informeService.update(id, informeDTO);
             if (updatedInforme != null) {
@@ -97,6 +101,7 @@ public class InformeController {
         }
     }
 
+
     // Eliminar un informe por ID
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteInforme(@PathVariable Long id) {
@@ -107,4 +112,16 @@ public class InformeController {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
     }
+
+    @GetMapping("/razonesSociales")
+    public List<InformeDTO> obtenerTodasLasRazonesSociales(HttpServletRequest request) {
+        String token = request.getHeader("Authorization");
+
+        if (token == null) {
+            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Token no proporcionado");
+        }
+
+        return informeService.obtenerRazonesSociales();
+    }
+
 }

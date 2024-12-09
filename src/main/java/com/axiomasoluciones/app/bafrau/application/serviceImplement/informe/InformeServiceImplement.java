@@ -68,22 +68,31 @@ public class InformeServiceImplement implements IInformeService {
 
     @Override
     public InformeDTO update(Long id, InformeDTO informeDTO) {
-        Optional<Informe> existingInforme = informeRepository.findById(id);
+        System.out.println("Entrando a update con ID: " + id);
+        System.out.println("Datos del informeDTO: " + informeDTO);
 
-        if (existingInforme.isPresent()) {
-            Informe informe = informeMapper.toInforme(informeDTO);
-            informe.setId(id);
+        return informeRepository.findById(id).map(existingInforme -> {
+            // Resetear el ID en informeDTO para evitar sobrescribir
+            informeDTO.setId(null);
 
-            // Verificar si hay que actualizar el usuario asociado
+            System.out.println("Datos antes de partialUpdate: " + existingInforme);
+
+            informeMapper.partialUpdate(informeDTO, existingInforme); // Actualizar campos editados
+
             Long userId = informeDTO.getUserId();
-            Optional<User> user = userRepository.findById(userId);
-            user.ifPresent(informe::setUser);
+            if (userId != null) {
+                userRepository.findById(userId).ifPresent(existingInforme::setUser);
+            }
 
-            Informe updatedInforme = informeRepository.save(informe);
+            System.out.println("Datos después de partialUpdate: " + existingInforme);
+
+            Informe updatedInforme = informeRepository.save(existingInforme);
+            System.out.println("Informe actualizado: " + updatedInforme);
+
             return informeMapper.toInformeDTO(updatedInforme);
-        }
-        return null;
+        }).orElseThrow(() -> new IllegalArgumentException("No se encontró el informe a actualizar"));
     }
+
 
     @Override
     public void deleteById(Long id) {
@@ -129,5 +138,13 @@ public class InformeServiceImplement implements IInformeService {
                 .collect(Collectors.toList());
     }
 
+    @Override
+    public List<InformeDTO> obtenerRazonesSociales() {
+        List<Object[]> resultados = informeRepository.findAllRazonesSociales();
+        return resultados.stream()
+                .map(obj -> new InformeDTO((Long) obj[0], (String) obj[1])) // Mapea a InformeDTO
+                .collect(Collectors.toList());
     }
+
+}
 

@@ -8,6 +8,7 @@ import java.util.List;
 public class CapituloDTO {
 
     private Long id;
+    private String identificacion;
     private String titulo;
     private String descripcion;
     private Integer orden;
@@ -17,8 +18,9 @@ public class CapituloDTO {
     public CapituloDTO() {
     }
 
-    public CapituloDTO(Long id, String titulo, String descripcion, Integer orden, InformeDTO informe, List<SeccionDTO> secciones) {
+    public CapituloDTO(Long id, String identificacion, String titulo, String descripcion, Integer orden, InformeDTO informe, List<SeccionDTO> secciones) {
         this.id = id;
+        this.identificacion = identificacion;
         this.titulo = titulo;
         this.descripcion = descripcion;
         this.orden = orden;
@@ -72,5 +74,13 @@ public class CapituloDTO {
 
     public void setSecciones(List<SeccionDTO> secciones) {
         this.secciones = secciones;
+    }
+
+    public String getIdentificacion() {
+        return identificacion;
+    }
+
+    public void setIdentificacion(String identificacion) {
+        this.identificacion = identificacion;
     }
 }
