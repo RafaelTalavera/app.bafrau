@@ -6,7 +6,8 @@ import java.util.List;
 public enum Role {
 
     CUSTOMER(Arrays.asList(Permission.SAVE_ONE_ITEMS, Permission.READ_ALL_ITEMS)),
-    ADMINISTRATOR(Arrays.asList(Permission.SAVE_ONE_ITEMS, Permission.READ_ALL_ITEMS));
+    ADMINISTRATOR(Arrays.asList(Permission.SAVE_ONE_ITEMS, Permission.READ_ALL_ITEMS)),
+    USER(Arrays.asList(Permission.SAVE_ONE_ITEMS, Permission.READ_ALL_ITEMS));
 
     private List<Permission> permissions;
 

@@ -37,11 +37,11 @@ public class InformeController {
             String role = jwtService.extractRoleFromToken(token);
             List<InformeDTO> informes;
 
-            if ("ADMINISTRATOR".equals(role)) {
-                // Si es administrador, devuelve todos los informes
+            if ("ADMINISTRATOR".equals(role) || "USER".equals(role)) {
+                // Si es administrador o cliente, devuelve todos los informes
                 informes = informeService.findAll();
             } else if ("CUSTOMER".equals(role)) {
-                // Si es cliente, filtra por organización
+                // Si es USER, filtra por organización
                 String organizacion = informeService.extractOrganizacionFromToken(token);
                 informes = informeService.findByOrganizacion(organizacion);
             } else {
@@ -55,6 +55,7 @@ public class InformeController {
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
+
 
     // Obtener un informe por ID
     @GetMapping("/{id}")

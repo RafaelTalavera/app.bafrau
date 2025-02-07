@@ -14,6 +14,9 @@ public class Factor {
     private String clasificacion;
     private String tipo;
 
+    public Factor() {
+    }
+
     public Factor(Long id, String clasificacion, String tipo) {
         this.id = id;
         this.clasificacion = clasificacion;

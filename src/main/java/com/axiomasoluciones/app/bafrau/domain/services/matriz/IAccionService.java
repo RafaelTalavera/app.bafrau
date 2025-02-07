@@ -11,4 +11,8 @@ public interface IAccionService {
     AccionDTO create(AccionDTO accionDTO);
     AccionDTO update(Long id, AccionDTO accionDTO);
     void deleteById(Long id);
+
+    List<AccionDTO> findByClasificacion(String query);
+    List<AccionDTO> findByTipo(String query);
+
 }

@@ -39,4 +39,5 @@ public class AccionDTO {
     public void setTipo(String tipo) {
         this.tipo = tipo;
     }
+
 }

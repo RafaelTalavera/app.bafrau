@@ -1,40 +1,34 @@
 package com.axiomasoluciones.app.bafrau.application.dto.informe;
 
 import com.axiomasoluciones.app.bafrau.application.dto.capitulo.CapituloDTO;
-
-
 import java.time.LocalDate;
 import java.util.List;
 
 public class InformeDTO {
 
     private Long id;
+    private LocalDate fechaAlta;
     private String nombreDelProponente;
     private String razonSocial;
-    private String apoderadoLegal;
-    private String apoderadoCargo;
+    private String personariaJuridica;
+    private String cuit;
     private String domicilioRealProyecto;
     private String domicilioLegalProyecto;
-
+    private String situacionPredio;
+    private String licenciaComercial;
+    private String vencimientoLicenciaComercial;
+    private String nomenclaturaCatatrasl;
+    private String actividadPrincipal;
+    private String actividadSecundaria;
     private List<CorreoDTO> correos;
     private List<TelefonoDTO> telefonos;
     private List<ServicioDisponibleDTO> serviciosDisponibles;
-
-    private String situacionPredio;
-    private String nomenclaturaCatatrasl;
-    private String licenciaComercial;
-    private String cuit;
-    private String personeriaJuridica;
     private LocalDate fechaCreacion;
-    private String actividadPrincipal;
     private String dimensionPredio;
     private String superficieCubierta;
     private String superficieDescubierta;
-
     private String tecnologia;
-
     private Long userId;
-
     private List<ProcesoDTO> procesos;
     private List<ProcedimientoDTO> procedimientos;
     private List<AdjuntoInformeDTO> adjuntoInformes;
@@ -42,18 +36,69 @@ public class InformeDTO {
     private List<NominaEmpleadosDTO> nominaEmpleados;
     private List<SectorDTO> sectores;
 
-    public Long getId() {
-        return id;
+    public InformeDTO() {
     }
 
+    // Constructor completo
+    public InformeDTO(Long id, LocalDate fechaAlta, String nombreDelProponente, String razonSocial, String personariaJuridica, String cuit,
+                      String domicilioRealProyecto, String domicilioLegalProyecto, String situacionPredio, String licenciaComercial,
+                      String vencimientoLicenciaComercial, String nomenclaturaCatatrasl, String actividadPrincipal, String actividadSecundaria,
+                      List<CorreoDTO> correos, List<TelefonoDTO> telefonos, List<ServicioDisponibleDTO> serviciosDisponibles, LocalDate fechaCreacion,
+                      String dimensionPredio, String superficieCubierta, String superficieDescubierta, String tecnologia, Long userId,
+                      List<ProcesoDTO> procesos, List<ProcedimientoDTO> procedimientos, List<AdjuntoInformeDTO> adjuntoInformes,
+                      List<CapituloDTO> capitulos, List<NominaEmpleadosDTO> nominaEmpleados, List<SectorDTO> sectores) {
+        this.id = id;
+        this.fechaAlta = fechaAlta;
+        this.nombreDelProponente = nombreDelProponente;
+        this.razonSocial = razonSocial;
+        this.personariaJuridica = personariaJuridica;
+        this.cuit = cuit;
+        this.domicilioRealProyecto = domicilioRealProyecto;
+        this.domicilioLegalProyecto = domicilioLegalProyecto;
+        this.situacionPredio = situacionPredio;
+        this.licenciaComercial = licenciaComercial;
+        this.vencimientoLicenciaComercial = vencimientoLicenciaComercial;
+        this.nomenclaturaCatatrasl = nomenclaturaCatatrasl;
+        this.actividadPrincipal = actividadPrincipal;
+        this.actividadSecundaria = actividadSecundaria;
+        this.correos = correos;
+        this.telefonos = telefonos;
+        this.serviciosDisponibles = serviciosDisponibles;
+        this.fechaCreacion = fechaCreacion;
+        this.dimensionPredio = dimensionPredio;
+        this.superficieCubierta = superficieCubierta;
+        this.superficieDescubierta = superficieDescubierta;
+        this.tecnologia = tecnologia;
+        this.userId = userId;
+        this.procesos = procesos;
+        this.procedimientos = procedimientos;
+        this.adjuntoInformes = adjuntoInformes;
+        this.capitulos = capitulos;
+        this.nominaEmpleados = nominaEmpleados;
+        this.sectores = sectores;
+    }
+
+    // Constructor simplificado (para consultas básicas)
     public InformeDTO(Long id, String razonSocial) {
         this.id = id;
         this.razonSocial = razonSocial;
     }
 
+    // Getters y Setters
+    public Long getId() {
+        return id;
+    }
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public LocalDate getFechaAlta() {
+        return fechaAlta;
+    }
+
+    public void setFechaAlta(LocalDate fechaAlta) {
+        this.fechaAlta = fechaAlta;
     }
 
     public String getNombreDelProponente() {
@@ -72,20 +117,20 @@ public class InformeDTO {
         this.razonSocial = razonSocial;
     }
 
-    public String getApoderadoLegal() {
-        return apoderadoLegal;
+    public String getPersonariaJuridica() {
+        return personariaJuridica;
     }
 
-    public void setApoderadoLegal(String apoderadoLegal) {
-        this.apoderadoLegal = apoderadoLegal;
+    public void setPersonariaJuridica(String personariaJuridica) {
+        this.personariaJuridica = personariaJuridica;
     }
 
-    public String getApoderadoCargo() {
-        return apoderadoCargo;
+    public String getCuit() {
+        return cuit;
     }
 
-    public void setApoderadoCargo(String apoderadoCargo) {
-        this.apoderadoCargo = apoderadoCargo;
+    public void setCuit(String cuit) {
+        this.cuit = cuit;
     }
 
     public String getDomicilioRealProyecto() {
@@ -102,6 +147,54 @@ public class InformeDTO {
 
     public void setDomicilioLegalProyecto(String domicilioLegalProyecto) {
         this.domicilioLegalProyecto = domicilioLegalProyecto;
+    }
+
+    public String getSituacionPredio() {
+        return situacionPredio;
+    }
+
+    public void setSituacionPredio(String situacionPredio) {
+        this.situacionPredio = situacionPredio;
+    }
+
+    public String getLicenciaComercial() {
+        return licenciaComercial;
+    }
+
+    public void setLicenciaComercial(String licenciaComercial) {
+        this.licenciaComercial = licenciaComercial;
+    }
+
+    public String getVencimientoLicenciaComercial() {
+        return vencimientoLicenciaComercial;
+    }
+
+    public void setVencimientoLicenciaComercial(String vencimientoLicenciaComercial) {
+        this.vencimientoLicenciaComercial = vencimientoLicenciaComercial;
+    }
+
+    public String getNomenclaturaCatatrasl() {
+        return nomenclaturaCatatrasl;
+    }
+
+    public void setNomenclaturaCatatrasl(String nomenclaturaCatatrasl) {
+        this.nomenclaturaCatatrasl = nomenclaturaCatatrasl;
+    }
+
+    public String getActividadPrincipal() {
+        return actividadPrincipal;
+    }
+
+    public void setActividadPrincipal(String actividadPrincipal) {
+        this.actividadPrincipal = actividadPrincipal;
+    }
+
+    public String getActividadSecundaria() {
+        return actividadSecundaria;
+    }
+
+    public void setActividadSecundaria(String actividadSecundaria) {
+        this.actividadSecundaria = actividadSecundaria;
     }
 
     public List<CorreoDTO> getCorreos() {
@@ -128,60 +221,12 @@ public class InformeDTO {
         this.serviciosDisponibles = serviciosDisponibles;
     }
 
-    public String getSituacionPredio() {
-        return situacionPredio;
-    }
-
-    public void setSituacionPredio(String situacionPredio) {
-        this.situacionPredio = situacionPredio;
-    }
-
-    public String getNomenclaturaCatatrasl() {
-        return nomenclaturaCatatrasl;
-    }
-
-    public void setNomenclaturaCatatrasl(String nomenclaturaCatatrasl) {
-        this.nomenclaturaCatatrasl = nomenclaturaCatatrasl;
-    }
-
-    public String getLicenciaComercial() {
-        return licenciaComercial;
-    }
-
-    public void setLicenciaComercial(String licenciaComercial) {
-        this.licenciaComercial = licenciaComercial;
-    }
-
-    public String getCuit() {
-        return cuit;
-    }
-
-    public void setCuit(String cuit) {
-        this.cuit = cuit;
-    }
-
-    public String getPersoneriaJuridica() {
-        return personeriaJuridica;
-    }
-
-    public void setPersoneriaJuridica(String personeriaJuridica) {
-        this.personeriaJuridica = personeriaJuridica;
-    }
-
     public LocalDate getFechaCreacion() {
         return fechaCreacion;
     }
 
     public void setFechaCreacion(LocalDate fechaCreacion) {
         this.fechaCreacion = fechaCreacion;
-    }
-
-    public String getActividadPrincipal() {
-        return actividadPrincipal;
-    }
-
-    public void setActividadPrincipal(String actividadPrincipal) {
-        this.actividadPrincipal = actividadPrincipal;
     }
 
     public String getDimensionPredio() {

@@ -13,10 +13,12 @@ public class Accion {
     private String clasificacion;
     private String tipo;
 
+
     public Accion(Long id, String clasificacion, String tipo) {
         this.id = id;
         this.clasificacion = clasificacion;
         this.tipo = tipo;
+
     }
 
     public Accion() {

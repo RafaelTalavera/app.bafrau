@@ -15,12 +15,25 @@ public class Informe {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    private LocalDate fechaAlta;
     private String nombreDelProponente;
     private String razonSocial;
-    private String apoderadoLegal;
-    private String apoderadoCargo;
+    private String personariaJuridica;
+    private String cuit;
+
     private String domicilioRealProyecto;
     private String domicilioLegalProyecto;
+
+    private String situacionPredio;
+
+    private String licenciaComercial;
+    private String vencimientoLicenciaComercial;
+
+    private String nomenclaturaCatatrasl;
+
+    private String actividadPrincipal;
+    private String actividadSecundaria;
+
 
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JoinColumn(name = "informe_id")
@@ -34,23 +47,16 @@ public class Informe {
     @JoinColumn(name = "informe_id")
     private List<ServicioDisponible> serviciosDisponibles;
 
-    private String situacionPredio;
-    private String nomenclaturaCatatrasl;
-    private String licenciaComercial;
-    private String cuit;
-    private String personeriaJuridica;
     private LocalDate fechaCreacion;
-    private String actividadPrincipal;
+
     private String dimensionPredio;
     private String superficieCubierta;
     private String superficieDescubierta;
-
     private String tecnologia;
 
     @ManyToOne
     @JoinColumn(name = "user_id")
     private User user; // Relación con el usuario que crea el informe
-
 
     // Relación OneToMany con procesos, capitulos, procedimientos, sectores y adjuntos
     @OneToMany(mappedBy = "informe", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
@@ -71,27 +77,29 @@ public class Informe {
     @OneToMany(mappedBy = "informe", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<Sector> sectores;
 
+
     public Informe() {
     }
 
-    public Informe(Long id, String nombreDelProponente, String razonSocial, String apoderadoLegal, String apoderadoCargo, String domicilioRealProyecto, String domicilioLegalProyecto, List<Correo> correos, List<Telefono> telefonos, List<ServicioDisponible> serviciosDisponibles, String situacionPredio, String nomenclaturaCatatrasl, String licenciaComercial, String cuit, String personeriaJuridica, LocalDate fechaCreacion, String actividadPrincipal, String dimensionPredio, String superficieCubierta, String superficieDescubierta, String tecnologia, User user, List<Proceso> procesos, List<Procedimiento> procedimientos, List<AdjuntoInforme> adjuntoInformes, List<Capitulo> capitulos, List<NominaEmpleados> nominaEmpleados, List<Sector> sectores) {
+    public Informe(Long id, LocalDate fechaAlta, String nombreDelProponente, String razonSocial, String personariaJuridica, String cuit, String domicilioRealProyecto, String domicilioLegalProyecto, String situacionPredio, String licenciaComercial, String vencimientoLicenciaComercial, String nomenclaturaCatatrasl, String actividadPrincipal, String actividadSecundaria, List<Correo> correos, List<Telefono> telefonos, List<ServicioDisponible> serviciosDisponibles, LocalDate fechaCreacion, String dimensionPredio, String superficieCubierta, String superficieDescubierta, String tecnologia, User user, List<Proceso> procesos, List<Procedimiento> procedimientos, List<AdjuntoInforme> adjuntoInformes, List<Capitulo> capitulos, List<NominaEmpleados> nominaEmpleados, List<Sector> sectores) {
         this.id = id;
+        this.fechaAlta = fechaAlta;
         this.nombreDelProponente = nombreDelProponente;
         this.razonSocial = razonSocial;
-        this.apoderadoLegal = apoderadoLegal;
-        this.apoderadoCargo = apoderadoCargo;
+        this.personariaJuridica = personariaJuridica;
+        this.cuit = cuit;
         this.domicilioRealProyecto = domicilioRealProyecto;
         this.domicilioLegalProyecto = domicilioLegalProyecto;
+        this.situacionPredio = situacionPredio;
+        this.licenciaComercial = licenciaComercial;
+        this.vencimientoLicenciaComercial = vencimientoLicenciaComercial;
+        this.nomenclaturaCatatrasl = nomenclaturaCatatrasl;
+        this.actividadPrincipal = actividadPrincipal;
+        this.actividadSecundaria = actividadSecundaria;
         this.correos = correos;
         this.telefonos = telefonos;
         this.serviciosDisponibles = serviciosDisponibles;
-        this.situacionPredio = situacionPredio;
-        this.nomenclaturaCatatrasl = nomenclaturaCatatrasl;
-        this.licenciaComercial = licenciaComercial;
-        this.cuit = cuit;
-        this.personeriaJuridica = personeriaJuridica;
         this.fechaCreacion = fechaCreacion;
-        this.actividadPrincipal = actividadPrincipal;
         this.dimensionPredio = dimensionPredio;
         this.superficieCubierta = superficieCubierta;
         this.superficieDescubierta = superficieDescubierta;
@@ -113,6 +121,14 @@ public class Informe {
         this.id = id;
     }
 
+    public LocalDate getFechaAlta() {
+        return fechaAlta;
+    }
+
+    public void setFechaAlta(LocalDate fechaAlta) {
+        this.fechaAlta = fechaAlta;
+    }
+
     public String getNombreDelProponente() {
         return nombreDelProponente;
     }
@@ -129,20 +145,20 @@ public class Informe {
         this.razonSocial = razonSocial;
     }
 
-    public String getApoderadoLegal() {
-        return apoderadoLegal;
+    public String getPersonariaJuridica() {
+        return personariaJuridica;
     }
 
-    public void setApoderadoLegal(String apoderadoLegal) {
-        this.apoderadoLegal = apoderadoLegal;
+    public void setPersonariaJuridica(String personariaJuridica) {
+        this.personariaJuridica = personariaJuridica;
     }
 
-    public String getApoderadoCargo() {
-        return apoderadoCargo;
+    public String getCuit() {
+        return cuit;
     }
 
-    public void setApoderadoCargo(String apoderadoCargo) {
-        this.apoderadoCargo = apoderadoCargo;
+    public void setCuit(String cuit) {
+        this.cuit = cuit;
     }
 
     public String getDomicilioRealProyecto() {
@@ -159,6 +175,54 @@ public class Informe {
 
     public void setDomicilioLegalProyecto(String domicilioLegalProyecto) {
         this.domicilioLegalProyecto = domicilioLegalProyecto;
+    }
+
+    public String getSituacionPredio() {
+        return situacionPredio;
+    }
+
+    public void setSituacionPredio(String situacionPredio) {
+        this.situacionPredio = situacionPredio;
+    }
+
+    public String getLicenciaComercial() {
+        return licenciaComercial;
+    }
+
+    public void setLicenciaComercial(String licenciaComercial) {
+        this.licenciaComercial = licenciaComercial;
+    }
+
+    public String getVencimientoLicenciaComercial() {
+        return vencimientoLicenciaComercial;
+    }
+
+    public void setVencimientoLicenciaComercial(String vencimientoLicenciaComercial) {
+        this.vencimientoLicenciaComercial = vencimientoLicenciaComercial;
+    }
+
+    public String getNomenclaturaCatatrasl() {
+        return nomenclaturaCatatrasl;
+    }
+
+    public void setNomenclaturaCatatrasl(String nomenclaturaCatatrasl) {
+        this.nomenclaturaCatatrasl = nomenclaturaCatatrasl;
+    }
+
+    public String getActividadPrincipal() {
+        return actividadPrincipal;
+    }
+
+    public void setActividadPrincipal(String actividadPrincipal) {
+        this.actividadPrincipal = actividadPrincipal;
+    }
+
+    public String getActividadSecundaria() {
+        return actividadSecundaria;
+    }
+
+    public void setActividadSecundaria(String actividadSecundaria) {
+        this.actividadSecundaria = actividadSecundaria;
     }
 
     public List<Correo> getCorreos() {
@@ -185,60 +249,12 @@ public class Informe {
         this.serviciosDisponibles = serviciosDisponibles;
     }
 
-    public String getSituacionPredio() {
-        return situacionPredio;
-    }
-
-    public void setSituacionPredio(String situacionPredio) {
-        this.situacionPredio = situacionPredio;
-    }
-
-    public String getNomenclaturaCatatrasl() {
-        return nomenclaturaCatatrasl;
-    }
-
-    public void setNomenclaturaCatatrasl(String nomenclaturaCatatrasl) {
-        this.nomenclaturaCatatrasl = nomenclaturaCatatrasl;
-    }
-
-    public String getLicenciaComercial() {
-        return licenciaComercial;
-    }
-
-    public void setLicenciaComercial(String licenciaComercial) {
-        this.licenciaComercial = licenciaComercial;
-    }
-
-    public String getCuit() {
-        return cuit;
-    }
-
-    public void setCuit(String cuit) {
-        this.cuit = cuit;
-    }
-
-    public String getPersoneriaJuridica() {
-        return personeriaJuridica;
-    }
-
-    public void setPersoneriaJuridica(String personeriaJuridica) {
-        this.personeriaJuridica = personeriaJuridica;
-    }
-
     public LocalDate getFechaCreacion() {
         return fechaCreacion;
     }
 
     public void setFechaCreacion(LocalDate fechaCreacion) {
         this.fechaCreacion = fechaCreacion;
-    }
-
-    public String getActividadPrincipal() {
-        return actividadPrincipal;
-    }
-
-    public void setActividadPrincipal(String actividadPrincipal) {
-        this.actividadPrincipal = actividadPrincipal;
     }
 
     public String getDimensionPredio() {

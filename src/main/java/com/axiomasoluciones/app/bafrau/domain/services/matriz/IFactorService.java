@@ -7,9 +7,9 @@ import java.util.Optional;
 
 public interface IFactorService {
     List<FactorDTO> findAll();
-    Optional<FactorDTO> findById(Long id);
-    FactorDTO create(FactorDTO factorDTO);
+    FactorDTO findById(Long id);
+    FactorDTO save(FactorDTO factorDTO);
     FactorDTO update(Long id, FactorDTO factorDTO);
-    void deleteById(Long id);
+    void delete(Long id);
 }
 

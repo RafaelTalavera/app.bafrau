@@ -145,6 +145,5 @@ public class InformeServiceImplement implements IInformeService {
                 .map(obj -> new InformeDTO((Long) obj[0], (String) obj[1])) // Mapea a InformeDTO
                 .collect(Collectors.toList());
     }
-
 }
 
