@@ -1,5 +1,6 @@
 package com.axiomasoluciones.app.bafrau.domain.entities.matriz;
 
+import com.axiomasoluciones.app.bafrau.domain.entities.organizacion.Organizacion;
 import com.axiomasoluciones.app.bafrau.domain.entities.seccion.Seccion;
 import com.axiomasoluciones.app.bafrau.domain.entities.user.User;
 import jakarta.persistence.*;
@@ -18,8 +19,6 @@ public class Matriz {
 
     private LocalDate fecha;
 
-    private String organizacion;
-
     private String direccion;
 
     private String rubro;
@@ -29,8 +28,9 @@ public class Matriz {
     private User user;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "seccion_id")
-    private Seccion seccion;
+    @JoinColumn(name = "organizacion_id")
+    private Organizacion organizacion;
+
 
     @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "matriz")
     private List<ItemMatriz> items;
@@ -38,14 +38,13 @@ public class Matriz {
     public Matriz() {
     }
 
-    public Matriz(Long id, LocalDate fecha, String organizacion, String direccion, String rubro, User user, Seccion seccion, List<ItemMatriz> items) {
+    public Matriz(Long id, LocalDate fecha, String direccion, String rubro, User user, Organizacion organizacion, List<ItemMatriz> items) {
         this.id = id;
         this.fecha = fecha;
-        this.organizacion = organizacion;
         this.direccion = direccion;
         this.rubro = rubro;
         this.user = user;
-        this.seccion = seccion;
+        this.organizacion = organizacion;
         this.items = items;
     }
 
@@ -63,14 +62,6 @@ public class Matriz {
 
     public void setFecha(LocalDate fecha) {
         this.fecha = fecha;
-    }
-
-    public String getOrganizacion() {
-        return organizacion;
-    }
-
-    public void setOrganizacion(String organizacion) {
-        this.organizacion = organizacion;
     }
 
     public String getDireccion() {
@@ -97,12 +88,12 @@ public class Matriz {
         this.user = user;
     }
 
-    public Seccion getSeccion() {
-        return seccion;
+    public Organizacion getOrganizacion() {
+        return organizacion;
     }
 
-    public void setSeccion(Seccion seccion) {
-        this.seccion = seccion;
+    public void setOrganizacion(Organizacion organizacion) {
+        this.organizacion = organizacion;
     }
 
     public List<ItemMatriz> getItems() {

@@ -1,6 +1,6 @@
 package com.axiomasoluciones.app.bafrau.application.dto.capitulo;
 
-import com.axiomasoluciones.app.bafrau.application.dto.informe.InformeDTO;
+import com.axiomasoluciones.app.bafrau.application.dto.organizacion.OrganizacionDTO;
 import com.axiomasoluciones.app.bafrau.application.dto.seccion.SeccionDTO;
 
 import java.util.List;
@@ -12,19 +12,19 @@ public class CapituloDTO {
     private String titulo;
     private String descripcion;
     private Integer orden;
-    private InformeDTO informe;
+    private OrganizacionDTO organizacion;
     private List<SeccionDTO> secciones;
 
     public CapituloDTO() {
     }
 
-    public CapituloDTO(Long id, String identificacion, String titulo, String descripcion, Integer orden, InformeDTO informe, List<SeccionDTO> secciones) {
+    public CapituloDTO(Long id, String identificacion, String titulo, String descripcion, Integer orden, OrganizacionDTO organizacion, List<SeccionDTO> secciones) {
         this.id = id;
         this.identificacion = identificacion;
         this.titulo = titulo;
         this.descripcion = descripcion;
         this.orden = orden;
-        this.informe = informe;
+        this.organizacion = organizacion;
         this.secciones = secciones;
     }
 
@@ -34,6 +34,14 @@ public class CapituloDTO {
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public String getIdentificacion() {
+        return identificacion;
+    }
+
+    public void setIdentificacion(String identificacion) {
+        this.identificacion = identificacion;
     }
 
     public String getTitulo() {
@@ -60,12 +68,12 @@ public class CapituloDTO {
         this.orden = orden;
     }
 
-    public InformeDTO getInforme() {
-        return informe;
+    public OrganizacionDTO getOrganizacion() {
+        return organizacion;
     }
 
-    public void setInforme(InformeDTO informe) {
-        this.informe = informe;
+    public void setOrganizacion(OrganizacionDTO organizacion) {
+        this.organizacion = organizacion;
     }
 
     public List<SeccionDTO> getSecciones() {
@@ -74,13 +82,5 @@ public class CapituloDTO {
 
     public void setSecciones(List<SeccionDTO> secciones) {
         this.secciones = secciones;
-    }
-
-    public String getIdentificacion() {
-        return identificacion;
-    }
-
-    public void setIdentificacion(String identificacion) {
-        this.identificacion = identificacion;
     }
 }

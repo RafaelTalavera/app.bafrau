@@ -24,8 +24,6 @@ public class Seccion {
     @OneToMany(mappedBy = "seccion", cascade = CascadeType.ALL)
     private List<Tabla> tablas;
 
-    @OneToMany(mappedBy = "seccion", cascade = CascadeType.ALL)
-    private List<Matriz> matrices;
 
     @OneToMany(mappedBy = "seccion", cascade = CascadeType.ALL)
     private List<AdjuntoSeccion> adjuntoSeccionList; // Relación con la entidad Imagen
@@ -33,13 +31,12 @@ public class Seccion {
     public Seccion() {
     }
 
-    public Seccion(Long id, String titulo, String texto, Capitulo capitulo, List<Tabla> tablas, List<Matriz> matrices, List<AdjuntoSeccion> adjuntoSeccionList) {
+    public Seccion(Long id, String titulo, String texto, Capitulo capitulo, List<Tabla> tablas, List<AdjuntoSeccion> adjuntoSeccionList) {
         this.id = id;
         this.titulo = titulo;
         this.texto = texto;
         this.capitulo = capitulo;
         this.tablas = tablas;
-        this.matrices = matrices;
         this.adjuntoSeccionList = adjuntoSeccionList;
     }
 
@@ -81,14 +78,6 @@ public class Seccion {
 
     public void setTablas(List<Tabla> tablas) {
         this.tablas = tablas;
-    }
-
-    public List<Matriz> getMatrices() {
-        return matrices;
-    }
-
-    public void setMatrices(List<Matriz> matrices) {
-        this.matrices = matrices;
     }
 
     public List<AdjuntoSeccion> getAdjuntoSeccionList() {

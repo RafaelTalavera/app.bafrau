@@ -6,5 +6,5 @@ import org.springframework.data.repository.CrudRepository;
 import java.util.List;
 
 public interface FactorRepository extends CrudRepository<Factor, Long> {
-    List<Factor> findByClasificacion(String clasificacion);
+
 }

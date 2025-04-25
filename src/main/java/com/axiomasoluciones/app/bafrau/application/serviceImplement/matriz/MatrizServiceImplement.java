@@ -2,11 +2,11 @@ package com.axiomasoluciones.app.bafrau.application.serviceImplement.matriz;
 
 import com.axiomasoluciones.app.bafrau.application.dto.matriz.MatrizDTO;
 import com.axiomasoluciones.app.bafrau.application.mappers.matriz.MatrizMapper;
-import com.axiomasoluciones.app.bafrau.domain.entities.seccion.Seccion;
 import com.axiomasoluciones.app.bafrau.domain.entities.matriz.Matriz;
+import com.axiomasoluciones.app.bafrau.domain.entities.organizacion.Organizacion;
 import com.axiomasoluciones.app.bafrau.domain.entities.user.User;
 import com.axiomasoluciones.app.bafrau.domain.repository.matriz.MatrizRepository;
-import com.axiomasoluciones.app.bafrau.domain.repository.seccion.SeccionRepository;
+import com.axiomasoluciones.app.bafrau.domain.repository.organizacion.OrganizacionRepository;
 import com.axiomasoluciones.app.bafrau.domain.repository.user.UserRepository;
 import com.axiomasoluciones.app.bafrau.domain.services.matriz.IMatrizService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,21 +24,17 @@ public class MatrizServiceImplement implements IMatrizService {
     private MatrizRepository matrizRepository;
 
     @Autowired
-    private SeccionRepository seccionRepository;
+    private UserRepository userRepository;
 
     @Autowired
-    private UserRepository userRepository;
+    private OrganizacionRepository organizacionRepository;
 
     @Autowired
     private MatrizMapper matrizMapper;
 
     @Override
     public List<MatrizDTO> findAll() {
-        List<Matriz> matrices = StreamSupport
-                .stream(matrizRepository.findAll().spliterator(), false)
-                .collect(Collectors.toList());
-
-        return matrices.stream()
+        return StreamSupport.stream(matrizRepository.findAll().spliterator(), false)
                 .map(matrizMapper::toMatrizDTO)
                 .collect(Collectors.toList());
     }
@@ -51,33 +47,37 @@ public class MatrizServiceImplement implements IMatrizService {
 
     @Override
     public MatrizDTO create(MatrizDTO matrizDTO) {
-        // Asegurarse de que la matriz esté asociada a una sección existente
-        Long seccionId = matrizDTO.getSeccionId();
-        Optional<Seccion> seccion = seccionRepository.findById(seccionId);
-
-        Long userId = matrizDTO.getUserId();  // Verificar que la matriz esté asociada a un usuario
-        Optional<User> user = userRepository.findById(userId);
-
-        if (seccion.isPresent() && user.isPresent()) {
-            Matriz matriz = matrizMapper.toMatriz(matrizDTO);
-            matriz.setSeccion(seccion.get());  // Asociar la matriz a la sección
-            matriz.setUser(user.get());        // Asociar la matriz al usuario
-            Matriz savedMatriz = matrizRepository.save(matriz);
-            return matrizMapper.toMatrizDTO(savedMatriz);
+        Long orgId = matrizDTO.getOrganizacionId();
+        if (orgId == null) {
+            throw new IllegalArgumentException("La organizaciónId no está presente");
         }
-        throw new IllegalArgumentException("No se encontró la sección o el usuario asociado con la matriz");
+
+        Organizacion org = organizacionRepository.findById(orgId)
+                .orElseThrow(() -> new IllegalArgumentException(
+                        "La organización con id " + orgId + " no existe"));
+
+        Long userId = matrizDTO.getUserId();
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new IllegalArgumentException(
+                        "El usuario con id " + userId + " no existe"));
+
+        Matriz matriz = matrizMapper.toMatriz(matrizDTO);
+        matriz.setOrganizacion(org);
+        matriz.setUser(user);
+
+        Matriz saved = matrizRepository.save(matriz);
+        return matrizMapper.toMatrizDTO(saved);
     }
 
     @Override
     public MatrizDTO update(Long id, MatrizDTO matrizDTO) {
-        Optional<Matriz> existingMatriz = matrizRepository.findById(id);
-        if (existingMatriz.isPresent()) {
-            Matriz matriz = matrizMapper.toMatriz(matrizDTO);
-            matriz.setId(id);
-            Matriz updatedMatriz = matrizRepository.save(matriz);
-            return matrizMapper.toMatrizDTO(updatedMatriz);
-        }
-        return null;
+        return matrizRepository.findById(id)
+                .map(existing -> {
+                    Matriz matriz = matrizMapper.toMatriz(matrizDTO);
+                    matriz.setId(id);
+                    return matrizMapper.toMatrizDTO(matrizRepository.save(matriz));
+                })
+                .orElse(null);
     }
 
     @Override

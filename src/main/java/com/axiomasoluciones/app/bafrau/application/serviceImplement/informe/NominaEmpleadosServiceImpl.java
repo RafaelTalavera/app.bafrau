@@ -1,10 +1,10 @@
 package com.axiomasoluciones.app.bafrau.application.serviceImplement.informe;
 
-import com.axiomasoluciones.app.bafrau.application.dto.informe.NominaEmpleadosDTO;
-import com.axiomasoluciones.app.bafrau.application.mappers.informe.NominaEmpleadosMapper;
-import com.axiomasoluciones.app.bafrau.domain.entities.informe.NominaEmpleados;
-import com.axiomasoluciones.app.bafrau.domain.repository.informe.NominaEmpleadosRepository;
-import com.axiomasoluciones.app.bafrau.domain.services.informe.NominaEmpleadosService;
+import com.axiomasoluciones.app.bafrau.application.dto.organizacion.NominaEmpleadosDTO;
+import com.axiomasoluciones.app.bafrau.application.mappers.organizacion.NominaEmpleadosMapper;
+import com.axiomasoluciones.app.bafrau.domain.entities.organizacion.NominaEmpleados;
+import com.axiomasoluciones.app.bafrau.domain.repository.organizacion.NominaEmpleadosRepository;
+import com.axiomasoluciones.app.bafrau.domain.services.organizacion.NominaEmpleadosService;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -24,8 +24,8 @@ public class NominaEmpleadosServiceImpl implements NominaEmpleadosService {
     }
 
     @Override
-    public List<NominaEmpleadosDTO> getNominaEmpleadosByInformeId(Long informeId) {
-        List<NominaEmpleados> nominaEmpleadosList = nominaEmpleadosRepository.findByInformeId(informeId);
+    public List<NominaEmpleadosDTO> getNominaEmpleadosByOrganizacionId(Long organizacionId) {
+        List<NominaEmpleados> nominaEmpleadosList = nominaEmpleadosRepository.findByOrganizacionId(organizacionId);
         return nominaEmpleadosList.stream()
                 .map(nominaEmpleadosMapper::toNominaEmpleadosDTO)
                 .collect(Collectors.toList());

@@ -1,12 +1,11 @@
 package com.axiomasoluciones.app.bafrau.application.serviceImplement.informe;
 
-import com.axiomasoluciones.app.bafrau.application.dto.informe.SectorDTO;
-import com.axiomasoluciones.app.bafrau.application.mappers.informe.SectorMapper;
-import com.axiomasoluciones.app.bafrau.domain.entities.informe.Sector;
-import com.axiomasoluciones.app.bafrau.domain.entities.informe.ServicioDisponible;
-import com.axiomasoluciones.app.bafrau.domain.repository.informe.SectorRepository;
+import com.axiomasoluciones.app.bafrau.application.dto.organizacion.SectorDTO;
+import com.axiomasoluciones.app.bafrau.application.mappers.organizacion.SectorMapper;
+import com.axiomasoluciones.app.bafrau.domain.entities.organizacion.Sector;
+import com.axiomasoluciones.app.bafrau.domain.repository.organizacion.SectorRepository;
 
-import com.axiomasoluciones.app.bafrau.domain.services.informe.SectorService;
+import com.axiomasoluciones.app.bafrau.domain.services.organizacion.SectorService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -67,8 +66,8 @@ public class SectorServiceImpl implements SectorService {
     }
 
     @Override
-    public List<SectorDTO> getSectorByInformeId(Long informeId) {
-        List<Sector> sectores = sectorRepository.findByInformeId(informeId);
+    public List<SectorDTO> getSectorByOrganizacionId(Long organizacionId) {
+        List<Sector> sectores = sectorRepository.findByOrganizacionId(organizacionId);
         return sectores.stream()
                 .map(sectorMapper::toSectorDTO)  // Mapea a SectorDTO
                 .collect(Collectors.toList());

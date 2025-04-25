@@ -1,95 +1,53 @@
 package com.axiomasoluciones.app.bafrau.application.dto.matriz;
 
-
-
 import java.time.LocalDate;
 import java.util.List;
 
 public class MatrizDTO {
     private Long id;
     private LocalDate fecha;
-    private String organizacion;
     private String direccion;
     private String rubro;
     private Long userId;
-    private Long seccionId;
+    private Long organizacionId;
     private List<ItemMatrizDTO> items;
 
-    public MatrizDTO() {
-    }
+    public MatrizDTO() {}
 
-    public MatrizDTO(Long id, LocalDate fecha, String organizacion, String direccion, String rubro, Long userId, Long seccionId, List<ItemMatrizDTO> items) {
+    public MatrizDTO(Long id,
+                     LocalDate fecha,
+                     String direccion,
+                     String rubro,
+                     Long userId,
+                     Long organizacionId,
+                     List<ItemMatrizDTO> items) {
         this.id = id;
         this.fecha = fecha;
-        this.organizacion = organizacion;
         this.direccion = direccion;
         this.rubro = rubro;
         this.userId = userId;
-        this.seccionId = seccionId;
+        this.organizacionId = organizacionId;
         this.items = items;
     }
 
-    public Long getId() {
-        return id;
-    }
+    public Long getId() { return id; }
+    public void setId(Long id) { this.id = id; }
 
-    public void setId(Long id) {
-        this.id = id;
-    }
+    public LocalDate getFecha() { return fecha; }
+    public void setFecha(LocalDate fecha) { this.fecha = fecha; }
 
-    public LocalDate getFecha() {
-        return fecha;
-    }
+    public String getDireccion() { return direccion; }
+    public void setDireccion(String direccion) { this.direccion = direccion; }
 
-    public void setFecha(LocalDate fecha) {
-        this.fecha = fecha;
-    }
+    public String getRubro() { return rubro; }
+    public void setRubro(String rubro) { this.rubro = rubro; }
 
-    public String getOrganizacion() {
-        return organizacion;
-    }
+    public Long getUserId() { return userId; }
+    public void setUserId(Long userId) { this.userId = userId; }
 
-    public void setOrganizacion(String organizacion) {
-        this.organizacion = organizacion;
-    }
+    public Long getOrganizacionId() { return organizacionId; }
+    public void setOrganizacionId(Long organizacionId) { this.organizacionId = organizacionId; }
 
-    public String getDireccion() {
-        return direccion;
-    }
-
-    public void setDireccion(String direccion) {
-        this.direccion = direccion;
-    }
-
-    public String getRubro() {
-        return rubro;
-    }
-
-    public void setRubro(String rubro) {
-        this.rubro = rubro;
-    }
-
-    public Long getUserId() {
-        return userId;
-    }
-
-    public void setUserId(Long userId) {
-        this.userId = userId;
-    }
-
-    public List<ItemMatrizDTO> getItems() {
-        return items;
-    }
-
-    public void setItems(List<ItemMatrizDTO> items) {
-        this.items = items;
-    }
-
-    public Long getSeccionId() {
-        return seccionId;
-    }
-
-    public void setSeccionId(Long seccionId) {
-        this.seccionId = seccionId;
-    }
+    public List<ItemMatrizDTO> getItems() { return items; }
+    public void setItems(List<ItemMatrizDTO> items) { this.items = items; }
 }

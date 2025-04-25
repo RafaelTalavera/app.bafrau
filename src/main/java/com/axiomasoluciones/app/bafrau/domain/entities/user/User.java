@@ -1,6 +1,6 @@
 package com.axiomasoluciones.app.bafrau.domain.entities.user;
 
-import com.axiomasoluciones.app.bafrau.domain.entities.informe.Informe;
+import com.axiomasoluciones.app.bafrau.domain.entities.organizacion.Organizacion;
 import com.axiomasoluciones.app.bafrau.domain.entities.matriz.Matriz;
 import jakarta.persistence.*;
 import org.springframework.security.core.GrantedAuthority;
@@ -37,7 +37,7 @@ public class User implements UserDetails {
     private List<Matriz> impactAssessments;
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<Informe> informe;
+    private List<Organizacion> informe;
 
     @Enumerated(EnumType.STRING)
     private Role role;
@@ -54,7 +54,7 @@ public class User implements UserDetails {
     public User() {
     }
 
-    public User(Long id, String username, String nombre, String lastname, String password, String dni, String organizacion, String titulo, String matriculaProvincia, String matriculaColegioNeuquen, String matriculaMunicipal, String address, String phone, List<Matriz> impactAssessments, List<Informe> informe, Role role) {
+    public User(Long id, String username, String nombre, String lastname, String password, String dni, String organizacion, String titulo, String matriculaProvincia, String matriculaColegioNeuquen, String matriculaMunicipal, String address, String phone, List<Matriz> impactAssessments, List<Organizacion> informe, Role role) {
         this.id = id;
         this.username = username;
         this.nombre = nombre;
@@ -195,11 +195,11 @@ public class User implements UserDetails {
         this.role = role;
     }
 
-    public List<Informe> getInforme() {
+    public List<Organizacion> getInforme() {
         return informe;
     }
 
-    public void setInforme(List<Informe> informe) {
+    public void setInforme(List<Organizacion> informe) {
         this.informe = informe;
     }
 

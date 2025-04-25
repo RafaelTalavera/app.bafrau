@@ -1,6 +1,6 @@
 package com.axiomasoluciones.app.bafrau.application.dto.user;
 
-import com.axiomasoluciones.app.bafrau.application.dto.informe.InformeDTO;
+import com.axiomasoluciones.app.bafrau.application.dto.organizacion.OrganizacionDTO;
 import com.axiomasoluciones.app.bafrau.application.dto.matriz.MatrizDTO;
 import com.axiomasoluciones.app.bafrau.domain.entities.user.Role;
 
@@ -23,12 +23,12 @@ public class UserDTO {
     private String phone;
     private Role role;
     private List<MatrizDTO> impactAssessments;
-    private List<InformeDTO> informes;
+    private List<OrganizacionDTO> informes;
 
     public UserDTO() {
     }
 
-    public UserDTO(Long id, String username, String nombre, String lastname, String dni, String password, String organizacion, String titulo, String matriculaProvincia, String matriculaColegioNeuquen, String matriculaMunicipal, String address, String phone, Role role, List<MatrizDTO> impactAssessments, List<InformeDTO> informes) {
+    public UserDTO(Long id, String username, String nombre, String lastname, String dni, String password, String organizacion, String titulo, String matriculaProvincia, String matriculaColegioNeuquen, String matriculaMunicipal, String address, String phone, Role role, List<MatrizDTO> impactAssessments, List<OrganizacionDTO> informes) {
         this.id = id;
         this.username = username;
         this.nombre = nombre;
@@ -167,11 +167,11 @@ public class UserDTO {
         this.impactAssessments = impactAssessments;
     }
 
-    public List<InformeDTO> getInformes() {
+    public List<OrganizacionDTO> getInformes() {
         return informes;
     }
 
-    public void setInformes(List<InformeDTO> informes) {
+    public void setInformes(List<OrganizacionDTO> informes) {
         this.informes = informes;
     }
 }

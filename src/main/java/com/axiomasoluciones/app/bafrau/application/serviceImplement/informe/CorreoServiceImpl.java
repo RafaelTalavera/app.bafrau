@@ -1,11 +1,10 @@
 package com.axiomasoluciones.app.bafrau.application.serviceImplement.informe;
 
-import com.axiomasoluciones.app.bafrau.application.dto.informe.CorreoDTO;
-import com.axiomasoluciones.app.bafrau.application.mappers.informe.CorreoMapper;
-import com.axiomasoluciones.app.bafrau.domain.entities.informe.Correo;
-import com.axiomasoluciones.app.bafrau.domain.entities.informe.Telefono;
-import com.axiomasoluciones.app.bafrau.domain.repository.informe.CorreoRepository;
-import com.axiomasoluciones.app.bafrau.domain.services.informe.ICorreoService;
+import com.axiomasoluciones.app.bafrau.application.dto.organizacion.CorreoDTO;
+import com.axiomasoluciones.app.bafrau.application.mappers.organizacion.CorreoMapper;
+import com.axiomasoluciones.app.bafrau.domain.entities.organizacion.Correo;
+import com.axiomasoluciones.app.bafrau.domain.repository.organizacion.CorreoRepository;
+import com.axiomasoluciones.app.bafrau.domain.services.organizacion.ICorreoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -64,8 +63,8 @@ public class CorreoServiceImpl implements ICorreoService {
     }
 
     @Override
-    public List<CorreoDTO> getCorreosByInformeId(Long informeId) {
-        List<Correo> correos = correoRepository.findByInformeId(informeId);
+    public List<CorreoDTO> getCorreosByOrganizacionId(Long organizacionId) {
+        List<Correo> correos = correoRepository.findByOrganizacionId(organizacionId);
         return correos.stream()
                 .map(correoMapper::toDto)
                 .collect(Collectors.toList());

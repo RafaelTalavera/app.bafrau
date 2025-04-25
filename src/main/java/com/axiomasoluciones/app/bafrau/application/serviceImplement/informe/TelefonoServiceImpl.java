@@ -1,11 +1,10 @@
 package com.axiomasoluciones.app.bafrau.application.serviceImplement.informe;
 
-import com.axiomasoluciones.app.bafrau.application.dto.informe.TelefonoDTO;
-import com.axiomasoluciones.app.bafrau.application.mappers.informe.TelefonoMapper;
-import com.axiomasoluciones.app.bafrau.domain.entities.informe.NominaEmpleados;
-import com.axiomasoluciones.app.bafrau.domain.entities.informe.Telefono;
-import com.axiomasoluciones.app.bafrau.domain.repository.informe.ITelefonoRepository;
-import com.axiomasoluciones.app.bafrau.domain.services.informe.ITelefonoService;
+import com.axiomasoluciones.app.bafrau.application.dto.organizacion.TelefonoDTO;
+import com.axiomasoluciones.app.bafrau.application.mappers.organizacion.TelefonoMapper;
+import com.axiomasoluciones.app.bafrau.domain.entities.organizacion.Telefono;
+import com.axiomasoluciones.app.bafrau.domain.repository.organizacion.TelefonoRepository;
+import com.axiomasoluciones.app.bafrau.domain.services.organizacion.ITelefonoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -17,7 +16,7 @@ import java.util.stream.Collectors;
 public class TelefonoServiceImpl implements ITelefonoService {
 
     @Autowired
-    private ITelefonoRepository telefonoRepository;
+    private TelefonoRepository telefonoRepository;
 
     @Autowired
     private TelefonoMapper telefonoMapper;
@@ -64,8 +63,8 @@ public class TelefonoServiceImpl implements ITelefonoService {
     }
 
     @Override
-    public List<TelefonoDTO> getTelefonosByInformeId(Long informeId) {
-        List<Telefono> telefonos = telefonoRepository.findByInformeId(informeId);
+    public List<TelefonoDTO> getTelefonosByOrganizacionId(Long organizacionId) {
+        List<Telefono> telefonos = telefonoRepository.findByOrganizacionId(organizacionId);
         return telefonos.stream()
                 .map(telefonoMapper::toDto)
                 .collect(Collectors.toList());

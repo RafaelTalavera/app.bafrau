@@ -3,7 +3,6 @@ package com.axiomasoluciones.app.bafrau.application.serviceImplement.matriz;
 import com.axiomasoluciones.app.bafrau.application.dto.matriz.FactorDTO;
 import com.axiomasoluciones.app.bafrau.application.mappers.matriz.FactorMapper;
 import com.axiomasoluciones.app.bafrau.domain.entities.matriz.Factor;
-
 import com.axiomasoluciones.app.bafrau.domain.repository.matriz.FactorRepository;
 import com.axiomasoluciones.app.bafrau.domain.services.matriz.IFactorService;
 import org.springframework.stereotype.Service;
@@ -18,7 +17,8 @@ public class FactorServiceImpl implements IFactorService {
     private final FactorRepository factorRepository;
     private final FactorMapper factorMapper;
 
-    public FactorServiceImpl(FactorRepository factorRepository, FactorMapper factorMapper) {
+    public FactorServiceImpl(FactorRepository factorRepository,
+                             FactorMapper factorMapper) {
         this.factorRepository = factorRepository;
         this.factorMapper = factorMapper;
     }
@@ -48,8 +48,11 @@ public class FactorServiceImpl implements IFactorService {
         Factor factor = factorRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Factor no encontrado con ID: " + id));
 
-        factor.setClasificacion(factorDTO.getClasificacion());
-        factor.setTipo(factorDTO.getTipo());
+        // Actualizo los campos según la entidad Factor real
+        factor.setMedio(factorDTO.getMedio());
+        factor.setFactor(factorDTO.getFactor());
+        factor.setComponente(factorDTO.getComponente());
+
         return factorMapper.toFactorDTO(factorRepository.save(factor));
     }
 

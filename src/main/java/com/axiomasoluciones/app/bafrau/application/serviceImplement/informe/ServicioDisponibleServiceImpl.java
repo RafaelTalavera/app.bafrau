@@ -1,10 +1,10 @@
 package com.axiomasoluciones.app.bafrau.application.serviceImplement.informe;
 
-import com.axiomasoluciones.app.bafrau.application.dto.informe.ServicioDisponibleDTO;
-import com.axiomasoluciones.app.bafrau.application.mappers.informe.ServicioDisponibleMapper;
-import com.axiomasoluciones.app.bafrau.domain.entities.informe.ServicioDisponible;
-import com.axiomasoluciones.app.bafrau.domain.repository.informe.IServicioDisponibleRepository;
-import com.axiomasoluciones.app.bafrau.domain.services.informe.IServicioDisponibleService;
+import com.axiomasoluciones.app.bafrau.application.dto.organizacion.ServicioDisponibleDTO;
+import com.axiomasoluciones.app.bafrau.application.mappers.organizacion.ServicioDisponibleMapper;
+import com.axiomasoluciones.app.bafrau.domain.entities.organizacion.ServicioDisponible;
+import com.axiomasoluciones.app.bafrau.domain.repository.organizacion.IServicioDisponibleRepository;
+import com.axiomasoluciones.app.bafrau.domain.services.organizacion.IServicioDisponibleService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -63,8 +63,8 @@ public class ServicioDisponibleServiceImpl implements IServicioDisponibleService
     }
 
     @Override
-    public List<ServicioDisponibleDTO> getServicioDisponibleByInformeId(Long informeId) {
-        List<ServicioDisponible> servicios = servicioDisponibleRepository.findByInformeId(informeId);
+    public List<ServicioDisponibleDTO> getServicioDisponibleByOrganizacionId(Long organizacionId) {
+        List<ServicioDisponible> servicios = servicioDisponibleRepository.findByOrganizacionId(organizacionId);
         return servicios.stream()
                 .map(servicioDisponibleMapper::toDto)
                 .collect(Collectors.toList());

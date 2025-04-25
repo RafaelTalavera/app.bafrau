@@ -1,6 +1,6 @@
 package com.axiomasoluciones.app.bafrau.domain.entities.capitulo;
 
-import com.axiomasoluciones.app.bafrau.domain.entities.informe.Informe;
+import com.axiomasoluciones.app.bafrau.domain.entities.organizacion.Organizacion;
 import com.axiomasoluciones.app.bafrau.domain.entities.seccion.Seccion;
 import jakarta.persistence.*;
 
@@ -20,8 +20,8 @@ public class Capitulo {
     private Integer orden;
 
     @ManyToOne
-    @JoinColumn(name = "informe_id")
-    private Informe informe;
+    @JoinColumn(name = "organizacion_id")
+    private Organizacion organizacion;
 
     @OneToMany(mappedBy = "capitulo", cascade = CascadeType.ALL)
     private List<Seccion> secciones;
@@ -29,13 +29,13 @@ public class Capitulo {
     public Capitulo() {
     }
 
-    public Capitulo(Long id, String identificacion, String titulo, String descripcion, Integer orden, Informe informe, List<Seccion> secciones) {
+    public Capitulo(Long id, String identificacion, String titulo, String descripcion, Integer orden, Organizacion organizacion, List<Seccion> secciones) {
         this.id = id;
         this.identificacion = identificacion;
         this.titulo = titulo;
         this.descripcion = descripcion;
         this.orden = orden;
-        this.informe = informe;
+        this.organizacion = organizacion;
         this.secciones = secciones;
     }
 
@@ -45,6 +45,14 @@ public class Capitulo {
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public String getIdentificacion() {
+        return identificacion;
+    }
+
+    public void setIdentificacion(String identificacion) {
+        this.identificacion = identificacion;
     }
 
     public String getTitulo() {
@@ -71,12 +79,12 @@ public class Capitulo {
         this.orden = orden;
     }
 
-    public Informe getInforme() {
-        return informe;
+    public Organizacion getOrganizacion() {
+        return organizacion;
     }
 
-    public void setInforme(Informe informe) {
-        this.informe = informe;
+    public void setOrganizacion(Organizacion organizacion) {
+        this.organizacion = organizacion;
     }
 
     public List<Seccion> getSecciones() {
@@ -85,13 +93,5 @@ public class Capitulo {
 
     public void setSecciones(List<Seccion> secciones) {
         this.secciones = secciones;
-    }
-
-    public String getIdentificacion() {
-        return identificacion;
-    }
-
-    public void setIdentificacion(String identificacion) {
-        this.identificacion = identificacion;
     }
 }

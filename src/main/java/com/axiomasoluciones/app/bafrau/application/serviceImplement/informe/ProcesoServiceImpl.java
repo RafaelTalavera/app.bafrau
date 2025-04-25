@@ -1,13 +1,12 @@
 package com.axiomasoluciones.app.bafrau.application.serviceImplement.informe;
 
-import com.axiomasoluciones.app.bafrau.application.dto.informe.ProcesoDTO;
-import com.axiomasoluciones.app.bafrau.application.mappers.informe.ProcesoMapper;
-import com.axiomasoluciones.app.bafrau.domain.entities.informe.Informe;
-import com.axiomasoluciones.app.bafrau.domain.entities.informe.Proceso;
-import com.axiomasoluciones.app.bafrau.domain.entities.informe.Telefono;
-import com.axiomasoluciones.app.bafrau.domain.repository.informe.InformeRepository;
-import com.axiomasoluciones.app.bafrau.domain.repository.informe.ProcesoRepository;
-import com.axiomasoluciones.app.bafrau.domain.services.informe.ProcesoService;
+import com.axiomasoluciones.app.bafrau.application.dto.organizacion.ProcesoDTO;
+import com.axiomasoluciones.app.bafrau.application.mappers.organizacion.ProcesoMapper;
+import com.axiomasoluciones.app.bafrau.domain.entities.organizacion.Organizacion;
+import com.axiomasoluciones.app.bafrau.domain.entities.organizacion.Proceso;
+import com.axiomasoluciones.app.bafrau.domain.repository.organizacion.OrganizacionRepository;
+import com.axiomasoluciones.app.bafrau.domain.repository.organizacion.ProcesoRepository;
+import com.axiomasoluciones.app.bafrau.domain.services.organizacion.ProcesoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -22,7 +21,7 @@ public class ProcesoServiceImpl implements ProcesoService {
     private ProcesoRepository procesoRepository;
 
     @Autowired
-    private InformeRepository informeRepository;
+    private OrganizacionRepository organizacionRepository;
 
 
     @Autowired
@@ -44,21 +43,16 @@ public class ProcesoServiceImpl implements ProcesoService {
 
     @Override
     public ProcesoDTO save(ProcesoDTO procesoDTO) {
-        if (procesoDTO.getInformeId() == null) {
+        if (procesoDTO.getOrganizacionId() == null) {
             throw new IllegalArgumentException("El ID del informe es obligatorio para crear un proceso.");
         }
-
-        // Aquí es donde debes buscar el informe relacionado con el informeId
-        Informe informe = informeRepository.findById(procesoDTO.getInformeId())
-                .orElseThrow(() -> new IllegalArgumentException("Informe no encontrado con ID: " + procesoDTO.getInformeId()));
-
+        Organizacion organizacion = organizacionRepository.findById(procesoDTO.getOrganizacionId())
+                .orElseThrow(() -> new IllegalArgumentException("Informe no encontrado con ID: " + procesoDTO.getOrganizacionId()));
         Proceso proceso = procesoMapper.toProceso(procesoDTO);
-        proceso.setInforme(informe); // Asignar el informe relacionado
-
+        proceso.setOrganizacion(organizacion);
         Proceso savedProceso = procesoRepository.save(proceso);
         return procesoMapper.toProcesoDTO(savedProceso);
     }
-
 
 
     @Override
@@ -73,8 +67,6 @@ public class ProcesoServiceImpl implements ProcesoService {
         proceso.setAcopioResiduos(procesoDTO.getAcopioResiduos());
         proceso.setSitioResiduos(procesoDTO.getSitioResiduos());
         proceso.setRecipienteResiduos(procesoDTO.getRecipienteResiduos());
-        proceso.setResiduosLiquidos(procesoDTO.getResiduosLiquidos());
-        // Actualizar más campos según sea necesario
 
         Proceso updatedProceso = procesoRepository.save(proceso);
         return procesoMapper.toProcesoDTO(updatedProceso);
@@ -89,8 +81,8 @@ public class ProcesoServiceImpl implements ProcesoService {
     }
 
     @Override
-    public List<ProcesoDTO> getProcesoByInformeId(Long informeId) {
-        List<Proceso> procesos = procesoRepository.findByInformeId(informeId);
+    public List<ProcesoDTO> getProcesoByOrganizacionId(Long organizacionId) {
+        List<Proceso> procesos = procesoRepository.findByOrganizacionId(organizacionId);
         return procesos.stream()
                 .map(procesoMapper::toProcesoDTO)
                 .collect(Collectors.toList());

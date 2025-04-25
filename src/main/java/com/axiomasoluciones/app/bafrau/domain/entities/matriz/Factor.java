@@ -11,16 +11,12 @@ public class Factor {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private String clasificacion;
-    private String tipo;
+    private String medio;
+    private String factor;
+    private String componente;
+
 
     public Factor() {
-    }
-
-    public Factor(Long id, String clasificacion, String tipo) {
-        this.id = id;
-        this.clasificacion = clasificacion;
-        this.tipo = tipo;
     }
 
     public Long getId() {
@@ -31,19 +27,27 @@ public class Factor {
         this.id = id;
     }
 
-    public String getClasificacion() {
-        return clasificacion;
+    public String getMedio() {
+        return medio;
     }
 
-    public void setClasificacion(String clasificacion) {
-        this.clasificacion = clasificacion;
+    public void setMedio(String medio) {
+        this.medio = medio;
     }
 
-    public String getTipo() {
-        return tipo;
+    public String getFactor() {
+        return factor;
     }
 
-    public void setTipo(String tipo) {
-        this.tipo = tipo;
+    public void setFactor(String factor) {
+        this.factor = factor;
+    }
+
+    public String getComponente() {
+        return componente;
+    }
+
+    public void setComponente(String componente) {
+        this.componente = componente;
     }
 }

@@ -3,9 +3,9 @@ package com.axiomasoluciones.app.bafrau.application.serviceImplement.capitulo;
 import com.axiomasoluciones.app.bafrau.application.dto.capitulo.CapituloDTO;
 import com.axiomasoluciones.app.bafrau.application.mappers.capitulo.CapituloMapper;
 import com.axiomasoluciones.app.bafrau.domain.entities.capitulo.Capitulo;
-import com.axiomasoluciones.app.bafrau.domain.entities.informe.Informe;
+import com.axiomasoluciones.app.bafrau.domain.entities.organizacion.Organizacion;
 import com.axiomasoluciones.app.bafrau.domain.repository.capitulo.CapituloRepository;
-import com.axiomasoluciones.app.bafrau.domain.repository.informe.InformeRepository;
+import com.axiomasoluciones.app.bafrau.domain.repository.organizacion.OrganizacionRepository;
 import com.axiomasoluciones.app.bafrau.domain.services.capitulo.ICapituloService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -22,19 +22,17 @@ public class CapituloServiceImplement implements ICapituloService {
     private CapituloRepository capituloRepository;
 
     @Autowired
-    private InformeRepository informeRepository;
+    private OrganizacionRepository organizacionRepository;
 
     @Autowired
     private CapituloMapper capituloMapper;
 
     @Override
     public List<CapituloDTO> findAll() {
-        // Convertir el Iterable en una List
         List<Capitulo> capitulos = StreamSupport
                 .stream(capituloRepository.findAll().spliterator(), false)
                 .collect(Collectors.toList());
 
-        // Mapear los Capitulo a CapituloDTO
         return capitulos.stream()
                 .map(capituloMapper::toCapituloDTO)
                 .collect(Collectors.toList());
@@ -48,12 +46,11 @@ public class CapituloServiceImplement implements ICapituloService {
 
     @Override
     public CapituloDTO create(CapituloDTO capituloDTO) {
-        // Asegurarse de que el capítulo esté asociado a un informe existente
-        Long informeId = capituloDTO.getInforme().getId(); // Obtener el informeId directamente desde el DTO
-        Optional<Informe> informe = informeRepository.findById(informeId);
-        if (informe.isPresent()) {
+        Long organizacionId = capituloDTO.getOrganizacion().getId();
+        Optional<Organizacion> organizacion = organizacionRepository.findById(organizacionId);
+        if (organizacion.isPresent()) {
             Capitulo capitulo = capituloMapper.toCapitulo(capituloDTO);
-            capitulo.setInforme(informe.get());  // Asociar capítulo a informe
+            capitulo.setOrganizacion(organizacion.get());
             Capitulo savedCapitulo = capituloRepository.save(capitulo);
             return capituloMapper.toCapituloDTO(savedCapitulo);
         }
@@ -67,10 +64,9 @@ public class CapituloServiceImplement implements ICapituloService {
             Capitulo capitulo = capituloMapper.toCapitulo(capituloDTO);
             capitulo.setId(id);
 
-            // Verificar si el informe también necesita actualización
-            Long informeId = capituloDTO.getInforme().getId();
-            Optional<Informe> informe = informeRepository.findById(informeId);
-            informe.ifPresent(capitulo::setInforme);
+            Long informeId = capituloDTO.getOrganizacion().getId();
+            Optional<Organizacion> organizacion = organizacionRepository.findById(informeId);
+            organizacion.ifPresent(capitulo::setOrganizacion);
 
             Capitulo updatedCapitulo = capituloRepository.save(capitulo);
             return capituloMapper.toCapituloDTO(updatedCapitulo);

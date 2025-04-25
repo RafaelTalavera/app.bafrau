@@ -1,13 +1,12 @@
 package com.axiomasoluciones.app.bafrau.application.serviceImplement.informe;
 
-import com.axiomasoluciones.app.bafrau.application.dto.informe.InsumoDTO;
-import com.axiomasoluciones.app.bafrau.application.mappers.informe.InsumoMapper;
-import com.axiomasoluciones.app.bafrau.domain.entities.informe.Insumo;
-import com.axiomasoluciones.app.bafrau.domain.entities.informe.Proceso;
-import com.axiomasoluciones.app.bafrau.domain.entities.informe.Telefono;
-import com.axiomasoluciones.app.bafrau.domain.repository.informe.InsumoRepository;
-import com.axiomasoluciones.app.bafrau.domain.repository.informe.ProcesoRepository;
-import com.axiomasoluciones.app.bafrau.domain.services.informe.InsumoService;
+import com.axiomasoluciones.app.bafrau.application.dto.organizacion.InsumoDTO;
+import com.axiomasoluciones.app.bafrau.application.mappers.organizacion.InsumoMapper;
+import com.axiomasoluciones.app.bafrau.domain.entities.organizacion.Insumo;
+import com.axiomasoluciones.app.bafrau.domain.entities.organizacion.Proceso;
+import com.axiomasoluciones.app.bafrau.domain.repository.organizacion.InsumoRepository;
+import com.axiomasoluciones.app.bafrau.domain.repository.organizacion.ProcesoRepository;
+import com.axiomasoluciones.app.bafrau.domain.services.organizacion.InsumoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -90,8 +89,8 @@ public class InsumoServiceImpl implements InsumoService {
     }
 
     @Override
-    public List<InsumoDTO> getInsumoByInformeId(Long informeId) {
-        List<Insumo> insumos = insumoRepository.findByProcesoInformeId(informeId);
+    public List<InsumoDTO> getInsumoByOrganizacionId(Long organizacionId) {
+        List<Insumo> insumos = insumoRepository.findByProcesoOrganizacionId(organizacionId);
         return insumos.stream()
                 .map(insumoMapper::toInsumoDTO)
                 .collect(Collectors.toList());
