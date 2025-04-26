@@ -9,7 +9,8 @@ public class ItemMatriz {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
+    private String etapa;
+    private String razonSocial;
     private int naturaleza;
     private int intensidad;
     private int extension;
@@ -22,6 +23,8 @@ public class ItemMatriz {
     private int periodicidad;
     private int recuperacion;
     private int uIP;
+    private int magnitude;
+    private int importance;
 
     @ManyToOne(fetch=FetchType.LAZY)
     @JoinColumn(name = "accion_id")
@@ -38,8 +41,10 @@ public class ItemMatriz {
     public ItemMatriz() {
     }
 
-    public ItemMatriz(Long id, int naturaleza, int intensidad, int extension, int momento, int persistencia, int reversivilidad, int sinergia, int acumulacion, int efecto, int periodicidad, int recuperacion, int uIP, Accion accion, Factor factor, Matriz matriz) {
+    public ItemMatriz(Long id, String etapa, String razonSocial, int naturaleza, int intensidad, int extension, int momento, int persistencia, int reversivilidad, int sinergia, int acumulacion, int efecto, int periodicidad, int recuperacion, int uIP, int magnitude, int importance, Accion accion, Factor factor, Matriz matriz) {
         this.id = id;
+        this.etapa = etapa;
+        this.razonSocial = razonSocial;
         this.naturaleza = naturaleza;
         this.intensidad = intensidad;
         this.extension = extension;
@@ -52,6 +57,8 @@ public class ItemMatriz {
         this.periodicidad = periodicidad;
         this.recuperacion = recuperacion;
         this.uIP = uIP;
+        this.magnitude = magnitude;
+        this.importance = importance;
         this.accion = accion;
         this.factor = factor;
         this.matriz = matriz;
@@ -63,6 +70,22 @@ public class ItemMatriz {
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public String getEtapa() {
+        return etapa;
+    }
+
+    public void setEtapa(String etapa) {
+        this.etapa = etapa;
+    }
+
+    public String getRazonSocial() {
+        return razonSocial;
+    }
+
+    public void setRazonSocial(String razonSocial) {
+        this.razonSocial = razonSocial;
     }
 
     public int getNaturaleza() {
@@ -159,6 +182,22 @@ public class ItemMatriz {
 
     public void setuIP(int uIP) {
         this.uIP = uIP;
+    }
+
+    public int getMagnitude() {
+        return magnitude;
+    }
+
+    public void setMagnitude(int magnitude) {
+        this.magnitude = magnitude;
+    }
+
+    public int getImportance() {
+        return importance;
+    }
+
+    public void setImportance(int importance) {
+        this.importance = importance;
     }
 
     public Accion getAccion() {

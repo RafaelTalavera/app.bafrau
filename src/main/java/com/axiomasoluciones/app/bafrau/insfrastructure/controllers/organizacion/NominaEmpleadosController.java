@@ -20,6 +20,7 @@ public class NominaEmpleadosController {
     }
 
     @GetMapping
+    @CrossOrigin(origins = "*", allowedHeaders = "*")
     public ResponseEntity<List<NominaEmpleadosDTO>> getAllNominaEmpleados() {
         List<NominaEmpleadosDTO> nominaEmpleadosList = nominaEmpleadosService.getAllNominaEmpleados();
         return ResponseEntity.ok(nominaEmpleadosList);
