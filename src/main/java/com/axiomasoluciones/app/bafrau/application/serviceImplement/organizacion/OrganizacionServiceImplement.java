@@ -1,4 +1,4 @@
-package com.axiomasoluciones.app.bafrau.application.serviceImplement.informe;
+package com.axiomasoluciones.app.bafrau.application.serviceImplement.organizacion;
 
 import com.axiomasoluciones.app.bafrau.application.dto.organizacion.OrganizacionDTO;
 import com.axiomasoluciones.app.bafrau.application.mappers.organizacion.OrganizacionMapper;
@@ -141,6 +141,14 @@ public class OrganizacionServiceImplement implements OrganizacionService {
                     dto.setRazonSocial((String) obj[1]);
                     return dto;
                 })
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    public List<OrganizacionDTO> findByTipoDeContrato(String tipoDeContrato) {
+        List<Organizacion> list = organizacionRepository.findAllByTipoDeContrato(tipoDeContrato);
+        return list.stream()
+                .map(organizacionMapper::toOrganizacionDTO)
                 .collect(Collectors.toList());
     }
 

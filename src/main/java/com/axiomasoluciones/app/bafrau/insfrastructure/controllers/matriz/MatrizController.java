@@ -1,5 +1,6 @@
 package com.axiomasoluciones.app.bafrau.insfrastructure.controllers.matriz;
 
+import com.axiomasoluciones.app.bafrau.application.dto.matriz.ItemUIPUpdateDTO;
 import com.axiomasoluciones.app.bafrau.application.dto.matriz.MatrizDTO;
 import com.axiomasoluciones.app.bafrau.domain.services.matriz.IMatrizService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,7 +11,7 @@ import java.util.List;
 import java.util.Optional;
 
 @RestController
-@RequestMapping("/matrices")
+@RequestMapping("/api/matrices")
 @CrossOrigin(origins = "*", allowedHeaders = "*")
 public class MatrizController {
 
@@ -18,9 +19,9 @@ public class MatrizController {
     private IMatrizService matrizService;
 
     @GetMapping
-    public ResponseEntity<List<MatrizDTO>> getAllMatrices() {
-        List<MatrizDTO> matrices = matrizService.findAll();
-        return ResponseEntity.ok(matrices);
+    public ResponseEntity<List<MatrizDTO>> getAll() {
+        List<MatrizDTO> list = matrizService.findAll();
+        return ResponseEntity.ok(list);
     }
 
     @GetMapping("/{id}")
@@ -46,4 +47,13 @@ public class MatrizController {
         matrizService.deleteById(id);
         return ResponseEntity.noContent().build();
     }
+
+    @PutMapping("/{id}/uip")
+    public ResponseEntity<MatrizDTO> updateUIP(
+            @PathVariable Long id,
+            @RequestBody List<ItemUIPUpdateDTO> updates) {
+        MatrizDTO updated = matrizService.updateUIP(id, updates);
+        return ResponseEntity.ok(updated);
+    }
+
 }

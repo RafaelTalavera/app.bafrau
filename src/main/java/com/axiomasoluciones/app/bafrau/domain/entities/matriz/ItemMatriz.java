@@ -11,7 +11,7 @@ public class ItemMatriz {
     private Long id;
     private String etapa;
     private String razonSocial;
-    private int naturaleza;
+    private String naturaleza;
     private int intensidad;
     private int extension;
     private int momento;
@@ -22,7 +22,7 @@ public class ItemMatriz {
     private int efecto;
     private int periodicidad;
     private int recuperacion;
-    private int uIP;
+    private int uip;
     private int magnitude;
     private int importance;
 
@@ -41,7 +41,7 @@ public class ItemMatriz {
     public ItemMatriz() {
     }
 
-    public ItemMatriz(Long id, String etapa, String razonSocial, int naturaleza, int intensidad, int extension, int momento, int persistencia, int reversivilidad, int sinergia, int acumulacion, int efecto, int periodicidad, int recuperacion, int uIP, int magnitude, int importance, Accion accion, Factor factor, Matriz matriz) {
+    public ItemMatriz(Long id, String etapa, String razonSocial, String naturaleza, int intensidad, int extension, int momento, int persistencia, int reversivilidad, int sinergia, int acumulacion, int efecto, int periodicidad, int recuperacion, int uip, int magnitude, int importance, Accion accion, Factor factor, Matriz matriz) {
         this.id = id;
         this.etapa = etapa;
         this.razonSocial = razonSocial;
@@ -56,7 +56,7 @@ public class ItemMatriz {
         this.efecto = efecto;
         this.periodicidad = periodicidad;
         this.recuperacion = recuperacion;
-        this.uIP = uIP;
+        this.uip = uip;
         this.magnitude = magnitude;
         this.importance = importance;
         this.accion = accion;
@@ -88,11 +88,11 @@ public class ItemMatriz {
         this.razonSocial = razonSocial;
     }
 
-    public int getNaturaleza() {
+    public String getNaturaleza() {
         return naturaleza;
     }
 
-    public void setNaturaleza(int naturaleza) {
+    public void setNaturaleza(String naturaleza) {
         this.naturaleza = naturaleza;
     }
 
@@ -176,12 +176,12 @@ public class ItemMatriz {
         this.recuperacion = recuperacion;
     }
 
-    public int getuIP() {
-        return uIP;
+    public int getUip() {
+        return uip;
     }
 
-    public void setuIP(int uIP) {
-        this.uIP = uIP;
+    public void setUip(int uip) {
+        this.uip = uip;
     }
 
     public int getMagnitude() {

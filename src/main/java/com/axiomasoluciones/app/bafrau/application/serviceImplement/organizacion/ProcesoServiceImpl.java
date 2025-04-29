@@ -1,4 +1,4 @@
-package com.axiomasoluciones.app.bafrau.application.serviceImplement.informe;
+package com.axiomasoluciones.app.bafrau.application.serviceImplement.organizacion;
 
 import com.axiomasoluciones.app.bafrau.application.dto.organizacion.ProcesoDTO;
 import com.axiomasoluciones.app.bafrau.application.mappers.organizacion.ProcesoMapper;

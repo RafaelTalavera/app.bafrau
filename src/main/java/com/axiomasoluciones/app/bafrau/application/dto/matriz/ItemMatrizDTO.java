@@ -4,7 +4,7 @@ public class ItemMatrizDTO {
     private Long id;
     private String etapa;
     private String razonSocial;
-    private int naturaleza;
+    private String naturaleza;
     private int intensidad;
     private int extension;
     private int momento;
@@ -15,7 +15,7 @@ public class ItemMatrizDTO {
     private int efecto;
     private int periodicidad;
     private int recuperacion;
-    private int uIP;
+    private int uip;
     private Long accionId;
     private Long factorId;
     private Long matrizId;
@@ -24,11 +24,11 @@ public class ItemMatrizDTO {
     private String factorComponente;
     private int magnitude;
     private int importance;
-
+    private String accionTipo;
 
     public ItemMatrizDTO() {}
 
-    public ItemMatrizDTO(Long id, String etapa, String razonSocial, int naturaleza, int intensidad, int extension, int momento, int persistencia, int reversivilidad, int sinergia, int acumulacion, int efecto, int periodicidad, int recuperacion, int uIP, Long accionId, Long factorId, Long matrizId, String factorMedio, String factorFactor, String factorComponente, int magnitude, int importance) {
+    public ItemMatrizDTO(Long id, String etapa, String razonSocial, String naturaleza, int intensidad, int extension, int momento, int persistencia, int reversivilidad, int sinergia, int acumulacion, int efecto, int periodicidad, int recuperacion, int uip, Long accionId, Long factorId, Long matrizId, String factorMedio, String factorFactor, String factorComponente, int magnitude, int importance, String accionTipo) {
         this.id = id;
         this.etapa = etapa;
         this.razonSocial = razonSocial;
@@ -43,7 +43,7 @@ public class ItemMatrizDTO {
         this.efecto = efecto;
         this.periodicidad = periodicidad;
         this.recuperacion = recuperacion;
-        this.uIP = uIP;
+        this.uip = uip;
         this.accionId = accionId;
         this.factorId = factorId;
         this.matrizId = matrizId;
@@ -52,6 +52,7 @@ public class ItemMatrizDTO {
         this.factorComponente = factorComponente;
         this.magnitude = magnitude;
         this.importance = importance;
+        this.accionTipo = accionTipo;
     }
 
     public Long getId() {
@@ -78,11 +79,11 @@ public class ItemMatrizDTO {
         this.razonSocial = razonSocial;
     }
 
-    public int getNaturaleza() {
+    public String getNaturaleza() {
         return naturaleza;
     }
 
-    public void setNaturaleza(int naturaleza) {
+    public void setNaturaleza(String naturaleza) {
         this.naturaleza = naturaleza;
     }
 
@@ -166,12 +167,12 @@ public class ItemMatrizDTO {
         this.recuperacion = recuperacion;
     }
 
-    public int getuIP() {
-        return uIP;
+    public int getUip() {
+        return uip;
     }
 
-    public void setuIP(int uIP) {
-        this.uIP = uIP;
+    public void setUip(int uip) {
+        this.uip = uip;
     }
 
     public Long getAccionId() {
@@ -236,5 +237,13 @@ public class ItemMatrizDTO {
 
     public void setImportance(int importance) {
         this.importance = importance;
+    }
+
+    public String getAccionTipo() {
+        return accionTipo;
+    }
+
+    public void setAccionTipo(String accionTipo) {
+        this.accionTipo = accionTipo;
     }
 }

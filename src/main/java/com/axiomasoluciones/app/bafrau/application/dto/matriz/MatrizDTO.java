@@ -6,48 +6,67 @@ import java.util.List;
 public class MatrizDTO {
     private Long id;
     private LocalDate fecha;
-    private String direccion;
-    private String rubro;
     private Long userId;
     private Long organizacionId;
     private List<ItemMatrizDTO> items;
+    private String organizacionNombre;
 
     public MatrizDTO() {}
 
-    public MatrizDTO(Long id,
-                     LocalDate fecha,
-                     String direccion,
-                     String rubro,
-                     Long userId,
-                     Long organizacionId,
-                     List<ItemMatrizDTO> items) {
+    public MatrizDTO(Long id, LocalDate fecha, Long userId, Long organizacionId, List<ItemMatrizDTO> items, String organizacionNombre) {
         this.id = id;
         this.fecha = fecha;
-        this.direccion = direccion;
-        this.rubro = rubro;
         this.userId = userId;
         this.organizacionId = organizacionId;
         this.items = items;
+        this.organizacionNombre = organizacionNombre;
     }
 
-    public Long getId() { return id; }
-    public void setId(Long id) { this.id = id; }
+    public Long getId() {
+        return id;
+    }
 
-    public LocalDate getFecha() { return fecha; }
-    public void setFecha(LocalDate fecha) { this.fecha = fecha; }
+    public void setId(Long id) {
+        this.id = id;
+    }
 
-    public String getDireccion() { return direccion; }
-    public void setDireccion(String direccion) { this.direccion = direccion; }
+    public LocalDate getFecha() {
+        return fecha;
+    }
 
-    public String getRubro() { return rubro; }
-    public void setRubro(String rubro) { this.rubro = rubro; }
+    public void setFecha(LocalDate fecha) {
+        this.fecha = fecha;
+    }
 
-    public Long getUserId() { return userId; }
-    public void setUserId(Long userId) { this.userId = userId; }
+    public Long getUserId() {
+        return userId;
+    }
 
-    public Long getOrganizacionId() { return organizacionId; }
-    public void setOrganizacionId(Long organizacionId) { this.organizacionId = organizacionId; }
+    public void setUserId(Long userId) {
+        this.userId = userId;
+    }
 
-    public List<ItemMatrizDTO> getItems() { return items; }
-    public void setItems(List<ItemMatrizDTO> items) { this.items = items; }
+    public Long getOrganizacionId() {
+        return organizacionId;
+    }
+
+    public void setOrganizacionId(Long organizacionId) {
+        this.organizacionId = organizacionId;
+    }
+
+    public List<ItemMatrizDTO> getItems() {
+        return items;
+    }
+
+    public void setItems(List<ItemMatrizDTO> items) {
+        this.items = items;
+    }
+
+    public String getOrganizacionNombre() {
+        return organizacionNombre;
+    }
+
+    public void setOrganizacionNombre(String organizacionNombre) {
+        this.organizacionNombre = organizacionNombre;
+    }
 }

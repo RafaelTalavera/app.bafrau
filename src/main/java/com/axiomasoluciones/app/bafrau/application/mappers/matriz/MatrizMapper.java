@@ -10,12 +10,12 @@ import org.mapstruct.Mapping;
         uses = { UserMapper.class, ItemMatrizMapper.class })
 public interface MatrizMapper {
 
-    @Mapping(source = "user.id", target = "userId")
+
     @Mapping(source = "organizacion.id", target = "organizacionId")
     @Mapping(source = "items", target = "items")
     MatrizDTO toMatrizDTO(Matriz matriz);
 
-    @Mapping(source = "userId", target = "user.id")
+
     @Mapping(source = "organizacionId", target = "organizacion.id")
     @Mapping(source = "items", target = "items")
     Matriz toMatriz(MatrizDTO matrizDTO);

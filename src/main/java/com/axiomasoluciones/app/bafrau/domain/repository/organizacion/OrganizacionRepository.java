@@ -15,4 +15,6 @@ public interface OrganizacionRepository extends CrudRepository<Organizacion, Lon
     @Query("SELECT i.id, i.razonSocial FROM Organizacion i")
     List<Object[]> findAllRazonesSociales();
 
+    List<Organizacion> findAllByTipoDeContrato(String tipoDeContrato);
+
 }

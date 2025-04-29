@@ -19,13 +19,6 @@ public class Matriz {
 
     private LocalDate fecha;
 
-    private String direccion;
-
-    private String rubro;
-
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "user_id")
-    private User user;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "organizacion_id")
@@ -38,12 +31,9 @@ public class Matriz {
     public Matriz() {
     }
 
-    public Matriz(Long id, LocalDate fecha, String direccion, String rubro, User user, Organizacion organizacion, List<ItemMatriz> items) {
+    public Matriz(Long id, LocalDate fecha, Organizacion organizacion, List<ItemMatriz> items) {
         this.id = id;
         this.fecha = fecha;
-        this.direccion = direccion;
-        this.rubro = rubro;
-        this.user = user;
         this.organizacion = organizacion;
         this.items = items;
     }
@@ -62,30 +52,6 @@ public class Matriz {
 
     public void setFecha(LocalDate fecha) {
         this.fecha = fecha;
-    }
-
-    public String getDireccion() {
-        return direccion;
-    }
-
-    public void setDireccion(String direccion) {
-        this.direccion = direccion;
-    }
-
-    public String getRubro() {
-        return rubro;
-    }
-
-    public void setRubro(String rubro) {
-        this.rubro = rubro;
-    }
-
-    public User getUser() {
-        return user;
-    }
-
-    public void setUser(User user) {
-        this.user = user;
     }
 
     public Organizacion getOrganizacion() {

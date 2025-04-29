@@ -34,9 +34,6 @@ public class User implements UserDetails {
     private String phone;
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<Matriz> impactAssessments;
-
-    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Organizacion> informe;
 
     @Enumerated(EnumType.STRING)
@@ -54,7 +51,7 @@ public class User implements UserDetails {
     public User() {
     }
 
-    public User(Long id, String username, String nombre, String lastname, String password, String dni, String organizacion, String titulo, String matriculaProvincia, String matriculaColegioNeuquen, String matriculaMunicipal, String address, String phone, List<Matriz> impactAssessments, List<Organizacion> informe, Role role) {
+    public User(Long id, String username, String nombre, String lastname, String password, String dni, String organizacion, String titulo, String matriculaProvincia, String matriculaColegioNeuquen, String matriculaMunicipal, String address, String phone, List<Organizacion> informe, Role role) {
         this.id = id;
         this.username = username;
         this.nombre = nombre;
@@ -68,7 +65,6 @@ public class User implements UserDetails {
         this.matriculaMunicipal = matriculaMunicipal;
         this.address = address;
         this.phone = phone;
-        this.impactAssessments = impactAssessments;
         this.informe = informe;
         this.role = role;
     }
@@ -179,12 +175,12 @@ public class User implements UserDetails {
         this.phone = phone;
     }
 
-    public List<Matriz> getImpactAssessments() {
-        return impactAssessments;
+    public List<Organizacion> getInforme() {
+        return informe;
     }
 
-    public void setImpactAssessments(List<Matriz> impactAssessments) {
-        this.impactAssessments = impactAssessments;
+    public void setInforme(List<Organizacion> informe) {
+        this.informe = informe;
     }
 
     public Role getRole() {
@@ -194,36 +190,6 @@ public class User implements UserDetails {
     public void setRole(Role role) {
         this.role = role;
     }
-
-    public List<Organizacion> getInforme() {
-        return informe;
-    }
-
-    public void setInforme(List<Organizacion> informe) {
-        this.informe = informe;
-    }
-
-    @Override
-    public boolean isAccountNonExpired() {
-        return true;
-    }
-
-    @Override
-    public boolean isAccountNonLocked() {
-        return true;
-    }
-
-    @Override
-    public boolean isCredentialsNonExpired() {
-        return true;
-    }
-
-    @Override
-    public boolean isEnabled() {
-        return true;
-    }
-
-
 }
 
 
