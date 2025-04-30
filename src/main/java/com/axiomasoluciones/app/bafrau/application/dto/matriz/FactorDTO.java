@@ -4,16 +4,18 @@ package com.axiomasoluciones.app.bafrau.application.dto.matriz;
 public class FactorDTO {
 
     private Long id;
-    private String medio;
+    private String sistema;
+    private String subsistema;
     private String factor;
     private String componente;
 
     public FactorDTO() {
     }
 
-    public FactorDTO(Long id, String medio, String factor, String componente) {
+    public FactorDTO(Long id, String sistema, String subsistema, String factor, String componente) {
         this.id = id;
-        this.medio = medio;
+        this.sistema = sistema;
+        this.subsistema = subsistema;
         this.factor = factor;
         this.componente = componente;
     }
@@ -26,12 +28,20 @@ public class FactorDTO {
         this.id = id;
     }
 
-    public String getMedio() {
-        return medio;
+    public String getSistema() {
+        return sistema;
     }
 
-    public void setMedio(String medio) {
-        this.medio = medio;
+    public void setSistema(String sistema) {
+        this.sistema = sistema;
+    }
+
+    public String getSubsistema() {
+        return subsistema;
+    }
+
+    public void setSubsistema(String subsistema) {
+        this.subsistema = subsistema;
     }
 
     public String getFactor() {

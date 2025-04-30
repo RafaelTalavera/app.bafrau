@@ -31,9 +31,10 @@ public interface ItemMatrizMapper {
     @Mapping(source = "factor.id",       target = "factorId")
     @Mapping(source = "matriz.id",       target = "matrizId")
     // datos extraídos de factor
-    @Mapping(source = "factor.medio",        target = "factorMedio")
-    @Mapping(source = "factor.factor",       target = "factorFactor")
-    @Mapping(source = "factor.componente",   target = "factorComponente")
+    @Mapping(source = "factor.sistema",        target = "factorSistema")
+    @Mapping(source = "factor.subsistema",     target = "factorSubsistema")
+    @Mapping(source = "factor.factor",         target = "factorFactor")
+    @Mapping(source = "factor.componente",     target = "factorComponente")
 
     @Mapping(source = "accion.tipo",     target = "accionTipo")
     ItemMatrizDTO toItemMatrizDTO(ItemMatriz item);

@@ -19,7 +19,8 @@ public class ItemMatrizDTO {
     private Long accionId;
     private Long factorId;
     private Long matrizId;
-    private String factorMedio;
+    private String factorSistema;
+    private String factorSubsistema;
     private String factorFactor;
     private String factorComponente;
     private int magnitude;
@@ -28,7 +29,7 @@ public class ItemMatrizDTO {
 
     public ItemMatrizDTO() {}
 
-    public ItemMatrizDTO(Long id, String etapa, String razonSocial, String naturaleza, int intensidad, int extension, int momento, int persistencia, int reversivilidad, int sinergia, int acumulacion, int efecto, int periodicidad, int recuperacion, int uip, Long accionId, Long factorId, Long matrizId, String factorMedio, String factorFactor, String factorComponente, int magnitude, int importance, String accionTipo) {
+    public ItemMatrizDTO(Long id, String etapa, String razonSocial, String naturaleza, int intensidad, int extension, int momento, int persistencia, int reversivilidad, int sinergia, int acumulacion, int efecto, int periodicidad, int recuperacion, int uip, Long accionId, Long factorId, Long matrizId, String factorSistema, String factorSubsistema, String factorFactor, String factorComponente, int magnitude, int importance, String accionTipo) {
         this.id = id;
         this.etapa = etapa;
         this.razonSocial = razonSocial;
@@ -47,7 +48,8 @@ public class ItemMatrizDTO {
         this.accionId = accionId;
         this.factorId = factorId;
         this.matrizId = matrizId;
-        this.factorMedio = factorMedio;
+        this.factorSistema = factorSistema;
+        this.factorSubsistema = factorSubsistema;
         this.factorFactor = factorFactor;
         this.factorComponente = factorComponente;
         this.magnitude = magnitude;
@@ -199,12 +201,20 @@ public class ItemMatrizDTO {
         this.matrizId = matrizId;
     }
 
-    public String getFactorMedio() {
-        return factorMedio;
+    public String getFactorSistema() {
+        return factorSistema;
     }
 
-    public void setFactorMedio(String factorMedio) {
-        this.factorMedio = factorMedio;
+    public void setFactorSistema(String factorSistema) {
+        this.factorSistema = factorSistema;
+    }
+
+    public String getFactorSubsistema() {
+        return factorSubsistema;
+    }
+
+    public void setFactorSubsistema(String factorSubsistema) {
+        this.factorSubsistema = factorSubsistema;
     }
 
     public String getFactorFactor() {

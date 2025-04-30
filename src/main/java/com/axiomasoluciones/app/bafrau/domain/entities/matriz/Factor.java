@@ -10,13 +10,19 @@ public class Factor {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
-    private String medio;
+    private String sistema;
+    private String subsistema;
     private String factor;
     private String componente;
-
-
     public Factor() {
+    }
+
+    public Factor(Long id, String sistema, String subsistema, String factor, String componente) {
+        this.id = id;
+        this.sistema = sistema;
+        this.subsistema = subsistema;
+        this.factor = factor;
+        this.componente = componente;
     }
 
     public Long getId() {
@@ -27,12 +33,20 @@ public class Factor {
         this.id = id;
     }
 
-    public String getMedio() {
-        return medio;
+    public String getSistema() {
+        return sistema;
     }
 
-    public void setMedio(String medio) {
-        this.medio = medio;
+    public void setSistema(String sistema) {
+        this.sistema = sistema;
+    }
+
+    public String getSubsistema() {
+        return subsistema;
+    }
+
+    public void setSubsistema(String subsistema) {
+        this.subsistema = subsistema;
     }
 
     public String getFactor() {

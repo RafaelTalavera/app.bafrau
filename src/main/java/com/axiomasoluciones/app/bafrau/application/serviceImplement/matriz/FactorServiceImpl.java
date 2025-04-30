@@ -48,13 +48,10 @@ public class FactorServiceImpl implements IFactorService {
         Factor factor = factorRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Factor no encontrado con ID: " + id));
 
-        // Actualizo los campos según la entidad Factor real
-        factor.setMedio(factorDTO.getMedio());
-        factor.setFactor(factorDTO.getFactor());
-        factor.setComponente(factorDTO.getComponente());
-
+        factorMapper.updateFromDto(factorDTO, factor);
         return factorMapper.toFactorDTO(factorRepository.save(factor));
     }
+
 
     @Override
     public void delete(Long id) {
