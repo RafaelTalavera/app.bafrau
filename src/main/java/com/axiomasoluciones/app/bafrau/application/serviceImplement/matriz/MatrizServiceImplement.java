@@ -19,7 +19,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.CollectionUtils;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
@@ -120,20 +122,28 @@ public class MatrizServiceImplement implements IMatrizService {
                     Matriz toSave = matrizMapper.toMatriz(matrizDTO);
                     toSave.setId(id);
 
-                    // 2) Vincular cada ItemMatriz con su padre
+                    // 2) Obtener la razón social de la organización actual
+                    String razon = existing.getOrganizacion().getRazonSocial();
+
+                    // 3) Vincular cada ItemMatriz con su padre y asignar la misma razón social
                     if (toSave.getItems() != null) {
-                        toSave.getItems().forEach(item -> item.setMatriz(toSave));
+                        toSave.getItems().forEach(item -> {
+                            item.setMatriz(toSave);
+                            item.setRazonSocial(razon);
+                        });
                     }
 
-                    // 3) Guardar en BD
+                    // 4) Guardar en BD
                     Matriz saved = matrizRepository.save(toSave);
-                    log.debug("✔ Entidad Matriz e Items vinculados y guardados para id={}", id);
+                    log.debug("✔ Matriz e ítems guardados para id={}", id);
 
-                    // 4) Mapear de vuelta a DTO y ajustar campos adicionales
+                    // 5) Mapear de vuelta a DTO
                     MatrizDTO dto = matrizMapper.toMatrizDTO(saved);
-                    dto.setOrganizacionNombre(saved.getOrganizacion().getRazonSocial());
 
-                    // 5) Forzar carga de items (si usas lazy loading)
+                    // 6) Ajustar nombre de organización en DTO (opcional)
+                    dto.setOrganizacionNombre(razon);
+
+                    // 7) Forzar carga de items (lazy)
                     dto.getItems().size();
 
                     log.info("✔ update completado para id={}", id);
@@ -144,6 +154,8 @@ public class MatrizServiceImplement implements IMatrizService {
                     return new IllegalArgumentException("Matriz no encontrada con id " + id);
                 });
     }
+
+
 
 
     @Override
@@ -157,16 +169,24 @@ public class MatrizServiceImplement implements IMatrizService {
         Matriz matriz = matrizRepository.findByIdWithItems(matrizId)
                 .orElseThrow(() -> new IllegalArgumentException("Matriz no encontrada: " + matrizId));
 
-        updates.forEach(dto -> {
-            System.out.println("DEBUG updateUIP dto: itemId=" + dto.getItemId() + ", uip=" + dto.getUip());
+        // 1. Mapa factorId → uip (Integer)
+        Map<Long, Integer> factorUipMap = new HashMap<>();
+        for (ItemUIPUpdateDTO dto : updates) {
             matriz.getItems().stream()
                     .filter(item -> item.getId().equals(dto.getItemId()))
                     .findFirst()
                     .ifPresent(item -> {
-                        System.out.println("  antes uIP=" + item.getUip());
-                        item.setUip(dto.getUip());
-                        System.out.println("  después uIP=" + item.getUip());
+                        Long factorId = item.getFactor().getId();
+                        factorUipMap.put(factorId, dto.getUip());  // dto.getUip() debe devolver Integer o int
                     });
+        }
+
+        // 2. Asignar a TODOS los items con el mismo factorId
+        matriz.getItems().forEach(item -> {
+            Integer nuevoUip = factorUipMap.get(item.getFactor().getId());
+            if (nuevoUip != null) {
+                item.setUip(nuevoUip);  // unboxing a int automático
+            }
         });
 
         Matriz saved = matrizRepository.save(matriz);
@@ -174,5 +194,7 @@ public class MatrizServiceImplement implements IMatrizService {
         result.setOrganizacionNombre(saved.getOrganizacion().getRazonSocial());
         return result;
     }
+
+
 
 }

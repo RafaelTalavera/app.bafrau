@@ -10,7 +10,7 @@ public interface ItemMatrizMapper {
 
     @Mapping(source = "id",             target = "id")
     @Mapping(source = "etapa",          target = "etapa")
-    @Mapping(source = "razonSocial",    target = "razonSocial")
+   // @Mapping(source = "razonSocial",    target = "razonSocial")
     @Mapping(source = "naturaleza",     target = "naturaleza")
     @Mapping(source = "intensidad",     target = "intensidad")
     @Mapping(source = "extension",      target = "extension")
@@ -35,6 +35,8 @@ public interface ItemMatrizMapper {
     @Mapping(source = "factor.subsistema",     target = "factorSubsistema")
     @Mapping(source = "factor.factor",         target = "factorFactor")
     @Mapping(source = "factor.componente",     target = "factorComponente")
+
+    @Mapping(source = "matriz.organizacion.razonSocial", target = "razonSocial")
 
     @Mapping(source = "accion.tipo",     target = "accionTipo")
     ItemMatrizDTO toItemMatrizDTO(ItemMatriz item);
