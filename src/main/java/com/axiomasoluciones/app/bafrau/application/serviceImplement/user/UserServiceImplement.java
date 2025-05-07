@@ -10,6 +10,7 @@ import com.axiomasoluciones.app.bafrau.domain.services.user.IUserService;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
+import jakarta.persistence.EntityNotFoundException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,7 +34,7 @@ public class UserServiceImplement implements IUserService {
     private PasswordEncoder passwordEncoder;
 
     @Autowired
-    private UserMapper userMapper; // Inyectar el UserMapper en lugar de instancia estática
+    private UserMapper userMapper;
 
     @Value("${security.jwt.secret-key}")
     private String SECRET_KEY;
@@ -56,11 +57,11 @@ public class UserServiceImplement implements IUserService {
     @Override
     public UserDTO createUser(UserDTO userRequestDTO) {
         String encodedPassword = passwordEncoder.encode(userRequestDTO.getPassword());
-        User newUser = userMapper.toUser(userRequestDTO); // Uso correcto del mapper
-        newUser.setPassword(encodedPassword); // Almacenar la contraseña codificada
+        User newUser = userMapper.toUser(userRequestDTO);
+        newUser.setPassword(encodedPassword);
         User savedUser = userDAO.save(newUser);
 
-        return userMapper.toUserDTO(savedUser); // Uso correcto del mapper
+        return userMapper.toUserDTO(savedUser);
     }
 
     @Override
@@ -76,26 +77,34 @@ public class UserServiceImplement implements IUserService {
     }
 
     @Override
-    public UserDTO editedUser(Long id, UserDTO editedUserRequestDTO) {
-        Optional<User> optionalUser = userDAO.findById(id);
-        if (optionalUser.isPresent()) {
-            User user = optionalUser.get();
-            user.setUsername(editedUserRequestDTO.getUsername());
-            user.setNombre(editedUserRequestDTO.getNombre());
-            user.setLastname(editedUserRequestDTO.getLastname());
-            user.setDni(editedUserRequestDTO.getDni());
+    public UserDTO editedUser(Long id, UserDTO dto) {
+        User user = userDAO.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException("Usuario no encontrado: " + id));
 
-            // Verificar si se está modificando la contraseña
-            if (editedUserRequestDTO.getPassword() != null && !editedUserRequestDTO.getPassword().isEmpty()) {
-                String encodedPassword = passwordEncoder.encode(editedUserRequestDTO.getPassword());
-                user.setPassword(encodedPassword);
-            }
+        // Campos simples
+        user.setUsername(dto.getUsername());
+        user.setNombre(dto.getNombre());
+        user.setLastname(dto.getLastname());
+        user.setDni(dto.getDni());
+        user.setOrganizacion(dto.getOrganizacion());
+        user.setTitulo(dto.getTitulo());
+        user.setMatriculaProvincia(dto.getMatriculaProvincia());
+        user.setMatriculaColegioNeuquen(dto.getMatriculaColegioNeuquen());
+        user.setMatriculaMunicipal(dto.getMatriculaMunicipal());
+        user.setAddress(dto.getAddress());
+        user.setPhone(dto.getPhone());
+        user.setRole(dto.getRole());
 
-            User updatedUser = userDAO.save(user);
-            return userMapper.toUserDTO(updatedUser); // Uso correcto del mapper
+
+        // Contraseña sólo si se envía
+        if (dto.getPassword() != null && !dto.getPassword().isEmpty()) {
+            user.setPassword(passwordEncoder.encode(dto.getPassword()));
         }
-        return null;
+
+        User saved = userDAO.save(user);
+        return userMapper.toUserDTO(saved);
     }
+
 
     @Override
     public boolean existsByUsername(String username) {

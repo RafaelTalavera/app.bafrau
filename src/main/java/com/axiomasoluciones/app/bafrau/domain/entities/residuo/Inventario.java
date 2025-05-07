@@ -1,17 +1,14 @@
-package com.axiomasoluciones.app.bafrau.domain.entities.matriz;
+package com.axiomasoluciones.app.bafrau.domain.entities.residuo;
 
 import com.axiomasoluciones.app.bafrau.domain.entities.organizacion.Organizacion;
-import com.axiomasoluciones.app.bafrau.domain.entities.seccion.Seccion;
-import com.axiomasoluciones.app.bafrau.domain.entities.user.User;
 import jakarta.persistence.*;
 
 import java.time.LocalDate;
 import java.util.List;
 
-
-@Table(name = "matrices")
+@Table(name = "residuos-inventarios")
 @Entity
-public class Matriz {
+public class Inventario {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -23,14 +20,13 @@ public class Matriz {
     @JoinColumn(name = "organizacion_id")
     private Organizacion organizacion;
 
+    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "inventario")
+    private List<ItemInventario> items;
 
-    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "matriz")
-    private List<ItemMatriz> items;
-
-    public Matriz() {
+    public Inventario() {
     }
 
-    public Matriz(Long id, LocalDate fecha, Organizacion organizacion, List<ItemMatriz> items) {
+    public Inventario(Long id, LocalDate fecha, Organizacion organizacion, List<ItemInventario> items) {
         this.id = id;
         this.fecha = fecha;
         this.organizacion = organizacion;
@@ -61,11 +57,11 @@ public class Matriz {
         this.organizacion = organizacion;
     }
 
-    public List<ItemMatriz> getItems() {
+    public List<ItemInventario> getItems() {
         return items;
     }
 
-    public void setItems(List<ItemMatriz> items) {
+    public void setItems(List<ItemInventario> items) {
         this.items = items;
     }
 }

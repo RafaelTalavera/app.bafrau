@@ -133,4 +133,24 @@ public class OrganizacionController {
         }
     }
 
+    @GetMapping("/representacion-tecnica")
+    public ResponseEntity<List<OrganizacionDTO>> getOrganizacionesRepresentacionTecnica(HttpServletRequest request) {
+        try {
+            String token = request.getHeader("Authorization");
+            if (token == null) {
+                return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
+            }
+            String role = jwtService.extractRoleFromToken(token);
+            if (!"ADMINISTRATOR".equals(role) && !"USER".equals(role)) {
+                return new ResponseEntity<>(HttpStatus.FORBIDDEN);
+            }
+            List<OrganizacionDTO> resultados =
+                    organizacionService.findByTipoDeContrato("Representación Técnica");
+            return new ResponseEntity<>(resultados, HttpStatus.OK);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
 }

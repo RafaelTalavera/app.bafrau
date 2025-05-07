@@ -1,39 +1,41 @@
-package com.axiomasoluciones.app.bafrau.domain.entities.matriz;
+package com.axiomasoluciones.app.bafrau.domain.entities.legal;
 
 import com.axiomasoluciones.app.bafrau.domain.entities.organizacion.Organizacion;
-import com.axiomasoluciones.app.bafrau.domain.entities.seccion.Seccion;
-import com.axiomasoluciones.app.bafrau.domain.entities.user.User;
 import jakarta.persistence.*;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 
-
-@Table(name = "matrices")
+@Table(name = "controles")
 @Entity
-public class Matriz {
+public class Control {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private LocalDate fecha;
-
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "organizacion_id")
     private Organizacion organizacion;
 
+    private LocalDate fecha;
 
-    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "matriz")
-    private List<ItemMatriz> items;
+    @OneToMany(
+            mappedBy = "control",
+            cascade = CascadeType.ALL,      // <- permitirá persistir items
+            orphanRemoval = true
+    )
+    private List<ItemControl> items = new ArrayList<>();
 
-    public Matriz() {
+
+    public Control() {
     }
 
-    public Matriz(Long id, LocalDate fecha, Organizacion organizacion, List<ItemMatriz> items) {
+    public Control(Long id, Organizacion organizacion, LocalDate fecha, List<ItemControl> items) {
         this.id = id;
-        this.fecha = fecha;
         this.organizacion = organizacion;
+        this.fecha = fecha;
         this.items = items;
     }
 
@@ -45,14 +47,6 @@ public class Matriz {
         this.id = id;
     }
 
-    public LocalDate getFecha() {
-        return fecha;
-    }
-
-    public void setFecha(LocalDate fecha) {
-        this.fecha = fecha;
-    }
-
     public Organizacion getOrganizacion() {
         return organizacion;
     }
@@ -61,11 +55,19 @@ public class Matriz {
         this.organizacion = organizacion;
     }
 
-    public List<ItemMatriz> getItems() {
+    public LocalDate getFecha() {
+        return fecha;
+    }
+
+    public void setFecha(LocalDate fecha) {
+        this.fecha = fecha;
+    }
+
+    public List<ItemControl> getItems() {
         return items;
     }
 
-    public void setItems(List<ItemMatriz> items) {
+    public void setItems(List<ItemControl> items) {
         this.items = items;
     }
 }
