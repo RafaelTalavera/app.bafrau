@@ -4,6 +4,7 @@ import com.axiomasoluciones.app.bafrau.application.dto.capitulo.CapituloDTO;
 import com.axiomasoluciones.app.bafrau.application.dto.utility.AdjuntoDTO;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 
 public class OrganizacionDTO {
@@ -11,7 +12,7 @@ public class OrganizacionDTO {
     private Long id;
     private LocalDate fechaAlta;
     private String tipoDeContrato;
-    private String rrpp;
+    private List<String> rrpp = new ArrayList<>();
     private String nombreDelProponente;
     private String razonSocial;
     private String personariaJuridica;
@@ -43,7 +44,7 @@ public class OrganizacionDTO {
     public OrganizacionDTO() {
     }
 
-    public OrganizacionDTO(Long id, LocalDate fechaAlta, String tipoDeContrato, String rrpp, String nombreDelProponente, String razonSocial, String personariaJuridica, String cuit, String domicilioRealProyecto, String domicilioLegalProyecto, String situacionPredio, String licenciaComercial, String vencimientoLicenciaComercial, String nomenclaturaCatatrasl, String actividadPrincipal, String actividadSecundaria, List<CorreoDTO> correos, List<TelefonoDTO> telefonos, List<ServicioDisponibleDTO> serviciosDisponibles, LocalDate fechaCreacion, String dimensionPredio, String superficieCubierta, String superficieDescubierta, String tecnologia, Long userId, List<ProcesoDTO> procesos, List<ProcedimientoDTO> procedimientos, List<AdjuntoDTO> adjuntoInformes, List<CapituloDTO> capitulos, List<NominaEmpleadosDTO> nominaEmpleados, List<SectorDTO> sectores) {
+    public OrganizacionDTO(Long id, LocalDate fechaAlta, String tipoDeContrato, List<String> rrpp, String nombreDelProponente, String razonSocial, String personariaJuridica, String cuit, String domicilioRealProyecto, String domicilioLegalProyecto, String situacionPredio, String licenciaComercial, String vencimientoLicenciaComercial, String nomenclaturaCatatrasl, String actividadPrincipal, String actividadSecundaria, List<CorreoDTO> correos, List<TelefonoDTO> telefonos, List<ServicioDisponibleDTO> serviciosDisponibles, LocalDate fechaCreacion, String dimensionPredio, String superficieCubierta, String superficieDescubierta, String tecnologia, Long userId, List<ProcesoDTO> procesos, List<ProcedimientoDTO> procedimientos, List<AdjuntoDTO> adjuntoInformes, List<CapituloDTO> capitulos, List<NominaEmpleadosDTO> nominaEmpleados, List<SectorDTO> sectores) {
         this.id = id;
         this.fechaAlta = fechaAlta;
         this.tipoDeContrato = tipoDeContrato;
@@ -101,11 +102,11 @@ public class OrganizacionDTO {
         this.tipoDeContrato = tipoDeContrato;
     }
 
-    public String getRrpp() {
+    public List<String> getRrpp() {
         return rrpp;
     }
 
-    public void setRrpp(String rrpp) {
+    public void setRrpp(List<String> rrpp) {
         this.rrpp = rrpp;
     }
 
