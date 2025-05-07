@@ -11,6 +11,7 @@ public class OrganizacionDTO {
     private Long id;
     private LocalDate fechaAlta;
     private String tipoDeContrato;
+    private String rrpp;
     private String nombreDelProponente;
     private String razonSocial;
     private String personariaJuridica;
@@ -42,10 +43,11 @@ public class OrganizacionDTO {
     public OrganizacionDTO() {
     }
 
-    public OrganizacionDTO(Long id, LocalDate fechaAlta, String tipoDeContrato, String nombreDelProponente, String razonSocial, String personariaJuridica, String cuit, String domicilioRealProyecto, String domicilioLegalProyecto, String situacionPredio, String licenciaComercial, String vencimientoLicenciaComercial, String nomenclaturaCatatrasl, String actividadPrincipal, String actividadSecundaria, List<CorreoDTO> correos, List<TelefonoDTO> telefonos, List<ServicioDisponibleDTO> serviciosDisponibles, LocalDate fechaCreacion, String dimensionPredio, String superficieCubierta, String superficieDescubierta, String tecnologia, Long userId, List<ProcesoDTO> procesos, List<ProcedimientoDTO> procedimientos, List<AdjuntoDTO> adjuntoInformes, List<CapituloDTO> capitulos, List<NominaEmpleadosDTO> nominaEmpleados, List<SectorDTO> sectores) {
+    public OrganizacionDTO(Long id, LocalDate fechaAlta, String tipoDeContrato, String rrpp, String nombreDelProponente, String razonSocial, String personariaJuridica, String cuit, String domicilioRealProyecto, String domicilioLegalProyecto, String situacionPredio, String licenciaComercial, String vencimientoLicenciaComercial, String nomenclaturaCatatrasl, String actividadPrincipal, String actividadSecundaria, List<CorreoDTO> correos, List<TelefonoDTO> telefonos, List<ServicioDisponibleDTO> serviciosDisponibles, LocalDate fechaCreacion, String dimensionPredio, String superficieCubierta, String superficieDescubierta, String tecnologia, Long userId, List<ProcesoDTO> procesos, List<ProcedimientoDTO> procedimientos, List<AdjuntoDTO> adjuntoInformes, List<CapituloDTO> capitulos, List<NominaEmpleadosDTO> nominaEmpleados, List<SectorDTO> sectores) {
         this.id = id;
         this.fechaAlta = fechaAlta;
         this.tipoDeContrato = tipoDeContrato;
+        this.rrpp = rrpp;
         this.nombreDelProponente = nombreDelProponente;
         this.razonSocial = razonSocial;
         this.personariaJuridica = personariaJuridica;
@@ -97,6 +99,14 @@ public class OrganizacionDTO {
 
     public void setTipoDeContrato(String tipoDeContrato) {
         this.tipoDeContrato = tipoDeContrato;
+    }
+
+    public String getRrpp() {
+        return rrpp;
+    }
+
+    public void setRrpp(String rrpp) {
+        this.rrpp = rrpp;
     }
 
     public String getNombreDelProponente() {

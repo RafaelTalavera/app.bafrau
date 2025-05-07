@@ -19,6 +19,7 @@ public class Organizacion {
 
     private LocalDate fechaAlta;
     private String tipoDeContrato;
+    private String rrpp;
     private String nombreDelProponente;
     private String razonSocial;
     private String personariaJuridica;
@@ -77,10 +78,11 @@ public class Organizacion {
     public Organizacion() {
     }
 
-    public Organizacion(Long id, LocalDate fechaAlta, String tipoDeContrato, String nombreDelProponente, String razonSocial, String personariaJuridica, String cuit, String domicilioRealProyecto, String domicilioLegalProyecto, String situacionPredio, String licenciaComercial, String vencimientoLicenciaComercial, String nomenclaturaCatatrasl, String actividadPrincipal, String actividadSecundaria, List<Correo> correos, List<Telefono> telefonos, List<ServicioDisponible> serviciosDisponibles, LocalDate fechaCreacion, String dimensionPredio, String superficieCubierta, String superficieDescubierta, String tecnologia, User user, List<Proceso> procesos, List<Procedimiento> procedimientos, List<Adjunto> adjuntoInformes, List<Capitulo> capitulos, List<NominaEmpleados> nominaEmpleados, List<Matriz> matriz) {
+    public Organizacion(Long id, LocalDate fechaAlta, String tipoDeContrato, String rrpp, String nombreDelProponente, String razonSocial, String personariaJuridica, String cuit, String domicilioRealProyecto, String domicilioLegalProyecto, String situacionPredio, String licenciaComercial, String vencimientoLicenciaComercial, String nomenclaturaCatatrasl, String actividadPrincipal, String actividadSecundaria, List<Correo> correos, List<Telefono> telefonos, List<ServicioDisponible> serviciosDisponibles, LocalDate fechaCreacion, String dimensionPredio, String superficieCubierta, String superficieDescubierta, String tecnologia, User user, List<Proceso> procesos, List<Procedimiento> procedimientos, List<Adjunto> adjuntoInformes, List<Capitulo> capitulos, List<NominaEmpleados> nominaEmpleados, List<Matriz> matriz) {
         this.id = id;
         this.fechaAlta = fechaAlta;
         this.tipoDeContrato = tipoDeContrato;
+        this.rrpp = rrpp;
         this.nombreDelProponente = nombreDelProponente;
         this.razonSocial = razonSocial;
         this.personariaJuridica = personariaJuridica;
@@ -132,6 +134,14 @@ public class Organizacion {
 
     public void setTipoDeContrato(String tipoDeContrato) {
         this.tipoDeContrato = tipoDeContrato;
+    }
+
+    public String getRrpp() {
+        return rrpp;
+    }
+
+    public void setRrpp(String rrpp) {
+        this.rrpp = rrpp;
     }
 
     public String getNombreDelProponente() {
