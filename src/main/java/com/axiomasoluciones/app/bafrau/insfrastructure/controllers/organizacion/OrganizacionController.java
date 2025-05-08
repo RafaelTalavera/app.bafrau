@@ -10,6 +10,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
+import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
@@ -74,12 +75,10 @@ public class OrganizacionController {
         }
     }
 
-
     @PutMapping("/{id}")
     public ResponseEntity<OrganizacionDTO> updateOrganizacion(@PathVariable Long id, @RequestBody OrganizacionDTO organizacionDTO) {
         System.out.println("Actualizando informe con ID: " + id);
         System.out.println("Datos recibidos: " + organizacionDTO);
-
         try {
             OrganizacionDTO updatedInforme = organizacionService.update(id, organizacionDTO);
             if (updatedInforme != null) {
@@ -90,7 +89,6 @@ public class OrganizacionController {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
     }
-
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteOrganizacion(@PathVariable Long id) {
@@ -105,52 +103,36 @@ public class OrganizacionController {
     @GetMapping("/razonesSociales")
     public List<OrganizacionDTO> obtenerTodasLasRazonesSociales(HttpServletRequest request) {
         String token = request.getHeader("Authorization");
-
         if (token == null) {
             throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Token no proporcionado");
         }
-
         return organizacionService.obtenerRazonesSociales();
     }
 
     @GetMapping("/auditorias-ambientales")
     public ResponseEntity<List<OrganizacionDTO>> getOrganizacionesAuditoriaAmbiental(HttpServletRequest request) {
-        try {
-            String token = request.getHeader("Authorization");
-            if (token == null) {
-                return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
-            }
-            String role = jwtService.extractRoleFromToken(token);
-            if (!"ADMINISTRATOR".equals(role) && !"USER".equals(role)) {
-                return new ResponseEntity<>(HttpStatus.FORBIDDEN);
-            }
-            List<OrganizacionDTO> resultados =
-                    organizacionService.findByTipoDeContrato("Auditoría Ambiental");
-            return new ResponseEntity<>(resultados, HttpStatus.OK);
-        } catch (Exception e) {
-            e.printStackTrace();
-            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
-        }
+        String token = request.getHeader("Authorization");
+        if (token == null) return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
+        String role = jwtService.extractRoleFromToken(token);
+        if (!List.of("ADMINISTRATOR","USER").contains(role))
+            return new ResponseEntity<>(HttpStatus.FORBIDDEN);
+
+        List<String> tipos = Arrays.asList("Auditoría Ambiental", "AA/RT");
+        List<OrganizacionDTO> resultados = organizacionService.findByTiposDeContrato(tipos);
+        return new ResponseEntity<>(resultados, HttpStatus.OK);
     }
 
     @GetMapping("/representacion-tecnica")
     public ResponseEntity<List<OrganizacionDTO>> getOrganizacionesRepresentacionTecnica(HttpServletRequest request) {
-        try {
-            String token = request.getHeader("Authorization");
-            if (token == null) {
-                return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
-            }
-            String role = jwtService.extractRoleFromToken(token);
-            if (!"ADMINISTRATOR".equals(role) && !"USER".equals(role)) {
-                return new ResponseEntity<>(HttpStatus.FORBIDDEN);
-            }
-            List<OrganizacionDTO> resultados =
-                    organizacionService.findByTipoDeContrato("Representación Técnica");
-            return new ResponseEntity<>(resultados, HttpStatus.OK);
-        } catch (Exception e) {
-            e.printStackTrace();
-            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
-        }
+        String token = request.getHeader("Authorization");
+        if (token == null) return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
+        String role = jwtService.extractRoleFromToken(token);
+        if (!List.of("ADMINISTRATOR","USER").contains(role))
+            return new ResponseEntity<>(HttpStatus.FORBIDDEN);
+
+        List<String> tipos = Arrays.asList("Representación Técnica", "AA/RT");
+        List<OrganizacionDTO> resultados = organizacionService.findByTiposDeContrato(tipos);
+        return new ResponseEntity<>(resultados, HttpStatus.OK);
+    }
     }
 
-}

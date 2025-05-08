@@ -5,6 +5,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.repository.query.Param;
 
+import java.util.Collection;
 import java.util.List;
 
 public interface OrganizacionRepository extends CrudRepository<Organizacion, Long> {
@@ -16,5 +17,5 @@ public interface OrganizacionRepository extends CrudRepository<Organizacion, Lon
     List<Object[]> findAllRazonesSociales();
 
     List<Organizacion> findAllByTipoDeContrato(String tipoDeContrato);
-
+    List<Organizacion> findAllByTipoDeContratoIn(Collection<String> tiposDeContrato);
 }

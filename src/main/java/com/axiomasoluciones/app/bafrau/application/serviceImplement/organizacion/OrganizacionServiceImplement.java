@@ -144,9 +144,8 @@ public class OrganizacionServiceImplement implements OrganizacionService {
                 .collect(Collectors.toList());
     }
 
-    @Override
-    public List<OrganizacionDTO> findByTipoDeContrato(String tipoDeContrato) {
-        List<Organizacion> list = organizacionRepository.findAllByTipoDeContrato(tipoDeContrato);
+    public List<OrganizacionDTO> findByTiposDeContrato(List<String> tiposDeContrato) {
+        List<Organizacion> list = organizacionRepository.findAllByTipoDeContratoIn(tiposDeContrato);
         return list.stream()
                 .map(organizacionMapper::toOrganizacionDTO)
                 .collect(Collectors.toList());

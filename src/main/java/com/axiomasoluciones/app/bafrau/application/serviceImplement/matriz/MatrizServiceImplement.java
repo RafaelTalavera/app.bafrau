@@ -55,7 +55,7 @@ public class MatrizServiceImplement implements IMatrizService {
         return matrizRepository.findAllWithItems().stream()
                 .map(entity -> {
                     MatrizDTO dto = matrizMapper.toMatrizDTO(entity);
-                    dto.setOrganizacionNombre(entity.getOrganizacion().getRazonSocial());
+                    dto.setRazonSocial(entity.getOrganizacion().getRazonSocial());
                     return dto;
                 })
                 .collect(Collectors.toList());
@@ -67,7 +67,7 @@ public class MatrizServiceImplement implements IMatrizService {
         return matrizRepository.findByIdWithItems(id)
                 .map(entity -> {
                     MatrizDTO dto = matrizMapper.toMatrizDTO(entity);
-                    dto.setOrganizacionNombre(entity.getOrganizacion().getRazonSocial());
+                    dto.setRazonSocial(entity.getOrganizacion().getRazonSocial());
                     return dto;
                 });
     }
@@ -107,7 +107,7 @@ public class MatrizServiceImplement implements IMatrizService {
         // 4) guardar y devolver DTO
         Matriz saved = matrizRepository.save(matriz);
         MatrizDTO result = matrizMapper.toMatrizDTO(saved);
-        result.setOrganizacionNombre(saved.getOrganizacion().getRazonSocial());
+        result.setRazonSocial(saved.getOrganizacion().getRazonSocial());
         return result;
     }
 
@@ -141,7 +141,7 @@ public class MatrizServiceImplement implements IMatrizService {
                     MatrizDTO dto = matrizMapper.toMatrizDTO(saved);
 
                     // 6) Ajustar nombre de organización en DTO (opcional)
-                    dto.setOrganizacionNombre(razon);
+                    dto.setRazonSocial(razon);
 
                     // 7) Forzar carga de items (lazy)
                     dto.getItems().size();
@@ -191,7 +191,7 @@ public class MatrizServiceImplement implements IMatrizService {
 
         Matriz saved = matrizRepository.save(matriz);
         MatrizDTO result = matrizMapper.toMatrizDTO(saved);
-        result.setOrganizacionNombre(saved.getOrganizacion().getRazonSocial());
+        result.setRazonSocial(saved.getOrganizacion().getRazonSocial());
         return result;
     }
 

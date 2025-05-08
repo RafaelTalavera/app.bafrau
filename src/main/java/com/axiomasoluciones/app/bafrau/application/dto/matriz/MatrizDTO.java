@@ -9,17 +9,18 @@ public class MatrizDTO {
     private Long userId;
     private Long organizacionId;
     private List<ItemMatrizDTO> items;
-    private String organizacionNombre;
+    private String razonSocial;
 
-    public MatrizDTO() {}
+    public MatrizDTO() {
+    }
 
-    public MatrizDTO(Long id, LocalDate fecha, Long userId, Long organizacionId, List<ItemMatrizDTO> items, String organizacionNombre) {
+    public MatrizDTO(Long id, LocalDate fecha, Long userId, Long organizacionId, List<ItemMatrizDTO> items, String razonSocial) {
         this.id = id;
         this.fecha = fecha;
         this.userId = userId;
         this.organizacionId = organizacionId;
         this.items = items;
-        this.organizacionNombre = organizacionNombre;
+        this.razonSocial = razonSocial;
     }
 
     public Long getId() {
@@ -62,11 +63,11 @@ public class MatrizDTO {
         this.items = items;
     }
 
-    public String getOrganizacionNombre() {
-        return organizacionNombre;
+    public String getRazonSocial() {
+        return razonSocial;
     }
 
-    public void setOrganizacionNombre(String organizacionNombre) {
-        this.organizacionNombre = organizacionNombre;
+    public void setRazonSocial(String razonSocial) {
+        this.razonSocial = razonSocial;
     }
 }

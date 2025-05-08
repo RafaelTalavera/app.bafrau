@@ -23,6 +23,6 @@ public interface OrganizacionService {
 
     List<OrganizacionDTO> obtenerRazonesSociales();
 
-    List<OrganizacionDTO> findByTipoDeContrato(String tipoDeContrato);
+    List<OrganizacionDTO> findByTiposDeContrato(List<String> tiposDeContrato);
 
 }
