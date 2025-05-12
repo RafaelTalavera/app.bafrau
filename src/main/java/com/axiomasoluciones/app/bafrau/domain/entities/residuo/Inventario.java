@@ -20,16 +20,19 @@ public class Inventario {
     @JoinColumn(name = "organizacion_id")
     private Organizacion organizacion;
 
+    private String contrato;
+
     @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "inventario")
     private List<ItemInventario> items;
 
     public Inventario() {
     }
 
-    public Inventario(Long id, LocalDate fecha, Organizacion organizacion, List<ItemInventario> items) {
+    public Inventario(Long id, LocalDate fecha, Organizacion organizacion, String contrato, List<ItemInventario> items) {
         this.id = id;
         this.fecha = fecha;
         this.organizacion = organizacion;
+        this.contrato = contrato;
         this.items = items;
     }
 
@@ -55,6 +58,14 @@ public class Inventario {
 
     public void setOrganizacion(Organizacion organizacion) {
         this.organizacion = organizacion;
+    }
+
+    public String getContrato() {
+        return contrato;
+    }
+
+    public void setContrato(String contrato) {
+        this.contrato = contrato;
     }
 
     public List<ItemInventario> getItems() {

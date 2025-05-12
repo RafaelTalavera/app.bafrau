@@ -8,16 +8,10 @@ public class InventarioDTO {
     private Long id;
     private LocalDate fecha;
     private Long organizacionId;
+    private String contrato;
     private List<ItemInventarioDTO> items;
 
     public InventarioDTO() {
-    }
-
-    public InventarioDTO(Long id, LocalDate fecha, Long organizacionId, List<ItemInventarioDTO> items) {
-        this.id = id;
-        this.fecha = fecha;
-        this.organizacionId = organizacionId;
-        this.items = items;
     }
 
     public Long getId() {
@@ -42,6 +36,14 @@ public class InventarioDTO {
 
     public void setOrganizacionId(Long organizacionId) {
         this.organizacionId = organizacionId;
+    }
+
+    public String getContrato() {
+        return contrato;
+    }
+
+    public void setContrato(String contrato) {
+        this.contrato = contrato;
     }
 
     public List<ItemInventarioDTO> getItems() {
