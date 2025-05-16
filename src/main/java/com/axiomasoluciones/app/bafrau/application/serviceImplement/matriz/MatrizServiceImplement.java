@@ -1,5 +1,6 @@
 package com.axiomasoluciones.app.bafrau.application.serviceImplement.matriz;
 
+import com.axiomasoluciones.app.bafrau.application.dto.matriz.ItemMatrizDTO;
 import com.axiomasoluciones.app.bafrau.application.dto.matriz.ItemUIPUpdateDTO;
 import com.axiomasoluciones.app.bafrau.application.dto.matriz.MatrizDTO;
 import com.axiomasoluciones.app.bafrau.application.mappers.matriz.ItemMatrizMapper;
@@ -9,6 +10,7 @@ import com.axiomasoluciones.app.bafrau.domain.entities.matriz.Matriz;
 import com.axiomasoluciones.app.bafrau.domain.entities.organizacion.Organizacion;
 import com.axiomasoluciones.app.bafrau.domain.repository.matriz.AccionRepository;
 import com.axiomasoluciones.app.bafrau.domain.repository.matriz.FactorRepository;
+import com.axiomasoluciones.app.bafrau.domain.repository.matriz.ItemMatrizRepository;
 import com.axiomasoluciones.app.bafrau.domain.repository.matriz.MatrizRepository;
 import com.axiomasoluciones.app.bafrau.domain.repository.organizacion.OrganizacionRepository;
 import com.axiomasoluciones.app.bafrau.domain.services.matriz.IMatrizService;
@@ -19,10 +21,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.CollectionUtils;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
@@ -45,6 +44,9 @@ public class MatrizServiceImplement implements IMatrizService {
 
     @Autowired
     private FactorRepository factorRepository;
+
+    @Autowired
+    private ItemMatrizRepository itemMatrizRepository;
 
     private static final Logger log =
             LoggerFactory.getLogger(MatrizServiceImplement.class);
@@ -75,6 +77,7 @@ public class MatrizServiceImplement implements IMatrizService {
     @Override
     @Transactional
     public MatrizDTO create(MatrizDTO matrizDTO) {
+        log.info("▶ Se inició create() con MatrizDTO: {}", matrizDTO);
         // 1) validar que venga organizationId
         if (matrizDTO.getOrganizacionId() == null) {
             throw new IllegalArgumentException("Debe indicar organización");
@@ -114,48 +117,44 @@ public class MatrizServiceImplement implements IMatrizService {
     @Override
     @Transactional
     public MatrizDTO update(Long id, MatrizDTO matrizDTO) {
-        log.info("▶ Ejecutando update(id={}, matrizDTO={})", id, matrizDTO);
+        try {
+            Matriz existing = matrizRepository.findByIdWithItems(id)
+                    .orElseThrow(() -> new IllegalArgumentException("Matriz no encontrada con id " + id));
 
-        return matrizRepository.findById(id)
-                .map(existing -> {
-                    // 1) Mapear DTO a entidad y asegurar el ID
-                    Matriz toSave = matrizMapper.toMatriz(matrizDTO);
-                    toSave.setId(id);
+            log.debug("🔍 Antes clear(): {}", existing.getItems().stream()
+                    .map(ItemMatriz::getId).toList());
 
-                    // 2) Obtener la razón social de la organización actual
-                    String razon = existing.getOrganizacion().getRazonSocial();
+            existing.getItems().clear();
+            log.debug("🔍 Después clear(): {}", existing.getItems().stream()
+                    .map(ItemMatriz::getId).toList());
 
-                    // 3) Vincular cada ItemMatriz con su padre y asignar la misma razón social
-                    if (toSave.getItems() != null) {
-                        toSave.getItems().forEach(item -> {
-                            item.setMatriz(toSave);
-                            item.setRazonSocial(razon);
-                        });
-                    }
+            String razon = existing.getOrganizacion().getRazonSocial();
+            List<ItemMatriz> nuevos = matrizDTO.getItems().stream()
+                    .map(itemMatrizMapper::toItemMatriz)
+                    .peek(it -> {
+                        it.setMatriz(existing);
+                        it.setRazonSocial(razon);
+                    })
+                    .toList();
 
-                    // 4) Guardar en BD
-                    Matriz saved = matrizRepository.save(toSave);
-                    log.debug("✔ Matriz e ítems guardados para id={}", id);
+            log.debug("🔍 Nuevos a agregar: {}", nuevos.stream()
+                    .map(ItemMatriz::getId).toList());
 
-                    // 5) Mapear de vuelta a DTO
-                    MatrizDTO dto = matrizMapper.toMatrizDTO(saved);
+            existing.getItems().addAll(nuevos);
+            Matriz saved = matrizRepository.save(existing);
 
-                    // 6) Ajustar nombre de organización en DTO (opcional)
-                    dto.setRazonSocial(razon);
+            log.debug("🔍 Después save(): {}", saved.getItems().stream()
+                    .map(ItemMatriz::getId).toList());
 
-                    // 7) Forzar carga de items (lazy)
-                    dto.getItems().size();
+            MatrizDTO dto = matrizMapper.toMatrizDTO(saved);
+            dto.setRazonSocial(saved.getOrganizacion().getRazonSocial());
+            return dto;
 
-                    log.info("✔ update completado para id={}", id);
-                    return dto;
-                })
-                .orElseThrow(() -> {
-                    log.warn("✖ Matriz no encontrada con id={}", id);
-                    return new IllegalArgumentException("Matriz no encontrada con id " + id);
-                });
+        } catch (Exception ex) {
+            log.error("❌ Error en update(id=" + id + ")", ex);
+            throw ex;
+        }
     }
-
-
 
 
     @Override
@@ -194,7 +193,5 @@ public class MatrizServiceImplement implements IMatrizService {
         result.setRazonSocial(saved.getOrganizacion().getRazonSocial());
         return result;
     }
-
-
 
 }

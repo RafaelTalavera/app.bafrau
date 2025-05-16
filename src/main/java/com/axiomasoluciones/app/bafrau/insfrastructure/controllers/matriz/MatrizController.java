@@ -38,9 +38,13 @@ public class MatrizController {
 
     @PutMapping("/{id}")
     public ResponseEntity<MatrizDTO> updateMatriz(@PathVariable Long id, @RequestBody MatrizDTO matrizDTO) {
+
+        System.out.println("🔄 PUT /{id} llamado con id=" + id);
+
         MatrizDTO updatedMatriz = matrizService.update(id, matrizDTO);
         return ResponseEntity.ok(updatedMatriz);
     }
+
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteMatriz(@PathVariable Long id) {
@@ -52,6 +56,8 @@ public class MatrizController {
     public ResponseEntity<MatrizDTO> updateUIP(
             @PathVariable Long id,
             @RequestBody List<ItemUIPUpdateDTO> updates) {
+
+        System.out.println("🔧 PUT /{id}/uip endpoint llamado con id=" + id + " y " + updates.size() + " items");
         MatrizDTO updated = matrizService.updateUIP(id, updates);
         return ResponseEntity.ok(updated);
     }

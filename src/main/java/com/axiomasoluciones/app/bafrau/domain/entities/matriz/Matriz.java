@@ -24,7 +24,9 @@ public class Matriz {
     private Organizacion organizacion;
 
 
-    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "matriz")
+    @OneToMany(mappedBy="matriz",
+            cascade=CascadeType.ALL,
+            orphanRemoval=true)
     private List<ItemMatriz> items;
 
     public Matriz() {
