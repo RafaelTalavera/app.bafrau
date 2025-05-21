@@ -51,9 +51,6 @@ public class OrganizacionController {
         return ResponseEntity.ok(informes);
     }
 
-
-
-
     @GetMapping("/{id}")
     public ResponseEntity<OrganizacionDTO> getOrganizacionById(@PathVariable Long id) {
         Optional<OrganizacionDTO> organizacion = organizacionService.findById(id);

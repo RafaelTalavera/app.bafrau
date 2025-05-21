@@ -19,7 +19,7 @@ import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
 import java.util.stream.Collectors;
-import java.util.stream.StreamSupport;
+
 
 @Service
 public class InventarioServiceImpl implements InventarioService {
@@ -40,14 +40,11 @@ public class InventarioServiceImpl implements InventarioService {
         this.organizacionRepository  = organizacionRepository;
     }
 
-
     @Override
     public List<InventarioDTO> findAll() {
-        // repository.findAll() devuelve Iterable, así evitamos el .stream() directo
-        return StreamSupport.stream(repository.findAll().spliterator(), false)
-                .map(mapper::toDTO)
-                .collect(Collectors.toList());
+        return repository.findAllDTO();
     }
+
 
     @Override
     public InventarioDTO findById(Long id) {

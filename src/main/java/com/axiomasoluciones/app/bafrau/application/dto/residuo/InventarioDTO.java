@@ -14,6 +14,14 @@ public class InventarioDTO {
     public InventarioDTO() {
     }
 
+    public InventarioDTO( Long id, LocalDate fecha, Long organizacionId, String contrato  ){
+        this.id = id;
+        this.fecha = fecha;
+        this.organizacionId = organizacionId;
+        this.contrato = contrato;
+
+    }
+
     public Long getId() {
         return id;
     }
