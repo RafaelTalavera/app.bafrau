@@ -29,44 +29,29 @@ public class OrganizacionController {
 
     private static final Logger log = LoggerFactory.getLogger(OrganizacionController.class);
 
-        @GetMapping
-        public ResponseEntity<List<OrganizacionDTO>> getAllOrganizaciones(HttpServletRequest request) {
-            long inicioTotal = System.currentTimeMillis();
-
-            try {
-                String token = request.getHeader("Authorization");
-                if (token == null) {
-                    log.info("→ Sin token ({} ms)", System.currentTimeMillis() - inicioTotal);
-                    return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
-                }
-
-                long inicioDB;
-                List<OrganizacionDTO> informes;
-                String role = jwtService.extractRoleFromToken(token);
-
-                if ("ADMINISTRATOR".equals(role) || "USER".equals(role)) {
-                    inicioDB = System.currentTimeMillis();
-                    informes = organizacionService.findAll();
-                    log.info("⏱ DB findAll: {} ms", System.currentTimeMillis() - inicioDB);
-                } else if ("CUSTOMER".equals(role)) {
-                    inicioDB = System.currentTimeMillis();
-                    String organizacion = organizacionService.extractOrganizacionFromToken(token);
-                    informes = organizacionService.findByOrganizacion(organizacion);
-                    log.info("⏱ DB findByOrganizacion: {} ms", System.currentTimeMillis() - inicioDB);
-                } else {
-                    log.info("→ Forbidden ({} ms)", System.currentTimeMillis() - inicioTotal);
-                    return new ResponseEntity<>(HttpStatus.FORBIDDEN);
-                }
-
-                log.info("✔ Total handler: {} ms", System.currentTimeMillis() - inicioTotal);
-                return new ResponseEntity<>(informes, HttpStatus.OK);
-
-            } catch (Exception e) {
-                log.error("❌ Error interno ({} ms)", System.currentTimeMillis() - inicioTotal, e);
-                return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
-            }
+    @GetMapping
+    public ResponseEntity<List<OrganizacionDTO>> getAllOrganizaciones(HttpServletRequest request) {
+        String token = request.getHeader("Authorization");
+        if (token == null) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
         }
-    
+
+        String role = jwtService.extractRoleFromToken(token);
+        List<OrganizacionDTO> informes;
+
+        if ("ADMINISTRATOR".equals(role) || "USER".equals(role)) {
+            informes = organizacionService.findAll();
+        } else if ("CUSTOMER".equals(role)) {
+            String organizacion = organizacionService.extractOrganizacionFromToken(token);
+            informes = organizacionService.findByOrganizacion(organizacion);
+        } else {
+            return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
+        }
+
+        return ResponseEntity.ok(informes);
+    }
+
+
 
 
     @GetMapping("/{id}")

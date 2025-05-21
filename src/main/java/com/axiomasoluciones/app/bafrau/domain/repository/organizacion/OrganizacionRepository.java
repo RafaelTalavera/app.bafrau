@@ -25,6 +25,16 @@ public interface OrganizacionRepository extends CrudRepository<Organizacion, Lon
     """)
         List<OrganizacionDTO> findAllSummaries();
 
-    List<Organizacion> findAllByTipoDeContrato(String tipoDeContrato);
-    List<Organizacion> findAllByTipoDeContratoIn(Collection<String> tiposDeContrato);
+    @Query("""
+        SELECT new com.axiomasoluciones.app.bafrau.application.dto.organizacion.OrganizacionDTO(
+            o.id,
+            o.tipoDeContrato,
+            o.rrpp,
+            o.razonSocial
+        )
+        FROM Organizacion o
+        WHERE o.tipoDeContrato IN :tiposDeContrato
+    """)
+    List<OrganizacionDTO> findSummariesByTipoDeContratoIn(@Param("tiposDeContrato") Collection<String> tiposDeContrato);
+
 }

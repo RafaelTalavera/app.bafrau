@@ -139,10 +139,8 @@ public class OrganizacionServiceImplement implements OrganizacionService {
     }
 
     public List<OrganizacionDTO> findByTiposDeContrato(List<String> tiposDeContrato) {
-        List<Organizacion> list = organizacionRepository.findAllByTipoDeContratoIn(tiposDeContrato);
-        return list.stream()
-                .map(organizacionMapper::toOrganizacionDTO)
-                .collect(Collectors.toList());
+        // Llama al query que ya devuelve DTOs proyectados
+        return organizacionRepository.findSummariesByTipoDeContratoIn(tiposDeContrato);
     }
 
 }

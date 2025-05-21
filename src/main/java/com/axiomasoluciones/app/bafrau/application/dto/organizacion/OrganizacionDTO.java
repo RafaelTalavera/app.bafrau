@@ -94,6 +94,16 @@ public class OrganizacionDTO {
         this.cuit = cuit;
     }
 
+    public OrganizacionDTO(Long id,
+                           String tipoDeContrato,
+                           List<String> rrpp,
+                           String razonSocial) {
+        this.id = id;
+        this.tipoDeContrato = tipoDeContrato;
+        this.rrpp = rrpp;
+        this.razonSocial = razonSocial;
+    }
+
     public Long getId() {
         return id;
     }
