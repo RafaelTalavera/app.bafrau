@@ -1,5 +1,6 @@
 package com.axiomasoluciones.app.bafrau.domain.repository.organizacion;
 
+import com.axiomasoluciones.app.bafrau.application.dto.organizacion.OrganizacionDTO;
 import com.axiomasoluciones.app.bafrau.domain.entities.organizacion.Organizacion;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
@@ -15,6 +16,14 @@ public interface OrganizacionRepository extends CrudRepository<Organizacion, Lon
 
     @Query("SELECT i.id, i.razonSocial FROM Organizacion i")
     List<Object[]> findAllRazonesSociales();
+
+        @Query("""
+        SELECT new com.axiomasoluciones.app.bafrau.application.dto.organizacion.OrganizacionDTO(
+            o.id, o.fechaAlta, o.tipoDeContrato, o.rrpp, o.nombreDelProponente, o.razonSocial, o.cuit
+        )
+        FROM Organizacion o
+    """)
+        List<OrganizacionDTO> findAllSummaries();
 
     List<Organizacion> findAllByTipoDeContrato(String tipoDeContrato);
     List<Organizacion> findAllByTipoDeContratoIn(Collection<String> tiposDeContrato);

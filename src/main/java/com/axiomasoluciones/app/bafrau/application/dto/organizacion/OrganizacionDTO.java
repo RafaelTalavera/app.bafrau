@@ -78,6 +78,22 @@ public class OrganizacionDTO {
         this.sectores = sectores;
     }
 
+    public OrganizacionDTO(Long id,
+                           LocalDate fechaAlta,
+                           String tipoDeContrato,
+                           List<String> rrpp,
+                           String nombreDelProponente,
+                           String razonSocial,
+                           String cuit) {
+        this.id = id;
+        this.fechaAlta = fechaAlta;
+        this.tipoDeContrato = tipoDeContrato;
+        this.rrpp = rrpp;
+        this.nombreDelProponente = nombreDelProponente;
+        this.razonSocial = razonSocial;
+        this.cuit = cuit;
+    }
+
     public Long getId() {
         return id;
     }

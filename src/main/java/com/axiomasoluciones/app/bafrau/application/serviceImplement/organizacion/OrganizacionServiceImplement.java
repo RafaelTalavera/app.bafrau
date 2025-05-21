@@ -35,13 +35,7 @@ public class OrganizacionServiceImplement implements OrganizacionService {
 
     @Override
     public List<OrganizacionDTO> findAll() {
-        List<Organizacion> organizaciones = StreamSupport
-                .stream(organizacionRepository.findAll().spliterator(), false)
-                .collect(Collectors.toList());
-
-        return organizaciones.stream()
-                .map(organizacionMapper::toOrganizacionDTO)
-                .collect(Collectors.toList());
+        return organizacionRepository.findAllSummaries();
     }
 
     @Override

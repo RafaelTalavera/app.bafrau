@@ -4,6 +4,8 @@ import com.axiomasoluciones.app.bafrau.application.dto.organizacion.Organizacion
 import com.axiomasoluciones.app.bafrau.application.serviceImplement.user.JwtServiceImplements;
 import com.axiomasoluciones.app.bafrau.domain.services.organizacion.OrganizacionService;
 import jakarta.servlet.http.HttpServletRequest;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -25,33 +27,47 @@ public class OrganizacionController {
     @Autowired
     private JwtServiceImplements jwtService;
 
-    @GetMapping
-    public ResponseEntity<List<OrganizacionDTO>> getAllOrganizaciones(HttpServletRequest request) {
-        try {
-            String token = request.getHeader("Authorization");
+    private static final Logger log = LoggerFactory.getLogger(OrganizacionController.class);
 
-            if (token == null) {
-                return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
+        @GetMapping
+        public ResponseEntity<List<OrganizacionDTO>> getAllOrganizaciones(HttpServletRequest request) {
+            long inicioTotal = System.currentTimeMillis();
+
+            try {
+                String token = request.getHeader("Authorization");
+                if (token == null) {
+                    log.info("→ Sin token ({} ms)", System.currentTimeMillis() - inicioTotal);
+                    return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
+                }
+
+                long inicioDB;
+                List<OrganizacionDTO> informes;
+                String role = jwtService.extractRoleFromToken(token);
+
+                if ("ADMINISTRATOR".equals(role) || "USER".equals(role)) {
+                    inicioDB = System.currentTimeMillis();
+                    informes = organizacionService.findAll();
+                    log.info("⏱ DB findAll: {} ms", System.currentTimeMillis() - inicioDB);
+                } else if ("CUSTOMER".equals(role)) {
+                    inicioDB = System.currentTimeMillis();
+                    String organizacion = organizacionService.extractOrganizacionFromToken(token);
+                    informes = organizacionService.findByOrganizacion(organizacion);
+                    log.info("⏱ DB findByOrganizacion: {} ms", System.currentTimeMillis() - inicioDB);
+                } else {
+                    log.info("→ Forbidden ({} ms)", System.currentTimeMillis() - inicioTotal);
+                    return new ResponseEntity<>(HttpStatus.FORBIDDEN);
+                }
+
+                log.info("✔ Total handler: {} ms", System.currentTimeMillis() - inicioTotal);
+                return new ResponseEntity<>(informes, HttpStatus.OK);
+
+            } catch (Exception e) {
+                log.error("❌ Error interno ({} ms)", System.currentTimeMillis() - inicioTotal, e);
+                return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
             }
-
-            String role = jwtService.extractRoleFromToken(token);
-            List<OrganizacionDTO> informes;
-
-            if ("ADMINISTRATOR".equals(role) || "USER".equals(role)) {
-                informes = organizacionService.findAll();
-            } else if ("CUSTOMER".equals(role)) {
-                String organizacion = organizacionService.extractOrganizacionFromToken(token);
-                informes = organizacionService.findByOrganizacion(organizacion);
-            } else {
-                return new ResponseEntity<>(HttpStatus.FORBIDDEN);
-            }
-
-            return new ResponseEntity<>(informes, HttpStatus.OK);
-        } catch (Exception e) {
-            e.printStackTrace();
-            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
-    }
+    
+
 
     @GetMapping("/{id}")
     public ResponseEntity<OrganizacionDTO> getOrganizacionById(@PathVariable Long id) {
