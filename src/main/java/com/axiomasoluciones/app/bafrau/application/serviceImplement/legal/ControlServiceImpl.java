@@ -13,8 +13,7 @@ import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
-import java.util.stream.StreamSupport;
+
 
 @Service
 @Transactional
@@ -41,9 +40,9 @@ public class ControlServiceImpl implements ControlService {
 
     @Override
     public List<ControlDTO> obtenerTodos() {
-        return StreamSupport.stream(repository.findAll().spliterator(), false)
+        return repository.findAllWithItems().stream()
                 .map(mapper::toDTO)
-                .collect(Collectors.toList());
+                .toList();
     }
 
     @Override
