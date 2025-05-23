@@ -31,4 +31,11 @@ public interface ControlMapper {
     default void linkItems(@MappingTarget Control control) {
         control.getItems().forEach(i -> i.setControl(control));
     }
+
+    /**
+     * Actualiza una entidad Control existente con los valores no nulos del DTO.
+     */
+    @BeanMapping(nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
+    @Mapping(source = "organizacionId", target = "organizacion", qualifiedByName = "mapOrganizacionFromId")
+    void updateFromDto(ControlDTO dto, @MappingTarget Control control);
 }

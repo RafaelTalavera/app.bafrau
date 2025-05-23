@@ -3,14 +3,22 @@ package com.axiomasoluciones.app.bafrau.application.serviceImplement.legal;
 import com.axiomasoluciones.app.bafrau.application.dto.legal.ControlDTO;
 import com.axiomasoluciones.app.bafrau.application.mappers.legal.ControlMapper;
 import com.axiomasoluciones.app.bafrau.domain.entities.legal.Control;
+import com.axiomasoluciones.app.bafrau.domain.entities.legal.ItemControl;
 import com.axiomasoluciones.app.bafrau.domain.repository.legal.ControlRepository;
+import com.axiomasoluciones.app.bafrau.domain.repository.legal.ItemsControlRepository;
 import com.axiomasoluciones.app.bafrau.domain.services.legal.ControlService;
+import com.axiomasoluciones.app.bafrau.domain.services.utility.EmailService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.server.ResponseStatusException;
 
+import java.time.LocalDate;
+import java.time.temporal.ChronoUnit;
 import java.util.List;
 import java.util.Optional;
 
@@ -21,11 +29,16 @@ public class ControlServiceImpl implements ControlService {
 
     private final ControlRepository repository;
     private final ControlMapper mapper;
+    private final EmailService emailService;
+    private final ItemsControlRepository itemsControlRepository;
+    private static final Logger log = LoggerFactory.getLogger(ControlServiceImpl.class);
 
     @Autowired
-    public ControlServiceImpl(ControlRepository repository, ControlMapper mapper) {
+    public ControlServiceImpl(ControlRepository repository, ControlMapper mapper, EmailService emailService, ItemsControlRepository itemsControlRepository) {
         this.repository = repository;
         this.mapper = mapper;
+        this.emailService = emailService;
+        this.itemsControlRepository = itemsControlRepository;
     }
 
     @Override
@@ -36,7 +49,6 @@ public class ControlServiceImpl implements ControlService {
         Control guardado = repository.save(control);
         return mapper.toDTO(guardado);
     }
-
 
     @Override
     public List<ControlDTO> obtenerTodos() {
@@ -61,4 +73,43 @@ public class ControlServiceImpl implements ControlService {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Control no encontrado");
         }
     }
+   @Scheduled(cron = "0 0 8 * * ?")
+   @Transactional(readOnly = true)
+   public void checkAndSendNotifications() {
+       LocalDate today = LocalDate.now();
+       List<ItemControl> items = itemsControlRepository.findAllWithMails();
+
+       items.forEach(item -> {
+           long daysRemaining = ChronoUnit.DAYS.between(today, item.getVencimiento());
+
+       });
+
+       for (ItemControl item : items) {
+           long daysRemaining = ChronoUnit.DAYS.between(today, item.getVencimiento());
+           if (daysRemaining == item.getDiasNotificacion()) {
+
+               String subject = "Notificación de vencimiento de expediente";
+               String body = "Estimado cliente " + item.getControl().getOrganizacion().getRazonSocial() + ",\n\n" +
+                       "Bafrau le informa que el expediente \"" + item.getDocumento().getNombre() +
+                       "\" vence el día " + item.getVencimiento() +
+                       ". A la brevedad nos pondremos en contacto para su renovación.";
+           }
+       }
+   }
+
+    @Override
+    public ControlDTO editarControl(Long id, ControlDTO dto) {
+        Control existente = repository.findById(id)
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Control no encontrado"));
+
+        // MapStruct actualiza sólo los campos del DTO
+        mapper.updateFromDto(dto, existente);
+
+        // Aseguro la back-reference en items
+        existente.getItems().forEach(item -> item.setControl(existente));
+
+        Control actualizado = repository.save(existente);
+        return mapper.toDTO(actualizado);
+    }
+
 }

@@ -1,12 +1,15 @@
 package com.axiomasoluciones.app.bafrau.domain.entities.legal;
 
 import jakarta.persistence.*;
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
 
 import java.time.LocalDate;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
-@Table(name = "control-Items")
+@Table(name = "control-items")
 public class ItemControl {
 
     @Id
@@ -23,20 +26,18 @@ public class ItemControl {
 
     private LocalDate vencimiento;
 
-    private List<String> listMail;
+    private int diasNotificacion;
+
+    @ElementCollection(fetch = FetchType.EAGER)
+    @CollectionTable(name = "itemcontrol_emails",
+            joinColumns = @JoinColumn(name = "item_control_id"))
+    @Column(name = "email")
+    @Fetch(FetchMode.SUBSELECT)
+    private Set<String> listMail = new HashSet<>();
 
     private String observaciones;
 
     public ItemControl() {
-    }
-
-    public ItemControl(Long id, Documento documento, Control control, LocalDate vencimiento, List<String> listMail, String observaciones) {
-        this.id = id;
-        this.documento = documento;
-        this.control = control;
-        this.vencimiento = vencimiento;
-        this.listMail = listMail;
-        this.observaciones = observaciones;
     }
 
     public Long getId() {
@@ -71,11 +72,19 @@ public class ItemControl {
         this.vencimiento = vencimiento;
     }
 
-    public List<String> getListMail() {
+    public int getDiasNotificacion() {
+        return diasNotificacion;
+    }
+
+    public void setDiasNotificacion(int diasNotificacion) {
+        this.diasNotificacion = diasNotificacion;
+    }
+
+    public Set<String> getListMail() {
         return listMail;
     }
 
-    public void setListMail(List<String> listMail) {
+    public void setListMail(Set<String> listMail) {
         this.listMail = listMail;
     }
 

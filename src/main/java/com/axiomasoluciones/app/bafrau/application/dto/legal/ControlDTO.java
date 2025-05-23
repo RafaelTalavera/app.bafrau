@@ -9,7 +9,7 @@ public class ControlDTO {
     private Long organizacionId;
     private LocalDate fecha;
     private List<ItemControlDTO> items;
-    private String OrganizacionRazonSocial;
+    private String organizacionRazonSocial;
 
     public ControlDTO() {
     }
@@ -19,7 +19,7 @@ public class ControlDTO {
         this.organizacionId = organizacionId;
         this.fecha = fecha;
         this.items = items;
-        OrganizacionRazonSocial = organizacionRazonSocial;
+        this.organizacionRazonSocial = organizacionRazonSocial;
     }
 
     public Long getId() {
@@ -55,10 +55,10 @@ public class ControlDTO {
     }
 
     public String getOrganizacionRazonSocial() {
-        return OrganizacionRazonSocial;
+        return organizacionRazonSocial;
     }
 
     public void setOrganizacionRazonSocial(String organizacionRazonSocial) {
-        OrganizacionRazonSocial = organizacionRazonSocial;
+        this.organizacionRazonSocial = organizacionRazonSocial;
     }
 }

@@ -2,6 +2,8 @@ package com.axiomasoluciones.app.bafrau.domain.entities.legal;
 
 import com.axiomasoluciones.app.bafrau.domain.entities.organizacion.Organizacion;
 import jakarta.persistence.*;
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -21,12 +23,10 @@ public class Control {
 
     private LocalDate fecha;
 
-    @OneToMany(
-            mappedBy = "control",
-            cascade = CascadeType.ALL,      // <- permitirá persistir items
-            orphanRemoval = true
-    )
-    private List<ItemControl> items = new ArrayList<>();
+
+    @OneToMany(mappedBy="control", cascade=CascadeType.ALL, orphanRemoval=true, fetch=FetchType.LAZY)
+    @Fetch(FetchMode.SUBSELECT)
+    private List<ItemControl> items;
 
 
     public Control() {

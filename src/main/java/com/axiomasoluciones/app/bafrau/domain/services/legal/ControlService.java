@@ -13,5 +13,9 @@ public interface ControlService {
     ControlDTO obtenerPorId(Long id);
 
     void eliminarControl(Long id);
+
+    void checkAndSendNotifications();
+
+    ControlDTO editarControl(Long id, ControlDTO controlDTO);
 }
 

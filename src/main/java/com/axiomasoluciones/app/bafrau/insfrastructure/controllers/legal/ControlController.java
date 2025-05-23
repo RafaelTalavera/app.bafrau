@@ -6,7 +6,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+
 import java.util.List;
+
 
 @RestController
 @RequestMapping("/api/controles")
@@ -40,4 +42,18 @@ public class ControlController {
         controlService.eliminarControl(id);
         return ResponseEntity.noContent().build();
     }
+
+    @GetMapping("/test-notifications")
+    public ResponseEntity<Void> test() {
+            controlService.checkAndSendNotifications();
+            return ResponseEntity.ok().build();
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<ControlDTO> editar(@PathVariable Long id,
+                                             @RequestBody ControlDTO controlDTO) {
+        ControlDTO actualizado = controlService.editarControl(id, controlDTO);
+        return ResponseEntity.ok(actualizado);
+    }
+
 }

@@ -1,32 +1,35 @@
 package com.axiomasoluciones.app.bafrau.application.dto.legal;
 
 import java.time.LocalDate;
-import java.util.List;
+import java.util.Set;
 
 public class ItemControlDTO {
     private Long id;
     private Long documentoId;
     private Long controlId;
     private LocalDate vencimiento;
-    private List<String> listMail;
+    private int diasNotificacion;
+    private Set<String> listMail;
     private String observaciones;
     private String nombre;                    // de Documento.nombre
     private String juridiccion;               // de Documento.juridiccion
     private String observacionesDocumento;    // de Documento.observaciones
+    private String razonSocial;
 
     public ItemControlDTO() { }
 
-    public ItemControlDTO(Long id, Long documentoId, Long controlId, LocalDate vencimiento, List<String> listMail, String observaciones, String observaciones1, String nombre, String juridiccion, String observacionesDocumento) {
+    public ItemControlDTO(Long id, Long documentoId, Long controlId, LocalDate vencimiento, int diasNotificacion, Set<String> listMail, String observaciones, String nombre, String juridiccion, String observacionesDocumento, String razonSocial) {
         this.id = id;
         this.documentoId = documentoId;
         this.controlId = controlId;
         this.vencimiento = vencimiento;
+        this.diasNotificacion = diasNotificacion;
         this.listMail = listMail;
         this.observaciones = observaciones;
-        this.observaciones = observaciones1;
         this.nombre = nombre;
         this.juridiccion = juridiccion;
         this.observacionesDocumento = observacionesDocumento;
+        this.razonSocial = razonSocial;
     }
 
     public Long getId() {
@@ -61,11 +64,19 @@ public class ItemControlDTO {
         this.vencimiento = vencimiento;
     }
 
-    public List<String> getListMail() {
+    public int getDiasNotificacion() {
+        return diasNotificacion;
+    }
+
+    public void setDiasNotificacion(int diasNotificacion) {
+        this.diasNotificacion = diasNotificacion;
+    }
+
+    public Set<String> getListMail() {
         return listMail;
     }
 
-    public void setListMail(List<String> listMail) {
+    public void setListMail(Set<String> listMail) {
         this.listMail = listMail;
     }
 
@@ -99,5 +110,13 @@ public class ItemControlDTO {
 
     public void setObservacionesDocumento(String observacionesDocumento) {
         this.observacionesDocumento = observacionesDocumento;
+    }
+
+    public String getRazonSocial() {
+        return razonSocial;
+    }
+
+    public void setRazonSocial(String razonSocial) {
+        this.razonSocial = razonSocial;
     }
 }

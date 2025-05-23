@@ -14,6 +14,7 @@ public interface ItemControlMapper {
     @Mapping(source = "id",                     target = "id")
     @Mapping(source = "documento.id",          target = "documentoId")
     @Mapping(source = "control.id",            target = "controlId")
+    @Mapping(source = "control.organizacion.razonSocial",   target = "razonSocial")
     @Mapping(source = "vencimiento",           target = "vencimiento")
     @Mapping(source = "listMail",              target = "listMail")
     @Mapping(source = "observaciones",         target = "observaciones")             // ítem
