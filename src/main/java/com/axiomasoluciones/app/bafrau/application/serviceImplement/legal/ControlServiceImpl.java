@@ -73,29 +73,8 @@ public class ControlServiceImpl implements ControlService {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Control no encontrado");
         }
     }
-   @Scheduled(cron = "0 0 8 * * ?")
-   @Transactional(readOnly = true)
-   public void checkAndSendNotifications() {
-       LocalDate today = LocalDate.now();
-       List<ItemControl> items = itemsControlRepository.findAllWithMails();
-
-       items.forEach(item -> {
-           long daysRemaining = ChronoUnit.DAYS.between(today, item.getVencimiento());
-
-       });
-
-       for (ItemControl item : items) {
-           long daysRemaining = ChronoUnit.DAYS.between(today, item.getVencimiento());
-           if (daysRemaining == item.getDiasNotificacion()) {
-
-               String subject = "Notificación de vencimiento de expediente";
-               String body = "Estimado cliente " + item.getControl().getOrganizacion().getRazonSocial() + ",\n\n" +
-                       "Bafrau le informa que el expediente \"" + item.getDocumento().getNombre() +
-                       "\" vence el día " + item.getVencimiento() +
-                       ". A la brevedad nos pondremos en contacto para su renovación.";
-           }
-       }
-   }
+    
+      
 
     @Override
     public ControlDTO editarControl(Long id, ControlDTO dto) {
