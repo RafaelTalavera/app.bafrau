@@ -21,6 +21,7 @@ import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 
 @Service
@@ -44,7 +45,6 @@ public class ControlServiceImpl implements ControlService {
     @Override
     public ControlDTO crearControl(ControlDTO dto) {
         Control control = mapper.toEntity(dto);
-        // fijar back-reference
         control.getItems().forEach(item -> item.setControl(control));
         Control guardado = repository.save(control);
         return mapper.toDTO(guardado);
@@ -73,8 +73,63 @@ public class ControlServiceImpl implements ControlService {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Control no encontrado");
         }
     }
-    
-      
+
+    @Scheduled(cron = "0 0 8 * * ?")  // Se ejecuta automáticamente todos los días a las 08:00 AM (hora del servidor)
+    @Transactional(readOnly = true)     // Marca la transacción como solo lectura para no modificar datos
+    public void checkAndSendNotifications() {
+        // 1. Obtiene la fecha “hoy” según la zona horaria del servidor
+        LocalDate today = LocalDate.now();
+
+        // 2. Llama al repositorio para traer todos los ItemControl, incluyendo su lista de correos (listMail)
+        //    La consulta @Query con "left join fetch i.listMail" ya trae en memoria cada conjunto de correos
+        List<ItemControl> items = itemsControlRepository.findAllWithMails();
+
+        // 3. Recorre cada ItemControl que vino de la base de datos
+        for (ItemControl item : items) {
+            // 3.1 Calcula cuántos días faltan para el vencimiento
+            long daysRemaining = ChronoUnit.DAYS.between(today, item.getVencimiento());
+            //    Ejemplo: si hoy es 2025-06-05 y vencimiento 2025-08-03, daysRemaining == 59
+
+            // 3.2 Comprueba si el valor calculado coincide con el campo diasNotificacion en la entidad
+            //    Solo en ese momento se debe enviar la notificación
+            if (daysRemaining == item.getDiasNotificacion()) {
+                // 4. Recupera el conjunto de correos (emails) de este ItemControl
+                //    Esto ya está cargado porque findAllWithMails() hizo el “fetch”
+                Set<String> mails = item.getListMail();
+
+                // 4.1 Si no hay correos o la colección es nula, se salta este item
+                if (mails == null || mails.isEmpty()) {
+                    log.warn("ItemControl sin lista de emails: id={}", item.getId());
+                    continue;  // Pasa al siguiente item sin enviar nada
+                }
+
+                // 5. Construye el asunto y el cuerpo del mensaje
+                String subject = "Notificación de vencimiento de expediente";
+                String body = "Estimado cliente "
+                        + item.getControl().getOrganizacion().getRazonSocial() + ",\n\n"
+                        + "Bafrau le informa que el expediente \""
+                        + item.getDocumento().getNombre() + "\""
+                        + " vence el día " + item.getVencimiento() + ". "
+                        + "A la brevedad nos pondremos en contacto para su renovación.";
+
+                // 6. Recorre cada destinatario en la lista de correos
+                for (String destinatario : mails) {
+                    // 6.1 Valida que no sea null o cadena vacía
+                    if (destinatario == null || destinatario.isBlank()) {
+                        log.warn("Email inválido en ItemControl id={}", item.getId());
+                        continue; // Salta este correo y sigue con el siguiente
+                    }
+                    // 6.2 Llama al servicio de correo para enviar la notificación
+                    emailService.sendNotification(destinatario, subject, body);
+                    //     Aquí se dispara realmente el envío. Si EmailService está bien configurado,
+                    //     el correo sale hacia ese destinatario.
+                }
+            }
+        }
+    }
+
+
+
 
     @Override
     public ControlDTO editarControl(Long id, ControlDTO dto) {
@@ -92,3 +147,4 @@ public class ControlServiceImpl implements ControlService {
     }
 
 }
+
