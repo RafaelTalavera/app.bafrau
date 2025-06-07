@@ -74,8 +74,8 @@ public class ControlServiceImpl implements ControlService {
         }
     }
 
-    @Scheduled(cron = "0 0 8 * * ?")  // Se ejecuta automáticamente todos los días a las 08:00 AM (hora del servidor)
-    @Transactional(readOnly = true)     // Marca la transacción como solo lectura para no modificar datos
+    @Scheduled(cron = "0 0 8 * * ?", zone = "America/Argentina/Buenos_Aires")
+    @Transactional(readOnly = true)
     public void checkAndSendNotifications() {
         // 1. Obtiene la fecha “hoy” según la zona horaria del servidor
         LocalDate today = LocalDate.now();
@@ -129,8 +129,6 @@ public class ControlServiceImpl implements ControlService {
     }
 
 
-
-
     @Override
     public ControlDTO editarControl(Long id, ControlDTO dto) {
         Control existente = repository.findById(id)
@@ -147,4 +145,3 @@ public class ControlServiceImpl implements ControlService {
     }
 
 }
-
