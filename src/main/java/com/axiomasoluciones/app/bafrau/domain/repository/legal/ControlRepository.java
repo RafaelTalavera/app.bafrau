@@ -1,6 +1,8 @@
 package com.axiomasoluciones.app.bafrau.domain.repository.legal;
 
+import com.axiomasoluciones.app.bafrau.application.dto.organizacion.OrganizacionSimpleDTO;
 import com.axiomasoluciones.app.bafrau.domain.entities.legal.Control;
+import com.axiomasoluciones.app.bafrau.domain.entities.organizacion.Organizacion;
 import org.springframework.data.jpa.repository.EntityGraph;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
@@ -23,5 +25,15 @@ public interface ControlRepository extends CrudRepository<Control,Long> {
 
     @EntityGraph(attributePaths = {"items.listMail"})
     List<Control> findAll();
+
+    @Query("""
+      SELECT DISTINCT new com.axiomasoluciones.app.bafrau.application.dto.organizacion.OrganizacionSimpleDTO(
+        o.id, o.razonSocial
+      )
+      FROM Control c
+      JOIN c.organizacion o
+      JOIN c.items i
+    """)
+    List<OrganizacionSimpleDTO> findSimpleOrganizacionesConItems();
 
 }

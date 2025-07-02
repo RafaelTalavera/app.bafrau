@@ -3,6 +3,7 @@ package com.axiomasoluciones.app.bafrau.insfrastructure.controllers.legal;
 import com.axiomasoluciones.app.bafrau.application.dto.legal.ControlDTO;
 import com.axiomasoluciones.app.bafrau.application.dto.legal.ItemControlDTO;
 import com.axiomasoluciones.app.bafrau.application.dto.organizacion.OrganizacionDTO;
+import com.axiomasoluciones.app.bafrau.application.dto.organizacion.OrganizacionSimpleDTO;
 import com.axiomasoluciones.app.bafrau.domain.services.legal.ControlService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -65,10 +66,11 @@ public class ControlController {
     }
     // GET /api/controles/organizaciones
     @GetMapping("/organizaciones")
-    public ResponseEntity<List<OrganizacionDTO>> organizacionesConItems() {
-        List<OrganizacionDTO> lista = controlService.obtenerOrganizacionesConItemsControl();
-        return ResponseEntity.ok(lista);
+    public ResponseEntity<List<OrganizacionSimpleDTO>> organizacionesConItems() {
+        var listaSimple = controlService.obtenerOrganizacionesConItemsControl();
+        return ResponseEntity.ok(listaSimple);
     }
+
 
     // GET /api/controles/organizaciones/{orgId}/items
     @GetMapping("/organizaciones/{orgId}/items")

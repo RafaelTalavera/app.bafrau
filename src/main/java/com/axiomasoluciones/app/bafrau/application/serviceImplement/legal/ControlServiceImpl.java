@@ -3,6 +3,7 @@ package com.axiomasoluciones.app.bafrau.application.serviceImplement.legal;
 import com.axiomasoluciones.app.bafrau.application.dto.legal.ControlDTO;
 import com.axiomasoluciones.app.bafrau.application.dto.legal.ItemControlDTO;
 import com.axiomasoluciones.app.bafrau.application.dto.organizacion.OrganizacionDTO;
+import com.axiomasoluciones.app.bafrau.application.dto.organizacion.OrganizacionSimpleDTO;
 import com.axiomasoluciones.app.bafrau.application.mappers.legal.ControlMapper;
 import com.axiomasoluciones.app.bafrau.application.mappers.legal.ItemControlMapper;
 import com.axiomasoluciones.app.bafrau.application.mappers.organizacion.OrganizacionMapper;
@@ -82,7 +83,7 @@ public class ControlServiceImpl implements ControlService {
         }
     }
 
-    @Scheduled(cron = "0 0 8 * * ?", zone = "America/Argentina/Buenos_Aires")
+    @Scheduled(cron = "0 0 9 * * ?", zone = "America/Argentina/Buenos_Aires")
     @Transactional(readOnly = true)
     public void checkAndSendNotifications() {
         // 1. Obtiene la fecha “hoy” según la zona horaria del servidor
@@ -121,8 +122,9 @@ public class ControlServiceImpl implements ControlService {
                         + item.getControl().getOrganizacion().getRazonSocial() + ",\n\n"
                         + "BAFRAU le informa que su \""
                         + item.getDocumento().getNombre() + "\""
-                        + " vence el día " + fechaFormateada + ". "
-                        + "A la brevedad nos pondremos en contacto para la elaboración de la respuesta.";
+                        + " vence el día "
+                        + item.getVencimiento().format(fmt)  // <-- aquí formateas la fecha
+                        + ". A la brevedad nos pondremos en contacto para la elaboración de la respuesta.";
 
                 // 6. Recorre cada destinatario en la lista de correos
                 for (String destinatario : mails) {
@@ -169,13 +171,8 @@ public class ControlServiceImpl implements ControlService {
 
     @Override
     @Transactional(readOnly = true)
-    public List<OrganizacionDTO> obtenerOrganizacionesConItemsControl() {
-        return repository.findAllWithItems().stream()
-                .filter(c -> !c.getItems().isEmpty())
-                .map(Control::getOrganizacion)
-                .distinct()
-                .map(organizacionMapper::toSimpleDTO)   // usa el @Named("simple") que agregaste
-                .toList();
+    public List<OrganizacionSimpleDTO> obtenerOrganizacionesConItemsControl() {
+        return repository.findSimpleOrganizacionesConItems();
     }
 
     @Override
