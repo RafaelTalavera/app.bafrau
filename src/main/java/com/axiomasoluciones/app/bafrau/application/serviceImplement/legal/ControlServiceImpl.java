@@ -124,7 +124,7 @@ public class ControlServiceImpl implements ControlService {
                         + item.getDocumento().getNombre() + "\""
                         + " vence el día "
                         + item.getVencimiento().format(fmt)  // <-- aquí formateas la fecha
-                        + ". A la brevedad nos pondremos en contacto para la elaboración de la respuesta.";
+                        + ". A la brevedad nos pondremos en contacto.";
 
                 // 6. Recorre cada destinatario en la lista de correos
                 for (String destinatario : mails) {
