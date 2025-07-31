@@ -18,6 +18,8 @@ public interface ItemControlMapper {
     @Mapping(source = "vencimiento",           target = "vencimiento")
     @Mapping(source = "presentacion",           target = "presentacion")
     @Mapping(source = "listMail",              target = "listMail")
+    @Mapping(source = "createdDate",            target = "createdDate")
+    @Mapping(source = "lastModifiedDate",       target = "lastModifiedDate")
     @Mapping(source = "observaciones",         target = "observaciones")             // ítem
     @Mapping(source = "documento.nombre",      target = "nombre")                    // doc.nombre
     @Mapping(source = "documento.juridiccion", target = "juridiccion")               // doc.juridiccion
@@ -26,6 +28,8 @@ public interface ItemControlMapper {
 
     @Mapping(source = "controlId",     target = "control.id")
     @Mapping(source = "documentoId",   target = "documento", qualifiedByName = "mapDocumentoId")
+    @Mapping(target = "createdDate",      ignore = true)
+    @Mapping(target = "lastModifiedDate", ignore = true)
     ItemControl toEntity(ItemControlDTO dto);
 
     @Named("mapDocumentoId")

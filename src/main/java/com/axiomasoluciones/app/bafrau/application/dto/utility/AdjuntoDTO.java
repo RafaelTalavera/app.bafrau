@@ -8,15 +8,18 @@ public class AdjuntoDTO {
     private Long organizacionId;
     private Long seccionId;
 
+    private Long caratulaId;
+
     public AdjuntoDTO() {
     }
 
-    public AdjuntoDTO(Long id, String urlAdjunto, String descripcion, Long organizacionId, Long seccionId) {
+    public AdjuntoDTO(Long id, String urlAdjunto, String descripcion, Long organizacionId, Long seccionId, Long caratulaId) {
         this.id = id;
         this.urlAdjunto = urlAdjunto;
         this.descripcion = descripcion;
         this.organizacionId = organizacionId;
         this.seccionId = seccionId;
+        this.caratulaId = caratulaId;
     }
 
     public Long getId() {
@@ -57,5 +60,13 @@ public class AdjuntoDTO {
 
     public void setSeccionId(Long seccionId) {
         this.seccionId = seccionId;
+    }
+
+    public Long getCaratulaId() {
+        return caratulaId;
+    }
+
+    public void setCaratulaId(Long caratulaId) {
+        this.caratulaId = caratulaId;
     }
 }

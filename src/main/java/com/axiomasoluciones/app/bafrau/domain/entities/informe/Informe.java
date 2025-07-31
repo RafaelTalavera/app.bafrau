@@ -5,6 +5,7 @@ import com.axiomasoluciones.app.bafrau.domain.entities.utility.Auditable;
 import jakarta.persistence.*;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 
 @Table(name = "informes")
@@ -31,6 +32,11 @@ public class Informe extends Auditable<String> {
             orphanRemoval = true)
     private List<Encabezado> encabezados;
 
+    @OneToMany(mappedBy = "informe",
+            cascade = CascadeType.ALL,
+            orphanRemoval = true)
+    private List<Caratula> caratulas = new ArrayList<>();
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "organizacion_id",
             nullable = false)
@@ -39,14 +45,23 @@ public class Informe extends Auditable<String> {
     public Informe() {
     }
 
-    public Informe(Long id, String titulo, String razonSocial, LocalDate fecha, List<Capitulo> capitulos, List<Encabezado> encabezados, Organizacion organizacion) {
+    public Informe(Long id, String titulo, String razonSocial, LocalDate fecha, List<Capitulo> capitulos, List<Encabezado> encabezados, List<Caratula> caratulas, Organizacion organizacion) {
         this.id = id;
         this.titulo = titulo;
         this.razonSocial = razonSocial;
         this.fecha = fecha;
         this.capitulos = capitulos;
         this.encabezados = encabezados;
+        this.caratulas = caratulas;
         this.organizacion = organizacion;
+    }
+
+    public List<Caratula> getCaratulas() {
+        return caratulas;
+    }
+
+    public void setCaratulas(List<Caratula> caratulas) {
+        this.caratulas = caratulas;
     }
 
     public Long getId() {

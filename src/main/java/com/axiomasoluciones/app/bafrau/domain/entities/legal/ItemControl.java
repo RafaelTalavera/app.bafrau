@@ -1,10 +1,15 @@
 package com.axiomasoluciones.app.bafrau.domain.entities.legal;
 
 import jakarta.persistence.*;
+import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.FetchMode;
+import org.hibernate.annotations.UpdateTimestamp;
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.annotation.LastModifiedDate;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -41,6 +46,16 @@ public class ItemControl {
 
     private Boolean estado;
 
+    /** Fecha/hora en que se creó el registro */
+    @CreationTimestamp
+    @Column(name = "created_date", nullable = false, updatable = false)
+    private LocalDateTime createdDate;
+
+
+    /** Fecha/hora de la última modificación */
+    @UpdateTimestamp
+    @Column(name = "last_modified_date")
+    private LocalDateTime lastModifiedDate;
     public ItemControl() {
     }
 
@@ -114,5 +129,21 @@ public class ItemControl {
 
     public void setEstado(Boolean estado) {
         this.estado = estado;
+    }
+
+    public LocalDateTime getCreatedDate() {
+        return createdDate;
+    }
+
+    public void setCreatedDate(LocalDateTime createdDate) {
+        this.createdDate = createdDate;
+    }
+
+    public LocalDateTime getLastModifiedDate() {
+        return lastModifiedDate;
+    }
+
+    public void setLastModifiedDate(LocalDateTime lastModifiedDate) {
+        this.lastModifiedDate = lastModifiedDate;
     }
 }

@@ -18,5 +18,6 @@ public interface ControlService {
     ItemControlDTO cambiarEstadoItem(Long itemId);
     public List<OrganizacionSimpleDTO> obtenerOrganizacionesConItemsControl();
     List<ItemControlDTO> obtenerItemsPorOrganizacion(Long organizacionId);
+    List<ItemControlDTO> obtenerTodosItems();
 }
 

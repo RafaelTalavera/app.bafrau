@@ -1,5 +1,6 @@
 package com.axiomasoluciones.app.bafrau.domain.entities.utility;
 
+import com.axiomasoluciones.app.bafrau.domain.entities.informe.Caratula;
 import com.axiomasoluciones.app.bafrau.domain.entities.informe.Encabezado;
 import com.axiomasoluciones.app.bafrau.domain.entities.informe.Seccion;
 import com.axiomasoluciones.app.bafrau.domain.entities.organizacion.Organizacion;
@@ -29,16 +30,22 @@ public class Adjunto {
     @JoinColumn(name = "encabezado_id", nullable = true)
     private Encabezado encabezado;
 
+    // --- NUEVO: relación con Caratula ---
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "caratula_id", nullable = true)
+    private Caratula caratula;
+
     public Adjunto() {
     }
 
-    public Adjunto(Long id, String urlAdjunto, String descripcion, Organizacion organizacion, Seccion seccion, Encabezado encabezado) {
+    public Adjunto(Long id, String urlAdjunto, String descripcion, Organizacion organizacion, Seccion seccion, Encabezado encabezado, Caratula caratula) {
         this.id = id;
         this.urlAdjunto = urlAdjunto;
         this.descripcion = descripcion;
         this.organizacion = organizacion;
         this.seccion = seccion;
         this.encabezado = encabezado;
+        this.caratula = caratula;
     }
 
     public Long getId() {
@@ -87,5 +94,13 @@ public class Adjunto {
 
     public void setEncabezado(Encabezado encabezado) {
         this.encabezado = encabezado;
+    }
+
+    public Caratula getCaratula() {
+        return caratula;
+    }
+
+    public void setCaratula(Caratula caratula) {
+        this.caratula = caratula;
     }
 }

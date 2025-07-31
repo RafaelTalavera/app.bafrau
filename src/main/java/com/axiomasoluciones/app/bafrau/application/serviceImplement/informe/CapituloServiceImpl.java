@@ -53,15 +53,28 @@ public class CapituloServiceImpl implements CapituloService {
     }
 
     @Override
+    @Transactional
     public CapituloDTO update(Long id, CapituloDTO capituloDTO) {
-        if (!repository.existsById(id)) {
-            throw new EntityNotFoundException("Capítulo no encontrado con id: " + id);
-        }
-        var toUpdate = mapper.toEntity(capituloDTO);
-        toUpdate.setId(id);
-        var updated = repository.save(toUpdate);
-        return mapper.toDto(updated);
+        // 1) Buscamos la entidad existente en BD
+        Capitulo existing = repository.findById(id)
+                .orElseThrow(() ->
+                        new EntityNotFoundException("Capítulo no encontrado con id: " + id)
+                );
+
+        // 2) Actualizamos sólo los campos sencillos
+        existing.setTitulo(capituloDTO.getTitulo());
+        existing.setOrden(capituloDTO.getOrden());
+        // (Si necesitaras permitir cambiar informeId, descomenta la línea siguiente)
+        // existing.getInforme().setId(capituloDTO.getInformeId());
+
+        // 3) NO tocamos la lista de secciones: la dejamos intacta para que no se eliminen
+        // existing.getSecciones() sigue conteniendo las Seccion persistidas
+
+        // 4) Guardamos y devolvemos DTO
+        Capitulo saved = repository.save(existing);
+        return mapper.toDto(saved);
     }
+
 
     @Override
     public void delete(Long id) {

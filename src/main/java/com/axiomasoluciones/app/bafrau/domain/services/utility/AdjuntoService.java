@@ -23,4 +23,6 @@ public interface AdjuntoService {
 
     AdjuntoDTO saveToEncabezado(MultipartFile file, String descripcion, Long encabezadoId);
 
+    AdjuntoDTO saveToCaratula(MultipartFile file, String descripcion, Long caratulaId);
+
 }

@@ -183,4 +183,15 @@ public class ControlServiceImpl implements ControlService {
                 .toList();
     }
 
+    @Override
+    @Transactional(readOnly = true)
+    public List<ItemControlDTO> obtenerTodosItems() {
+        // Usamos findAllWithMails() si queremos traer también la lista de correos;
+        // si no existe, usar itemsControlRepository.findAll()
+        return itemsControlRepository.findAllWithMails()
+                .stream()
+                .map(itemControlMapper::toDTO)
+                .toList();
+    }
+
 }

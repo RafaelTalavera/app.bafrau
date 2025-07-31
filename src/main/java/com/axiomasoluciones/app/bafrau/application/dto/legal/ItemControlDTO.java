@@ -1,6 +1,7 @@
 package com.axiomasoluciones.app.bafrau.application.dto.legal;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.Set;
 
 public class ItemControlDTO {
@@ -13,6 +14,8 @@ public class ItemControlDTO {
     private Set<String> listMail;
     private String observaciones;
     private Boolean estado;
+    private LocalDateTime createdDate;
+    private LocalDateTime lastModifiedDate;
     private String nombre;                    // de Documento.nombre
     private String juridiccion;               // de Documento.juridiccion
     private String observacionesDocumento;    // de Documento.observaciones
@@ -20,7 +23,7 @@ public class ItemControlDTO {
 
     public ItemControlDTO() { }
 
-    public ItemControlDTO(Long id, Long documentoId, Long controlId, LocalDate vencimiento, LocalDate presentacion, int diasNotificacion, Set<String> listMail, String observaciones, Boolean estado, String nombre, String juridiccion, String observacionesDocumento, String razonSocial) {
+    public ItemControlDTO(Long id, Long documentoId, Long controlId, LocalDate vencimiento, LocalDate presentacion, int diasNotificacion, Set<String> listMail, String observaciones, Boolean estado, LocalDateTime createdDate, LocalDateTime lastModifiedDate, String nombre, String juridiccion, String observacionesDocumento, String razonSocial) {
         this.id = id;
         this.documentoId = documentoId;
         this.controlId = controlId;
@@ -30,6 +33,8 @@ public class ItemControlDTO {
         this.listMail = listMail;
         this.observaciones = observaciones;
         this.estado = estado;
+        this.createdDate = createdDate;
+        this.lastModifiedDate = lastModifiedDate;
         this.nombre = nombre;
         this.juridiccion = juridiccion;
         this.observacionesDocumento = observacionesDocumento;
@@ -138,5 +143,21 @@ public class ItemControlDTO {
 
     public void setEstado(Boolean estado) {
         this.estado = estado;
+    }
+
+    public LocalDateTime getCreatedDate() {
+        return createdDate;
+    }
+
+    public void setCreatedDate(LocalDateTime createdDate) {
+        this.createdDate = createdDate;
+    }
+
+    public LocalDateTime getLastModifiedDate() {
+        return lastModifiedDate;
+    }
+
+    public void setLastModifiedDate(LocalDateTime lastModifiedDate) {
+        this.lastModifiedDate = lastModifiedDate;
     }
 }

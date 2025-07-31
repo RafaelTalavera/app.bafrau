@@ -79,4 +79,10 @@ public class ControlController {
         List<ItemControlDTO> items = controlService.obtenerItemsPorOrganizacion(organizacionId);
         return ResponseEntity.ok(items);
     }
+
+    @GetMapping("/items")
+    public ResponseEntity<List<ItemControlDTO>> obtenerTodosItems() {
+        List<ItemControlDTO> items = controlService.obtenerTodosItems();
+        return ResponseEntity.ok(items);
+    }
 }

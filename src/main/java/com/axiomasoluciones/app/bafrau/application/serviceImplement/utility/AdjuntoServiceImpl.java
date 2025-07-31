@@ -2,9 +2,11 @@ package com.axiomasoluciones.app.bafrau.application.serviceImplement.utility;
 
 import com.axiomasoluciones.app.bafrau.application.dto.utility.AdjuntoDTO;
 import com.axiomasoluciones.app.bafrau.application.mappers.utility.AdjuntoIMapper;
+import com.axiomasoluciones.app.bafrau.domain.entities.informe.Caratula;
 import com.axiomasoluciones.app.bafrau.domain.entities.informe.Seccion;
 import com.axiomasoluciones.app.bafrau.domain.entities.utility.Adjunto;
 import com.axiomasoluciones.app.bafrau.domain.entities.organizacion.Organizacion;
+import com.axiomasoluciones.app.bafrau.domain.repository.informe.CaratulaRepository;
 import com.axiomasoluciones.app.bafrau.domain.repository.informe.EncabezadoRepository;
 import com.axiomasoluciones.app.bafrau.domain.repository.informe.SeccionRepository;
 import com.axiomasoluciones.app.bafrau.domain.repository.utility.AdjuntoRepository;
@@ -50,6 +52,9 @@ public class AdjuntoServiceImpl implements AdjuntoService {
 
     @Autowired
     private EncabezadoRepository encabezadoRepository;
+
+    @Autowired
+    private CaratulaRepository caratulaRepository;
 
     @Override
     public List<AdjuntoDTO> findAll() {
@@ -181,5 +186,36 @@ public class AdjuntoServiceImpl implements AdjuntoService {
         adj.setEncabezado(encabezado);
         // 4) Guardamos y devolvemos DTO
         return mapper.toDto(adjuntoRepository.save(adj));
+    }
+
+    @Override
+    @Transactional
+    public AdjuntoDTO saveToCaratula(MultipartFile file,
+                                     String descripcion,
+                                     Long caratulaId) {
+        // 1) Buscar la carátula
+        Caratula car = caratulaRepository.findById(caratulaId)
+                .orElseThrow(() ->
+                        new EntityNotFoundException("Carátula no encontrada con ID: " + caratulaId)
+                );
+
+        // 2) Subir el archivo a Cloudinary
+        String url;
+        try {
+            Map<String, String> res = cloudinaryService.upload(file);
+            url = res.get("url");
+        } catch (IOException e) {
+            throw new RuntimeException("Error al subir archivo a Cloudinary", e);
+        }
+
+        // 3) Crear el adjunto y asociarlo a la carátula
+        Adjunto adj = new Adjunto();
+        adj.setUrlAdjunto(url);
+        adj.setDescripcion(descripcion);
+        adj.setCaratula(car);  // <-- setear la relación
+
+        // 4) Guardar y devolver DTO
+        Adjunto saved = adjuntoRepository.save(adj);
+        return adjuntoMapper.toDto(saved);
     }
 }
