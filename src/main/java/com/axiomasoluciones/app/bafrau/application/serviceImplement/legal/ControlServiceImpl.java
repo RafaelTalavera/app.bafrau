@@ -53,11 +53,16 @@ public class ControlServiceImpl implements ControlService {
 
     @Override
     public ControlDTO crearControl(ControlDTO dto) {
+        // Convierte el DTO a entidad; el @AfterMapping de ControlMapper ya enlaza control→items
         Control control = mapper.toEntity(dto);
-        control.getItems().forEach(item -> item.setControl(control));
+
+        // Persistimos el padre y, por cascada, sus ítems
         Control guardado = repository.save(control);
+
+        // Devolvemos el DTO del objeto recién guardado (incluye los IDs generados)
         return mapper.toDTO(guardado);
     }
+
 
     @Override
     public List<ControlDTO> obtenerTodos() {

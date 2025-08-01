@@ -1,4 +1,3 @@
-// src/main/java/com/axiomasoluciones/app/bafrau/application/mappers/legal/ControlMapper.java
 package com.axiomasoluciones.app.bafrau.application.mappers.legal;
 
 import com.axiomasoluciones.app.bafrau.application.dto.legal.ControlDTO;
@@ -12,10 +11,13 @@ public interface ControlMapper {
 
     ControlMapper INSTANCE = Mappers.getMapper(ControlMapper.class);
 
-    @Mapping(source = "organizacion.id",           target = "organizacionId")
-    @Mapping(source = "organizacion.razonSocial",  target = "organizacionRazonSocial")
+    // Entidad → DTO
+    @Mapping(source = "organizacion.id",          target = "organizacionId")
+    @Mapping(source = "organizacion.razonSocial", target = "organizacionRazonSocial")
     ControlDTO toDTO(Control control);
 
+    // DTO → Entidad (creación): ignorar el id para que Hibernate lo genere
+    @Mapping(target = "id", ignore = true)
     @Mapping(source = "organizacionId", target = "organizacion", qualifiedByName = "mapOrganizacionFromId")
     Control toEntity(ControlDTO dto);
 
@@ -27,14 +29,15 @@ public interface ControlMapper {
         return o;
     }
 
+    // Después de mapear padre y lista de items, establecemos la back-reference
     @AfterMapping
     default void linkItems(@MappingTarget Control control) {
-        control.getItems().forEach(i -> i.setControl(control));
+        if (control.getItems() != null) {
+            control.getItems().forEach(item -> item.setControl(control));
+        }
     }
 
-    /**
-     * Actualiza una entidad Control existente con los valores no nulos del DTO.
-     */
+    // DTO → Entidad (edición): actualiza sólo campos no nulos, mantiene el id existente
     @BeanMapping(nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
     @Mapping(source = "organizacionId", target = "organizacion", qualifiedByName = "mapOrganizacionFromId")
     void updateFromDto(ControlDTO dto, @MappingTarget Control control);
