@@ -8,6 +8,7 @@ import com.axiomasoluciones.app.bafrau.application.mappers.legal.ControlMapper;
 import com.axiomasoluciones.app.bafrau.application.mappers.legal.ItemControlMapper;
 import com.axiomasoluciones.app.bafrau.application.mappers.organizacion.OrganizacionMapper;
 import com.axiomasoluciones.app.bafrau.domain.entities.legal.Control;
+import com.axiomasoluciones.app.bafrau.domain.entities.legal.Documento;
 import com.axiomasoluciones.app.bafrau.domain.entities.legal.ItemControl;
 import com.axiomasoluciones.app.bafrau.domain.repository.legal.ControlRepository;
 import com.axiomasoluciones.app.bafrau.domain.repository.legal.ItemsControlRepository;
@@ -25,9 +26,8 @@ import org.springframework.web.server.ResponseStatusException;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoUnit;
-import java.util.List;
-import java.util.Optional;
-import java.util.Set;
+import java.util.*;
+import java.util.stream.Collectors;
 
 @Service
 @Transactional
@@ -149,18 +149,63 @@ public class ControlServiceImpl implements ControlService {
 
     @Override
     public ControlDTO editarControl(Long id, ControlDTO dto) {
+        // 1) Traer el Control con sus items (colección cargada con lazy fetch en la misma transacción)
         Control existente = repository.findById(id)
-                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Control no encontrado"));
+                .orElseThrow(() -> new ResponseStatusException(
+                        HttpStatus.NOT_FOUND, "Control no encontrado"));
 
-        // MapStruct actualiza sólo los campos del DTO
-        mapper.updateFromDto(dto, existente);
+        // 2) Actualizar campos simples del Control
+        existente.setFecha(dto.getFecha());
+        existente.setOrganizacion(
+                organizacionMapper.mapOrganizacionFromId(dto.getOrganizacionId())
+        );
 
-        // Aseguro la back-reference en items
-        existente.getItems().forEach(item -> item.setControl(existente));
+        // 3) Mapear DTOs existentes por ID para saber cuáles conservar
+        Set<Long> idsDto = dto.getItems().stream()
+                .map(ItemControlDTO::getId)
+                .filter(Objects::nonNull)
+                .collect(Collectors.toSet());
 
+        // 4) Eliminar de la colección cualquier ItemControl cuyo ID NO esté en el set de DTOs
+        existente.getItems().removeIf(item -> !idsDto.contains(item.getId()));
+        //    ← gracias a orphanRemoval=true, Hibernate generará los DELETE correspondientes
+
+        // 5) Actualizar cada ItemControl que siga en la lista
+        for (ItemControl hijo : existente.getItems()) {
+            ItemControlDTO hijoDto = dto.getItems().stream()
+                    .filter(i -> Objects.equals(i.getId(), hijo.getId()))
+                    .findFirst()
+                    .orElseThrow();
+            hijo.setVencimiento(hijoDto.getVencimiento());
+            hijo.setPresentacion(hijoDto.getPresentacion());
+            hijo.setDiasNotificacion(hijoDto.getDiasNotificacion());
+            hijo.setObservaciones(hijoDto.getObservaciones());
+            hijo.setEstado(hijoDto.getEstado());
+            // Reemplazar lista de mails
+            hijo.setListMail(new HashSet<>(hijoDto.getListMail()));
+            // Actualizar documento de referencia
+            Documento doc = new Documento();
+            doc.setId(hijoDto.getDocumentoId());
+            hijo.setDocumento(doc);
+        }
+
+        // 6) Añadir nuevos ItemControl (aquellos con id == null)
+        dto.getItems().stream()
+                .filter(i -> i.getId() == null)
+                .forEach(nuevoDto -> {
+                    ItemControl nuevo = itemControlMapper.toEntity(nuevoDto);
+                    nuevo.setControl(existente);
+                    existente.getItems().add(nuevo);
+                });
+
+        // 7) Guardar padre y cascada de hijos
         Control actualizado = repository.save(existente);
+
+        // 8) Devolver DTO actualizado
         return mapper.toDTO(actualizado);
     }
+
+
 
     @Override
     public ItemControlDTO cambiarEstadoItem(Long itemId) {
@@ -197,6 +242,14 @@ public class ControlServiceImpl implements ControlService {
                 .stream()
                 .map(itemControlMapper::toDTO)
                 .toList();
+    }
+
+    @Override
+    public void eliminarItemControl(Long itemId) {
+        ItemControl item = itemsControlRepository.findById(itemId)
+                .orElseThrow(() -> new ResponseStatusException(
+                        HttpStatus.NOT_FOUND, "ItemControl no encontrado"));
+        itemsControlRepository.delete(item);
     }
 
 }

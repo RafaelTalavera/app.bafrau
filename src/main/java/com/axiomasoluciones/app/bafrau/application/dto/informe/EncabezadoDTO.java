@@ -9,7 +9,6 @@ public class EncabezadoDTO {
     private Long id;
     private String contenido;
     private Long informeId;
-    private Long styleTemplateId;
 
     private List<AdjuntoDTO> adjuntos;
     private List<Long> adjuntosIds;
@@ -23,11 +22,10 @@ public class EncabezadoDTO {
     public EncabezadoDTO() {
     }
 
-    public EncabezadoDTO(Long id, String contenido, Long informeId, Long styleTemplateId, List<AdjuntoDTO> adjuntos, List<Long> adjuntosIds, String createdBy, Instant createdDate, String lastModifiedBy, Instant lastModifiedDate) {
+    public EncabezadoDTO(Long id, String contenido, Long informeId, List<AdjuntoDTO> adjuntos, List<Long> adjuntosIds, String createdBy, Instant createdDate, String lastModifiedBy, Instant lastModifiedDate) {
         this.id = id;
         this.contenido = contenido;
         this.informeId = informeId;
-        this.styleTemplateId = styleTemplateId;
         this.adjuntos = adjuntos;
         this.adjuntosIds = adjuntosIds;
         this.createdBy = createdBy;
@@ -58,14 +56,6 @@ public class EncabezadoDTO {
 
     public void setInformeId(Long informeId) {
         this.informeId = informeId;
-    }
-
-    public Long getStyleTemplateId() {
-        return styleTemplateId;
-    }
-
-    public void setStyleTemplateId(Long styleTemplateId) {
-        this.styleTemplateId = styleTemplateId;
     }
 
     public List<AdjuntoDTO> getAdjuntos() {

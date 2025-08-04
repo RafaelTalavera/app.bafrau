@@ -24,9 +24,6 @@ public class Encabezado extends Auditable<String> {
     @JoinColumn(name = "informe_id", nullable = false)
     private Informe informe;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "style_template_id", nullable = false)
-    private StyleTemplate styleTemplate;
 
     @OneToMany(mappedBy = "encabezado",
             cascade = CascadeType.ALL,
@@ -36,11 +33,10 @@ public class Encabezado extends Auditable<String> {
     public Encabezado() {
     }
 
-    public Encabezado(Long id, String contenido, Informe informe, StyleTemplate styleTemplate, List<Adjunto> adjuntos) {
+    public Encabezado(Long id, String contenido, Informe informe, List<Adjunto> adjuntos) {
         this.id = id;
         this.contenido = contenido;
         this.informe = informe;
-        this.styleTemplate = styleTemplate;
         this.adjuntos = adjuntos;
     }
 
@@ -66,14 +62,6 @@ public class Encabezado extends Auditable<String> {
 
     public void setInforme(Informe informe) {
         this.informe = informe;
-    }
-
-    public StyleTemplate getStyleTemplate() {
-        return styleTemplate;
-    }
-
-    public void setStyleTemplate(StyleTemplate styleTemplate) {
-        this.styleTemplate = styleTemplate;
     }
 
     public List<Adjunto> getAdjuntos() {

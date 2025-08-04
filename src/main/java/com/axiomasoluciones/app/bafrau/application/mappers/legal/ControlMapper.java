@@ -40,5 +40,6 @@ public interface ControlMapper {
     // DTO → Entidad (edición): actualiza sólo campos no nulos, mantiene el id existente
     @BeanMapping(nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
     @Mapping(source = "organizacionId", target = "organizacion", qualifiedByName = "mapOrganizacionFromId")
+    @Mapping(target = "items", ignore = true)
     void updateFromDto(ControlDTO dto, @MappingTarget Control control);
 }

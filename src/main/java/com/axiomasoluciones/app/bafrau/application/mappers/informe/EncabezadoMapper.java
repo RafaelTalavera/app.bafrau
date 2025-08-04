@@ -14,7 +14,6 @@ import java.util.stream.Collectors;
 public interface EncabezadoMapper {
 
     @Mapping(source = "informe.id",       target = "informeId")
-    @Mapping(source = "styleTemplate.id", target = "styleTemplateId")
     @Mapping(source = "adjuntos",         target = "adjuntos")              // usa AdjuntoIMapper.toDto()
     @Mapping(source = "adjuntos",         target = "adjuntosIds", qualifiedByName = "adjuntosToIds")
     EncabezadoDTO toDto(Encabezado e);
@@ -28,6 +27,5 @@ public interface EncabezadoMapper {
     }
 
     @Mapping(source = "informeId",       target = "informe.id")
-    @Mapping(source = "styleTemplateId", target = "styleTemplate.id")
     Encabezado toEntity(EncabezadoDTO dto);
 }

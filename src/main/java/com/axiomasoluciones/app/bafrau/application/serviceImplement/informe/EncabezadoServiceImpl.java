@@ -63,11 +63,6 @@ public class EncabezadoServiceImpl implements EncabezadoService {
         informe.setId(dto.getInformeId());
         existing.setInforme(informe);
 
-        // Igual para StyleTemplate
-        StyleTemplate st = new StyleTemplate();
-        st.setId(dto.getStyleTemplateId());
-        existing.setStyleTemplate(st);
-
         // si sincronizas adjuntos, hazlo aquí...
         Encabezado updated = repo.save(existing);
         return mapper.toDto(updated);

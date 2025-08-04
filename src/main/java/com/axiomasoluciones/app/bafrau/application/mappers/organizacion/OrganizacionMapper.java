@@ -29,4 +29,18 @@ public interface OrganizacionMapper {
 
  @Mapping(target = "id", ignore = true)
  void partialUpdate(OrganizacionDTO source, @MappingTarget Organizacion target);
+
+
+ /**
+  * Mapea únicamente un ID a la entidad para establecer la referencia.
+  */
+ @Named("mapOrganizacionFromId")
+ default Organizacion mapOrganizacionFromId(Long id) {
+  if (id == null) {
+   return null;
+  }
+  Organizacion org = new Organizacion();
+  org.setId(id);
+  return org;
+ }
 }

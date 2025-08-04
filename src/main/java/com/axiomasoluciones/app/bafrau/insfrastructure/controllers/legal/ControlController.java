@@ -85,4 +85,10 @@ public class ControlController {
         List<ItemControlDTO> items = controlService.obtenerTodosItems();
         return ResponseEntity.ok(items);
     }
+
+    @DeleteMapping("/items/{itemId}")
+    public ResponseEntity<Void> eliminarItem(@PathVariable Long itemId) {
+        controlService.eliminarItemControl(itemId);
+        return ResponseEntity.noContent().build();
+    }
 }

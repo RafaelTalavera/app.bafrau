@@ -19,5 +19,6 @@ public interface ControlService {
     public List<OrganizacionSimpleDTO> obtenerOrganizacionesConItemsControl();
     List<ItemControlDTO> obtenerItemsPorOrganizacion(Long organizacionId);
     List<ItemControlDTO> obtenerTodosItems();
+    void eliminarItemControl(Long itemId);
 }
 
