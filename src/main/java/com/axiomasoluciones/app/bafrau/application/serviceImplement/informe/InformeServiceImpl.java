@@ -1,6 +1,7 @@
 package com.axiomasoluciones.app.bafrau.application.serviceImplement.informe;
 
-import com.axiomasoluciones.app.bafrau.application.dto.informe.InformeDTO;
+import com.axiomasoluciones.app.bafrau.application.dto.informe.informe.InformeDTO;
+import com.axiomasoluciones.app.bafrau.application.dto.informe.informe.InformeListItemDTO;
 import com.axiomasoluciones.app.bafrau.application.mappers.informe.InformeIMapper;
 import com.axiomasoluciones.app.bafrau.domain.entities.informe.Informe;
 import com.axiomasoluciones.app.bafrau.domain.repository.informe.InformeRepository;
@@ -31,6 +32,12 @@ public class InformeServiceImpl implements InformeService {
         return StreamSupport.stream(repository.findAll().spliterator(), false)
                 .map(mapper::toDto)
                 .collect(Collectors.toList());
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public List<InformeListItemDTO> findAllLight() {
+        return repository.findAllSummary();
     }
 
     @Override

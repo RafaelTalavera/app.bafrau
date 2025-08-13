@@ -1,11 +1,10 @@
 package com.axiomasoluciones.app.bafrau.application.serviceImplement.informe;
 
-import com.axiomasoluciones.app.bafrau.application.dto.informe.CapituloDTO;
+import com.axiomasoluciones.app.bafrau.application.dto.informe.capitulo.CapituloDTO;
+import com.axiomasoluciones.app.bafrau.application.dto.informe.capitulo.CapituloLightDTO;
 import com.axiomasoluciones.app.bafrau.application.dto.informe.OrdenCapituloDTO;
-import com.axiomasoluciones.app.bafrau.application.dto.informe.OrdenSeccionDTO;
 import com.axiomasoluciones.app.bafrau.application.mappers.informe.CapituloIMapper;
 import com.axiomasoluciones.app.bafrau.domain.entities.informe.Capitulo;
-import com.axiomasoluciones.app.bafrau.domain.entities.informe.Seccion;
 import com.axiomasoluciones.app.bafrau.domain.repository.informe.CapituloRepository;
 import com.axiomasoluciones.app.bafrau.domain.services.informe.CapituloService;
 import jakarta.persistence.EntityNotFoundException;
@@ -105,5 +104,11 @@ public class CapituloServiceImpl implements CapituloService {
 
         // 5) Guardar en bloque
         repository.saveAll(entidades);
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public List<CapituloLightDTO> findLightByInformeId(Long informeId) {
+        return repository.findLightByInformeIdOrderByOrdenAsc(informeId);
     }
 }

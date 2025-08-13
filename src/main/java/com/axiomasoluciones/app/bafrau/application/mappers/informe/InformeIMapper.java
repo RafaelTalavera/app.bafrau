@@ -1,6 +1,6 @@
 package com.axiomasoluciones.app.bafrau.application.mappers.informe;
 
-import com.axiomasoluciones.app.bafrau.application.dto.informe.InformeDTO;
+import com.axiomasoluciones.app.bafrau.application.dto.informe.informe.InformeDTO;
 import com.axiomasoluciones.app.bafrau.domain.entities.informe.Informe;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;

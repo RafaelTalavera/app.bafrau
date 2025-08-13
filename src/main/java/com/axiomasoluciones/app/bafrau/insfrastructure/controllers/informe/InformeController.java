@@ -1,6 +1,9 @@
 package com.axiomasoluciones.app.bafrau.insfrastructure.controllers.informe;
 
-import com.axiomasoluciones.app.bafrau.application.dto.informe.InformeDTO;
+import com.axiomasoluciones.app.bafrau.application.dto.informe.informe.InformeDTO;
+import com.axiomasoluciones.app.bafrau.application.dto.informe.informe.InformeListItemDTO;
+import com.axiomasoluciones.app.bafrau.application.dto.informe.informe.InformePreviewDTO;
+import com.axiomasoluciones.app.bafrau.application.serviceImplement.informe.InformePreviewService;
 import com.axiomasoluciones.app.bafrau.domain.services.informe.InformeService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,9 +20,12 @@ public class InformeController {
 
     private final InformeService service;
 
+    private final InformePreviewService previewService;
+
     @Autowired
-    public InformeController(InformeService service) {
+    public InformeController(InformeService service, InformePreviewService previewService) {
         this.service = service;
+        this.previewService = previewService;
     }
 
     @GetMapping
@@ -27,10 +33,20 @@ public class InformeController {
         return service.findAll();
     }
 
+    @GetMapping("/light")
+    public List<InformeListItemDTO> getInformesLight() {
+        return service.findAllLight();
+    }
+
     @GetMapping("/{id}")
     public ResponseEntity<InformeDTO> getById(@PathVariable Long id) {
         InformeDTO dto = service.findById(id);
         return ResponseEntity.ok(dto);
+    }
+
+    @GetMapping("/{id}/preview")
+    public InformePreviewDTO getPreview(@PathVariable Long id) {
+        return previewService.build(id);
     }
 
     @PostMapping

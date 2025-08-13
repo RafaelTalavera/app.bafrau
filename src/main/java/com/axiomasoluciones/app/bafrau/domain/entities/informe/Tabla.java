@@ -1,6 +1,7 @@
 package com.axiomasoluciones.app.bafrau.domain.entities.informe;
 
 import jakarta.persistence.*;
+import org.hibernate.annotations.BatchSize;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -21,6 +22,7 @@ public class Tabla {
 
     @OneToMany(mappedBy = "tabla", cascade = CascadeType.ALL, orphanRemoval = true)
     @OrderBy("numeroFila ASC")
+    @BatchSize(size = 64)
     private List<Fila> filas = new ArrayList<>();
 
     public Tabla() {

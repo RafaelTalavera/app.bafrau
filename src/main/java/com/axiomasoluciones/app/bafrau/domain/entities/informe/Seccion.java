@@ -5,6 +5,7 @@ import com.axiomasoluciones.app.bafrau.domain.entities.utility.Adjunto;
 import com.axiomasoluciones.app.bafrau.domain.entities.utility.Auditable;
 import com.axiomasoluciones.app.bafrau.domain.entities.utility.StyleTemplate;
 import jakarta.persistence.*;
+import org.hibernate.annotations.BatchSize;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -34,11 +35,13 @@ public class Seccion extends Auditable<String> {
     @OneToMany(mappedBy = "seccion",
             cascade = CascadeType.ALL,
             orphanRemoval = true)
+    @BatchSize(size = 64)
     private List<Adjunto> adjuntos = new ArrayList<>();
 
     @OneToMany(mappedBy = "seccion",
             cascade = CascadeType.ALL,
             orphanRemoval = true)
+    @BatchSize(size = 64)
     private List<Tabla> tablas = new ArrayList<>();
 
     @ManyToOne(fetch = FetchType.LAZY)

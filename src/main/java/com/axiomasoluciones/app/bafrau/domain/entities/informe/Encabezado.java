@@ -2,8 +2,8 @@ package com.axiomasoluciones.app.bafrau.domain.entities.informe;
 
 import com.axiomasoluciones.app.bafrau.domain.entities.utility.Adjunto;
 import com.axiomasoluciones.app.bafrau.domain.entities.utility.Auditable;
-import com.axiomasoluciones.app.bafrau.domain.entities.utility.StyleTemplate;
 import jakarta.persistence.*;
+import org.hibernate.annotations.BatchSize;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -28,6 +28,7 @@ public class Encabezado extends Auditable<String> {
     @OneToMany(mappedBy = "encabezado",
             cascade = CascadeType.ALL,
             orphanRemoval = true)
+    @BatchSize(size = 64)
     private List<Adjunto> adjuntos = new ArrayList<>();
 
     public Encabezado() {

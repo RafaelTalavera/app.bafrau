@@ -10,15 +10,25 @@ import java.util.List;
 public interface ControlService {
 
     ControlDTO crearControl(ControlDTO controlDTO);
+
     List<ControlDTO> obtenerTodos();
+
     ControlDTO obtenerPorId(Long id);
+
     void eliminarControl(Long id);
+
     void checkAndSendNotifications();
+
     ControlDTO editarControl(Long id, ControlDTO controlDTO);
+
     ItemControlDTO cambiarEstadoItem(Long itemId);
+
     public List<OrganizacionSimpleDTO> obtenerOrganizacionesConItemsControl();
+
     List<ItemControlDTO> obtenerItemsPorOrganizacion(Long organizacionId);
+
     List<ItemControlDTO> obtenerTodosItems();
+
     void eliminarItemControl(Long itemId);
 }
 

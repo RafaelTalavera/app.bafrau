@@ -1,7 +1,9 @@
 package com.axiomasoluciones.app.bafrau.domain.services.informe;
 
 
-import com.axiomasoluciones.app.bafrau.application.dto.informe.InformeDTO;
+import com.axiomasoluciones.app.bafrau.application.dto.informe.informe.InformeDTO;
+import com.axiomasoluciones.app.bafrau.application.dto.informe.informe.InformeListItemDTO;
+
 import java.util.List;
 
 public interface InformeService {
@@ -15,4 +17,6 @@ public interface InformeService {
     InformeDTO update(Long id, InformeDTO informeDTO);
 
     void delete(Long id);
+
+    List<InformeListItemDTO> findAllLight();
 }

@@ -2,6 +2,7 @@ package com.axiomasoluciones.app.bafrau.domain.entities.informe;
 
 import com.axiomasoluciones.app.bafrau.domain.entities.utility.Auditable;
 import jakarta.persistence.*;
+import org.hibernate.annotations.BatchSize;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -25,6 +26,7 @@ public class Capitulo extends Auditable<String> {
     @OneToMany(mappedBy = "capitulo",
             cascade = CascadeType.ALL,
             orphanRemoval = true)
+    @BatchSize(size = 64)
     private List<Seccion> secciones = new ArrayList<>();
 
     public Capitulo() {}
@@ -50,6 +52,7 @@ public class Capitulo extends Auditable<String> {
     public void setInforme(Informe informe) { this.informe = informe; }
 
     public List<Seccion> getSecciones() { return secciones; }
+
 
     // Solo un setter mutando la lista existente
     public void setSecciones(List<Seccion> nuevas) {

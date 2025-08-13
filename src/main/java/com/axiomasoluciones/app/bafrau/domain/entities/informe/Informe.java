@@ -3,6 +3,7 @@ package com.axiomasoluciones.app.bafrau.domain.entities.informe;
 import com.axiomasoluciones.app.bafrau.domain.entities.organizacion.Organizacion;
 import com.axiomasoluciones.app.bafrau.domain.entities.utility.Auditable;
 import jakarta.persistence.*;
+import org.hibernate.annotations.BatchSize;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -25,16 +26,19 @@ public class Informe extends Auditable<String> {
     @OneToMany(mappedBy = "informe",
             cascade = CascadeType.ALL,
             orphanRemoval = true)
+    @BatchSize(size = 64)
     private List<Capitulo> capitulos;
 
     @OneToMany(mappedBy = "informe",
             cascade = CascadeType.ALL,
             orphanRemoval = true)
+    @BatchSize(size = 64)
     private List<Encabezado> encabezados;
 
     @OneToMany(mappedBy = "informe",
             cascade = CascadeType.ALL,
             orphanRemoval = true)
+    @BatchSize(size = 64)
     private List<Caratula> caratulas = new ArrayList<>();
 
     @ManyToOne(fetch = FetchType.LAZY)

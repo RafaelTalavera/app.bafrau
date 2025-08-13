@@ -1,8 +1,8 @@
 package com.axiomasoluciones.app.bafrau.domain.services.informe;
 
-import com.axiomasoluciones.app.bafrau.application.dto.informe.CapituloDTO;
+import com.axiomasoluciones.app.bafrau.application.dto.informe.capitulo.CapituloDTO;
+import com.axiomasoluciones.app.bafrau.application.dto.informe.capitulo.CapituloLightDTO;
 import com.axiomasoluciones.app.bafrau.application.dto.informe.OrdenCapituloDTO;
-import com.axiomasoluciones.app.bafrau.application.dto.informe.OrdenSeccionDTO;
 
 import java.util.List;
 
@@ -19,4 +19,6 @@ public interface CapituloService {
     void delete(Long id);
 
     void updateOrdenes(List<OrdenCapituloDTO> ordenes);
+
+    List<CapituloLightDTO> findLightByInformeId(Long informeId);
 }

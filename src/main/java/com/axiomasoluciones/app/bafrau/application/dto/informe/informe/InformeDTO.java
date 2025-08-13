@@ -1,4 +1,6 @@
-package com.axiomasoluciones.app.bafrau.application.dto.informe;
+package com.axiomasoluciones.app.bafrau.application.dto.informe.informe;
+
+import com.axiomasoluciones.app.bafrau.application.dto.informe.capitulo.CapituloDTO;
 
 import java.time.Instant;
 import java.time.LocalDate;

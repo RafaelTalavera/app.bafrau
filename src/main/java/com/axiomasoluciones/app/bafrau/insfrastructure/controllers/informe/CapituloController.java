@@ -1,8 +1,8 @@
 package com.axiomasoluciones.app.bafrau.insfrastructure.controllers.informe;
 
-import com.axiomasoluciones.app.bafrau.application.dto.informe.CapituloDTO;
+import com.axiomasoluciones.app.bafrau.application.dto.informe.capitulo.CapituloDTO;
+import com.axiomasoluciones.app.bafrau.application.dto.informe.capitulo.CapituloLightDTO;
 import com.axiomasoluciones.app.bafrau.application.dto.informe.OrdenCapituloDTO;
-import com.axiomasoluciones.app.bafrau.application.dto.informe.OrdenSeccionDTO;
 import com.axiomasoluciones.app.bafrau.domain.services.informe.CapituloService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -60,5 +60,10 @@ public class CapituloController {
     ) {
         service.updateOrdenes(ordenes);
         return ResponseEntity.noContent().build();
+    }
+
+    @GetMapping("/light")
+    public List<CapituloLightDTO> getLightByInforme(@RequestParam("informeId") Long informeId) {
+        return service.findLightByInformeId(informeId);
     }
 }
