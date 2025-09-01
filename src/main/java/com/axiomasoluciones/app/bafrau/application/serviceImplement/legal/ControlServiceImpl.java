@@ -88,7 +88,7 @@ public class ControlServiceImpl implements ControlService {
         }
     }
 
-  @Scheduled(cron = "0 0 9 * * ?", zone = "America/Argentina/Buenos_Aires")
+    @Scheduled(cron = "0 0 9 * * ?", zone = "America/Argentina/Buenos_Aires")
     @Transactional(readOnly = true)
     public void checkAndSendNotifications() {
         // 1. Obtiene la fecha “hoy” según la zona horaria del servidor
